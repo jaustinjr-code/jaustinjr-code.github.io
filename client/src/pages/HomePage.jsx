@@ -1,18 +1,24 @@
-import { Paper, Typography } from "@mui/material";
+import { Box, CardMedia, Paper, Stack, Typography } from "@mui/material";
+import pfp from "@assets/pfp.jpeg";
 
 export function HomePage() {
   return (
     <>
       <Paper
         sx={{
-          p: 2,
+          p: 5,
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
           width: "100%",
+          minHeight: "50vh",
         }}
       >
-        <Typography>This is home!</Typography>
+        <Box component="img" width="25%" alt="Profile Picture" src={pfp} />
+        <Box p={5} flexGrow={1}>
+          <Typography variant="h2">About Me</Typography>
+          <Typography>This is home!</Typography>
+        </Box>
       </Paper>
     </>
   );

@@ -7,6 +7,7 @@ export function MainLayout({ children }) {
     <>
       <HeaderLayout />
       <Container
+        disableGutters
         sx={{
           display: "flex",
           justifyContent: "center",
