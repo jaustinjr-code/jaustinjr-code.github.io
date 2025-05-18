@@ -8,33 +8,23 @@ import {
   Container,
   Button,
   Tooltip,
-  Select,
 } from "@mui/material";
-import { useState } from "react";
-import { useNavigate } from "react-router";
-import { useColorScheme } from "@mui/material/styles";
 import ThemeSwitch from "@components/ThemeSwitch";
 import { MenuTitle, OpenMenuTooltip, WebsiteTitle } from "@resources/strings";
 import { MainRoutes } from "@routes/Routes";
+import useHeaderLayout from "@hooks/useHeaderLayout";
 
 export function HeaderLayout() {
-  let navigate = useNavigate();
-  const { mode, setMode } = useColorScheme();
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const onHomeClick = () => {
-    navigate("/");
-  };
-
-  const onMenuClick = (event) => {
-    setIsMenuOpen(true);
-    setAnchorEl(event.currentTarget);
-  };
-
-  const onThemeToggle = () => {
-    setMode(mode === "light" ? "dark" : "light");
-  };
+  const {
+    mode,
+    anchorEl,
+    isMenuOpen,
+    onHomeClick,
+    onMenuClick,
+    onMenuClose,
+    onMenuItemClick,
+    onThemeToggle,
+  } = useHeaderLayout();
 
   return (
     <>
@@ -60,10 +50,7 @@ export function HeaderLayout() {
               </Tooltip>
               <Menu
                 open={isMenuOpen}
-                onClose={() => {
-                  setIsMenuOpen(false);
-                  setAnchorEl(null);
-                }}
+                onClose={onMenuClose}
                 anchorEl={anchorEl}
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                 transformOrigin={{ vertical: "top", horizontal: "center" }}
@@ -76,6 +63,7 @@ export function HeaderLayout() {
                         key={route.path}
                         name={route.name}
                         title={route.name}
+                        onClick={() => onMenuItemClick(route.path)}
                       >
                         <Typography>{route.name}</Typography>
                       </MenuItem>

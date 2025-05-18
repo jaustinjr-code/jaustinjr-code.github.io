@@ -12,7 +12,7 @@ const MainRoutes = [
   {
     path: "/aboutme",
     name: AboutMeTitle,
-    element: <ErrorPage />,
+    element: <HomePage />,
   },
   {
     path: "/projects",
