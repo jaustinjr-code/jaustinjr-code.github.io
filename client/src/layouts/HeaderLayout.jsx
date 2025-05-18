@@ -8,19 +8,14 @@ import {
   Container,
   Button,
   Tooltip,
+  Select,
 } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useColorScheme } from "@mui/material/styles";
 import ThemeSwitch from "@components/ThemeSwitch";
-import {
-  AboutMeTitle,
-  ContactTitle,
-  MenuTitle,
-  OpenMenuTooltip,
-  ProjectsTitle,
-  WebsiteTitle,
-} from "@resources/strings";
+import { MenuTitle, OpenMenuTooltip, WebsiteTitle } from "@resources/strings";
+import { MainRoutes } from "@routes/Routes";
 
 export function HeaderLayout() {
   let navigate = useNavigate();
@@ -73,15 +68,19 @@ export function HeaderLayout() {
                 anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                 transformOrigin={{ vertical: "top", horizontal: "center" }}
               >
-                <MenuItem title={AboutMeTitle}>
-                  <Typography>{AboutMeTitle}</Typography>
-                </MenuItem>
-                <MenuItem title={ProjectsTitle}>
-                  <Typography>{ProjectsTitle}</Typography>
-                </MenuItem>
-                <MenuItem title={ContactTitle}>
-                  <Typography>{ContactTitle}</Typography>
-                </MenuItem>
+                {MainRoutes &&
+                  MainRoutes.map((route) => {
+                    return (
+                      <MenuItem
+                        id={route.path}
+                        key={route.path}
+                        name={route.name}
+                        title={route.name}
+                      >
+                        <Typography>{route.name}</Typography>
+                      </MenuItem>
+                    );
+                  })}
               </Menu>
             </Box>
           </Toolbar>

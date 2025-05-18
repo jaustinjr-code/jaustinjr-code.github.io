@@ -1,4 +1,6 @@
 import { HomePage } from "@pages/HomePage.jsx";
+import { ErrorPage } from "@pages/ErrorPage.jsx";
+import { AboutMeTitle, ContactTitle, ProjectsTitle } from "@resources/strings";
 
 const MainRoutes = [
   {
@@ -9,15 +11,18 @@ const MainRoutes = [
   },
   {
     path: "/aboutme",
-    element: <HomePage />,
+    name: AboutMeTitle,
+    element: <ErrorPage />,
   },
   {
     path: "/projects",
-    element: <HomePage />,
+    name: ProjectsTitle,
+    element: <ErrorPage />,
   },
   {
     path: "/contact",
-    element: <HomePage />,
+    name: ContactTitle,
+    element: <ErrorPage />,
   },
 ];
 
