@@ -1,5 +1,6 @@
-import { Box, CardMedia, Paper, Stack, Typography } from "@mui/material";
+import { Box, Paper, Stack, Typography } from "@mui/material";
 import pfp from "@assets/pfp.jpeg";
+import { AboutMeParagraphs, AboutMeTitle, PfpAlt } from "@resources/strings";
 
 export function HomePage() {
   return (
@@ -14,11 +15,19 @@ export function HomePage() {
           minHeight: "50vh",
         }}
       >
-        <Box component="img" width="25%" alt="Profile Picture" src={pfp} />
-        <Box p={5} flexGrow={1}>
-          <Typography variant="h2">About Me</Typography>
-          <Typography>This is home!</Typography>
-        </Box>
+        <Box component="img" width="40%" alt={PfpAlt} src={pfp} />
+        <Stack
+          px={5}
+          flexGrow={1}
+          minHeight="50vh"
+          justifyContent="space-evenly"
+        >
+          <Typography variant="h2">{AboutMeTitle}</Typography>
+          {AboutMeParagraphs &&
+            AboutMeParagraphs.map((paragraph) => {
+              return <Typography>{paragraph}</Typography>;
+            })}
+        </Stack>
       </Paper>
     </>
   );
