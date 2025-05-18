@@ -1,6 +1,7 @@
 import { Paper, Container, Box, Typography } from "@mui/material";
+import { Copyright } from "@resources/strings";
 
-export const FooterLayout = () => {
+export function FooterLayout() {
   return (
     <>
       <Paper
@@ -11,17 +12,18 @@ export const FooterLayout = () => {
         }}
         component="footer"
         square
-        variant="elevation"
+        variant="outlined"
       >
         <Container>
           <Box sx={{ textAlign: "center", my: 2 }}>
             <Typography variant="body2">
-              &copy; {new Date().getFullYear()} James Austin Jr. All rights
-              reserved.
+              &copy; {new Date().getFullYear()} {Copyright}
             </Typography>
           </Box>
         </Container>
       </Paper>
     </>
   );
-};
+}
+
+export default FooterLayout;

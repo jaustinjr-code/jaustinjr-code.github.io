@@ -1,13 +1,14 @@
-import { Outlet } from "react-router";
-import { HeaderLayout } from "./HeaderLayout";
-import { FooterLayout } from "./FooterLayout";
+import HeaderLayout from "./HeaderLayout";
+import FooterLayout from "./FooterLayout";
 
-export const MainLayout = () => {
+export function MainLayout({ children }) {
   return (
     <>
       <HeaderLayout />
-      <Outlet />
+      {children}
       <FooterLayout />
     </>
   );
-};
+}
+
+export default MainLayout;

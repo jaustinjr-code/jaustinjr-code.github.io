@@ -8,9 +8,11 @@ export default defineConfig({
   resolve: {
     alias: {
       "@assets": path.resolve("./src/assets"),
+      "@components": path.resolve("./src/components"),
       "@hooks": path.resolve("./src/hooks"),
       "@layouts": path.resolve("./src/layouts"),
       "@pages": path.resolve("./src/pages"),
+      "@resources": path.resolve("./src/resources"),
       "@routes": path.resolve("./src/routes"),
     },
   },
