@@ -7,8 +7,7 @@ export function FooterLayout() {
       <Paper
         sx={{
           width: "100%",
-          position: "fixed",
-          bottom: 0,
+          position: "sticky",
         }}
         component="footer"
         square

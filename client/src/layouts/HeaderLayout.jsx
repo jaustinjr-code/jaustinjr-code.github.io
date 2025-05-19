@@ -28,7 +28,7 @@ export function HeaderLayout() {
 
   return (
     <>
-      <AppBar position="absolute">
+      <AppBar position="sticky">
         <Container sx={{ width: "100%" }}>
           <Toolbar disableGutters sx={{ width: "100%" }}>
             <Box>

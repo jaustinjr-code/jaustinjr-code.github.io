@@ -23,8 +23,11 @@ export default function useHeaderLayout() {
   };
 
   const onMenuItemClick = (path) => {
-    console.log("navigating");
-    navigate(path);
+    onMenuClose();
+
+    navigate(path, {
+      preventScrollReset: true,
+    });
   };
 
   const onThemeToggle = () => {
