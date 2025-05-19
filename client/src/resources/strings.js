@@ -1,5 +1,6 @@
 // Header
 export const WebsiteTitle = "James Austin Jr.";
+export const SwitchThemeTooltip = "Switch Theme";
 
 // Footer
 export const Copyright = "James Austin Jr. All rights reserved.";
@@ -7,7 +8,6 @@ export const Copyright = "James Austin Jr. All rights reserved.";
 // Menu
 export const OpenMenuTooltip = "Open Menu";
 export const MenuTitle = "Menu";
-export const ContactTitle = "Contact";
 
 // About Me
 export const AboutMeTitle = "About Me";
@@ -22,3 +22,21 @@ export const AboutMeParagraphs = [
 export const ProjectsTitle = "Projects";
 export const SeeMoreProjectsTooltip = "See More Projects";
 export const SeeMoreProjectsButton = "See More";
+
+// Contact
+export const ContactTitle = "Contact";
+export const ContactDescription = "Get in touch, send an email!";
+export const ContactEmailLink = "mailto:jaustinjr.office@gmail.com";
+export const ContactEmailButton = "Say Hello";
+
+// Media
+export const OpenGitHubTooltip = "Open GitHub";
+export const GitHubLink = "https://github.com/jaustinjr-code";
+export const OpenLinkedInTooltip = "Open LinkedIn";
+export const LinkedInLink = "https://www.linkedin.com/in/jaustinjr-office/";
+export const OpenInstagramTooltip = "Open Instagram";
+export const InstagramLink = "https://www.instagram.com/jaustinjr.blog/";
+export const OpenMediumTooltip = "Open Medium";
+export const MediumLink = "https://medium.com/@jaustinjr.blog";
+export const OpenResumeTooltip = "Open Resume";
+export const ResumeButton = "Resume";

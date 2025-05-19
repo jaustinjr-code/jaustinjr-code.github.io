@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import AboutMePage from "./AboutMePage";
 import ProjectsPage from "./ProjectsPage";
+import ContactPage from "./ContactPage";
 
 export function HomePage() {
   return (
@@ -8,6 +9,7 @@ export function HomePage() {
       <Box flexDirection="column" my={5}>
         <AboutMePage />
         <ProjectsPage />
+        <ContactPage />
       </Box>
     </>
   );

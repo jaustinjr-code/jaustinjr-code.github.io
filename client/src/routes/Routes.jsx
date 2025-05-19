@@ -1,8 +1,8 @@
-import { HomePage } from "@pages/HomePage.jsx";
-import { ErrorPage } from "@pages/ErrorPage.jsx";
 import { AboutMeTitle, ContactTitle, ProjectsTitle } from "@resources/strings";
-import AboutMePage from "../pages/AboutMePage";
-import ProjectsPage from "../pages/ProjectsPage";
+import HomePage from "@pages/HomePage.jsx";
+import AboutMePage from "@pages/AboutMePage";
+import ProjectsPage from "@pages/ProjectsPage";
+import ContactPage from "@pages/ContactPage";
 
 const MainRoutes = [
   {
@@ -24,7 +24,7 @@ const MainRoutes = [
   {
     path: "/contact",
     name: ContactTitle,
-    element: <ErrorPage />,
+    element: <ContactPage />,
   },
 ];
 

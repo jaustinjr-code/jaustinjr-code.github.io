@@ -15,6 +15,7 @@ import {
   SeeMoreProjectsButton,
   SeeMoreProjectsTooltip,
 } from "@resources/strings";
+import { PagePaperStyle } from "@resources/styles";
 
 export function ProjectsPage() {
   const onSeeMoreProjectsClick = () => {
@@ -23,19 +24,7 @@ export function ProjectsPage() {
 
   return (
     <>
-      <Paper
-        id="projects"
-        elevation={10}
-        sx={{
-          p: 5,
-          mb: 5,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "100%",
-          minHeight: "50vh",
-        }}
-      >
+      <Paper id="projects" elevation={10} sx={PagePaperStyle}>
         <Box flexDirection="column" display="flex" minHeight="50vh">
           <Typography variant="h2" align="center" mb={5}>
             {ProjectsTitle}
@@ -107,6 +96,9 @@ export function ProjectsPage() {
               variant="contained"
               onClick={onSeeMoreProjectsClick}
               href="https://github.com/jaustinjr-code"
+              sx={{
+                height: "5vh",
+              }}
             >
               {SeeMoreProjectsButton}
             </Button>

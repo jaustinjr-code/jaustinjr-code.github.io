@@ -9,10 +9,12 @@ import {
   Button,
   Tooltip,
 } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
 import ThemeSwitch from "@components/ThemeSwitch";
-import { MenuTitle, OpenMenuTooltip, WebsiteTitle } from "@resources/strings";
+import { OpenMenuTooltip, WebsiteTitle } from "@resources/strings";
 import { MainRoutes } from "@routes/Routes";
 import useHeaderLayout from "@hooks/useHeaderLayout";
+import { SwitchThemeTooltip } from "@resources/strings";
 
 export function HeaderLayout() {
   const {
@@ -40,12 +42,23 @@ export function HeaderLayout() {
               </Button>
             </Box>
             <Box sx={{ flexGrow: 1, px: 5 }}>
-              <ThemeSwitch checked={mode === "dark"} onChange={onThemeToggle} />
+              <Tooltip title={SwitchThemeTooltip}>
+                <ThemeSwitch
+                  checked={mode === "dark"}
+                  onChange={onThemeToggle}
+                />
+              </Tooltip>
             </Box>
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title={OpenMenuTooltip}>
-                <Button variant="contained" onClick={onMenuClick}>
-                  {MenuTitle}
+                <Button
+                  onClick={onMenuClick}
+                  sx={{
+                    height: "5vh",
+                    color: "white",
+                  }}
+                >
+                  <MenuIcon />
                 </Button>
               </Tooltip>
               <Menu
