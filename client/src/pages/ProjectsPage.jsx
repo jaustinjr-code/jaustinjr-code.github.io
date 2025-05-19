@@ -18,10 +18,6 @@ import {
 import { PagePaperStyle } from "@resources/styles";
 
 export function ProjectsPage() {
-  const onSeeMoreProjectsClick = () => {
-    window.alert("Leaving this page...");
-  };
-
   return (
     <>
       <Paper id="projects" elevation={10} sx={PagePaperStyle}>
@@ -94,8 +90,8 @@ export function ProjectsPage() {
           <Tooltip title={SeeMoreProjectsTooltip}>
             <Button
               variant="contained"
-              onClick={onSeeMoreProjectsClick}
               href="https://github.com/jaustinjr-code"
+              target="_blank"
               sx={{
                 height: "5vh",
               }}

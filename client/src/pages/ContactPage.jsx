@@ -58,10 +58,6 @@ const MediaButtons = [
 ];
 
 export function ContactPage() {
-  const onMediaClick = () => {
-    window.alert("Opening a new tab...");
-  };
-
   return (
     <>
       <Paper id="contact" elevation={10} sx={PagePaperStyle}>
@@ -100,7 +96,6 @@ export function ContactPage() {
                   <Tooltip key={button.link} title={button.tooltip}>
                     <IconButton
                       key={button.link}
-                      onClick={onMediaClick}
                       href={button.link}
                       target="_blank"
                       sx={{ fontSize: "50vh" }}
@@ -114,7 +109,6 @@ export function ContactPage() {
           </Grid>
           <Tooltip title={OpenResumeTooltip}>
             <Button
-              onClick={onMediaClick}
               href={Resume}
               target="_blank"
               variant="contained"
