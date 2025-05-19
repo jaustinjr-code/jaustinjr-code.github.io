@@ -16,11 +16,11 @@ const MainRoutes = [
     name: AboutMeTitle,
     element: <AboutMePage />,
   },
-  {
-    path: "/projects",
-    name: ProjectsTitle,
-    element: <ProjectsPage />,
-  },
+  // {
+  //   path: "/projects",
+  //   name: ProjectsTitle,
+  //   element: <ProjectsPage />,
+  // },
   {
     path: "/contact",
     name: ContactTitle,

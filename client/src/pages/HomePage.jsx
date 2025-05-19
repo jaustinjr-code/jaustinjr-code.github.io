@@ -8,7 +8,7 @@ export function HomePage() {
     <>
       <Box flexDirection="column" my={5}>
         <AboutMePage />
-        <ProjectsPage />
+        {/* <ProjectsPage /> */}
         <ContactPage />
       </Box>
     </>
