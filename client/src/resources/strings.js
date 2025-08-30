@@ -26,7 +26,7 @@ export const SeeMoreProjectsButton = "See More";
 // Contact
 export const ContactTitle = "Contact";
 export const ContactDescription = "Get in touch, send an email!";
-export const ContactEmailLink = "mailto:jaustinjr.office@gmail.com";
+export const ContactEmailLink = "mailto:jaustinjr.connect@gmail.com";
 export const ContactEmailButton = "Say Hello";
 
 // Media
