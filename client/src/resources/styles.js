@@ -1,12 +1,14 @@
 export const PagePaperStyle = {
-  p: 5,
-  mb: 5,
+  p: { xs: 2, sm: 3, md: 5 }, // smaller padding on mobile, bigger on desktop
+  mb: { xs: 3, sm: 4, md: 5 }, // margin-bottom adjusts with screen
   display: "flex",
+  flexDirection: "column", // better stacking by default
   justifyContent: "center",
-  alignContent: "center",
   alignItems: "center",
   width: "100%",
-  minHeight: "50vh",
+  minHeight: { xs: "auto", md: "50vh" }, // allow natural height on mobile
+  borderRadius: 3, // optional: soften edges
+  boxShadow: 3, // optional: consistent elevation
 };
 
 export default { PagePaperStyle };

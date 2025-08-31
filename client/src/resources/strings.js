@@ -25,9 +25,9 @@ export const SeeMoreProjectsButton = "See More";
 
 // Contact
 export const ContactTitle = "Contact";
-export const ContactDescription = "Get in touch, send an email!";
+export const ContactDescription = "Get in touch, send me an email!";
 export const ContactEmailLink = "mailto:jaustinjr.connect@gmail.com";
-export const ContactEmailButton = "Say Hello";
+export const ContactEmailButton = "Email";
 
 // Media
 export const OpenGitHubTooltip = "Open GitHub";
