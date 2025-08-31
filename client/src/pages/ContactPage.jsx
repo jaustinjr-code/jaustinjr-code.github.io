@@ -37,22 +37,22 @@ import Resume from "@assets/resume.pdf";
 const MediaButtons = [
   {
     tooltip: OpenGitHubTooltip,
-    icon: <GitHub sx={{ fontSize: "40px" }} />,
+    icon: <GitHub sx={{ fontSize: "inherit" }} />,
     link: GitHubLink,
   },
   {
     tooltip: OpenLinkedInTooltip,
-    icon: <LinkedIn sx={{ fontSize: "40px" }} />,
+    icon: <LinkedIn sx={{ fontSize: "inherit" }} />,
     link: LinkedInLink,
   },
   {
     tooltip: OpenInstagramTooltip,
-    icon: <Instagram sx={{ fontSize: "40px" }} />,
+    icon: <Instagram sx={{ fontSize: "inherit" }} />,
     link: InstagramLink,
   },
   {
     tooltip: OpenMediumTooltip,
-    icon: <Newspaper sx={{ fontSize: "40px" }} />,
+    icon: <Newspaper sx={{ fontSize: "inherit" }} />,
     link: MediumLink,
   },
 ];
@@ -61,13 +61,14 @@ export function ContactPage() {
   return (
     <>
       <Paper id="contact" elevation={10} sx={PagePaperStyle}>
-        <Stack>
-          <Typography variant="h2" align="center">
+        <Stack spacing={3} alignItems="center">
+          <Typography variant="h4" align="center">
             {ContactTitle}
           </Typography>
-          <Typography variant="h4" align="center" my={2}>
+          <Typography variant="subtitle1" align="center">
             {ContactDescription}
           </Typography>
+
           <Tooltip title="Open Email">
             <Button
               href={ContactEmailLink}
@@ -75,49 +76,55 @@ export function ContactPage() {
               variant="contained"
               sx={{
                 flexDirection: "row",
-                height: "5vh",
+                height: "auto",
+                py: 1,
+                px: 2,
               }}
             >
               <Typography mx={1}>{ContactEmailButton}</Typography>
-              <Send sx={{ fontSize: "30px" }} />
+              <Send sx={{ fontSize: { xs: "20px", md: "30px" } }} />
             </Button>
           </Tooltip>
+
           <Grid
             container
-            direction="row"
-            spacing={5}
-            mt={5}
+            spacing={{ xs: 2, sm: 3, md: 5 }}
+            mt={3}
             mb={2}
             justifyContent="center"
           >
             {MediaButtons &&
-              MediaButtons.map((button) => {
-                return (
-                  <Tooltip key={button.link} title={button.tooltip}>
+              MediaButtons.map((button) => (
+                <Grid item key={button.link}>
+                  <Tooltip title={button.tooltip}>
                     <IconButton
-                      key={button.link}
                       href={button.link}
                       target="_blank"
-                      sx={{ fontSize: "50vh" }}
-                      variant="outlined"
+                      size="large"
+                      sx={{
+                        fontSize: { xs: "28px", sm: "36px", md: "40px" },
+                      }}
                     >
                       {button.icon}
                     </IconButton>
                   </Tooltip>
-                );
-              })}
+                </Grid>
+              ))}
           </Grid>
+
           <Tooltip title={OpenResumeTooltip}>
             <Button
               href={Resume}
               target="_blank"
               variant="contained"
               sx={{
-                height: "5vh",
                 flexDirection: "row",
+                height: "auto",
+                py: 1,
+                px: 2,
               }}
             >
-              <FilePresent sx={{ fontSize: "30px" }} />
+              <FilePresent sx={{ fontSize: { xs: "20px", md: "30px" } }} />
               <Typography mx={1}>{ResumeButton}</Typography>
             </Button>
           </Tooltip>
