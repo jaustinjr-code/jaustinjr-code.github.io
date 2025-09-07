@@ -1,6 +1,12 @@
-import { AboutMeTitle, ContactTitle, ProjectsTitle } from "@resources/strings";
+import {
+  AboutMeTitle,
+  ContactTitle,
+  ProjectsTitle,
+  BlogTitle,
+} from "@resources/strings";
 import HomePage from "@pages/HomePage.jsx";
 import AboutMePage from "@pages/AboutMePage";
+import BlogPage from "@pages/BlogPage";
 import ProjectsPage from "@pages/ProjectsPage";
 import ContactPage from "@pages/ContactPage";
 
@@ -25,6 +31,11 @@ const MainRoutes = [
     path: "/contact",
     name: ContactTitle,
     element: <ContactPage />,
+  },
+  {
+    path: "/blog",
+    name: BlogTitle,
+    element: <BlogPage />,
   },
 ];
 
