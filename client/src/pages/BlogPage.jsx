@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   CardHeader,
@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import ArticleIcon from "@mui/icons-material/Article";
 import { PagePaperStyle } from "@resources/styles";
+// eslint-disable-next-line no-unused-vars
 import { motion, useMotionValue } from "motion/react";
 import useBlog from "@hooks/useBlog";
 import useMeasure from "react-use-measure";
@@ -25,33 +26,62 @@ export function BlogPage() {
   let [ref, { width }] = useMeasure();
   const xTranslation = useMotionValue(0);
 
+  const FAST_DURATION = 5;
+  const SLOW_DURATION = 75;
+
+  const [duration, setDuration] = useState(FAST_DURATION);
+
+  const [mustFinish, setMustFinish] = useState(false);
+  const [rerender, setRerender] = useState(false);
+
   useEffect(() => {
     let controls;
-    let finalPosition = -width / 2 - 8;
+    let finalPosition = -width / 2;
 
-    controls = animate(xTranslation, [0, finalPosition], {
-      ease: "linear",
-      duration: "25",
-      repeat: Infinity,
-      repeatType: "loop",
-      repeatDelay: 0,
-    });
+    if (mustFinish) {
+      controls = animate(xTranslation, [xTranslation.get(), finalPosition], {
+        ease: "linear",
+        duration: duration * (1 - xTranslation.get() / finalPosition),
+        onComplete: () => {
+          setMustFinish(false);
+          setRerender(!rerender);
+        },
+      });
+    } else {
+      controls = animate(xTranslation, [0, finalPosition], {
+        ease: "linear",
+        duration: duration,
+        repeat: Infinity,
+        repeatType: "loop",
+        repeatDelay: 0,
+      });
+    }
 
     return controls.stop;
-  }, [xTranslation, width]);
+  }, [xTranslation, width, duration, rerender, mustFinish]);
 
   return (
     <>
-      <Paper id="aboutme" elevation={10} sx={PagePaperStyle}>
-        <motion.div
-          ref={ref}
-          style={{ display: "flex", flexDirection: "row", x: xTranslation }}
-        >
-          {[...articles, ...articles].map((article, idx) => (
-            <ArticleMetaCard key={idx} data={article} />
-          ))}
-        </motion.div>
-      </Paper>
+      <motion.div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          x: xTranslation,
+        }}
+        onHoverStart={() => {
+          setMustFinish(true);
+          setDuration(SLOW_DURATION);
+        }}
+        onHoverEnd={() => {
+          setMustFinish(true);
+          setDuration(FAST_DURATION);
+        }}
+        ref={ref}
+      >
+        {[...articles, ...articles].map((article, idx) => (
+          <ArticleMetaCard key={idx} data={article} />
+        ))}
+      </motion.div>
     </>
   );
 }

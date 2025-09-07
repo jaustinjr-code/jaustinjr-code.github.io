@@ -1,7 +1,7 @@
 export default function useBlog() {
   const articles = [
     {
-      title: "How I Became a Software Engineer",
+      title: "1",
       author: "James Austin Jr",
       date: "2024-09-17",
       readTime: "6 min read",
@@ -15,7 +15,7 @@ export default function useBlog() {
         "A personal reflection on the winding path into software engineering — the starts, stalls, and breakthroughs that shaped the journey.",
     },
     {
-      title: "How I Became a Software Engineer",
+      title: "2",
       author: "James Austin Jr",
       date: "2024-09-17",
       readTime: "6 min read",
@@ -29,7 +29,7 @@ export default function useBlog() {
         "A personal reflection on the winding path into software engineering — the starts, stalls, and breakthroughs that shaped the journey.",
     },
     {
-      title: "How I Became a Software Engineer",
+      title: "3",
       author: "James Austin Jr",
       date: "2024-09-17",
       readTime: "6 min read",
@@ -43,7 +43,7 @@ export default function useBlog() {
         "A personal reflection on the winding path into software engineering — the starts, stalls, and breakthroughs that shaped the journey.",
     },
     {
-      title: "How I Became a Software Engineer",
+      title: "4",
       author: "James Austin Jr",
       date: "2024-09-17",
       readTime: "6 min read",
@@ -57,7 +57,7 @@ export default function useBlog() {
         "A personal reflection on the winding path into software engineering — the starts, stalls, and breakthroughs that shaped the journey.",
     },
     {
-      title: "How I Became a Software Engineer",
+      title: "5",
       author: "James Austin Jr",
       date: "2024-09-17",
       readTime: "6 min read",
@@ -71,7 +71,7 @@ export default function useBlog() {
         "A personal reflection on the winding path into software engineering — the starts, stalls, and breakthroughs that shaped the journey.",
     },
     {
-      title: "How I Became a Software Engineer",
+      title: "6",
       author: "James Austin Jr",
       date: "2024-09-17",
       readTime: "6 min read",
