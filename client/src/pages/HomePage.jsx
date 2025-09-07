@@ -8,9 +8,9 @@ export function HomePage() {
   return (
     <>
       <Box flexDirection="column" my={5}>
+        <BlogPage />
         <AboutMePage />
         {/* <ProjectsPage /> */}
-        <BlogPage />
         <ContactPage />
       </Box>
     </>

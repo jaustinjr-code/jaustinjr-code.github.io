@@ -116,9 +116,9 @@ function ArticleMetaCard({ data }) {
     <Card
       elevation={2}
       sx={{
-        maxWidth: 760,
+        maxWidth: 560,
         borderRadius: 4,
-        overflow: "hidden",
+        flex: "0 0 auto",
       }}
     >
       {image?.src && (
