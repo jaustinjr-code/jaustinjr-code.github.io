@@ -63,26 +63,28 @@ export function BlogPage() {
 
   return (
     <>
-      <motion.div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          x: xTranslation,
-        }}
-        onHoverStart={() => {
-          setMustFinish(true);
-          setDuration(SLOW_DURATION);
-        }}
-        onHoverEnd={() => {
-          setMustFinish(true);
-          setDuration(FAST_DURATION);
-        }}
-        ref={ref}
-      >
-        {[...articles, ...articles].map((article, idx) => (
-          <ArticleMetaCard key={idx} data={article} />
-        ))}
-      </motion.div>
+      <Box sx={{ mb: 5 }}>
+        <motion.div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            x: xTranslation,
+          }}
+          onHoverStart={() => {
+            setMustFinish(true);
+            setDuration(SLOW_DURATION);
+          }}
+          onHoverEnd={() => {
+            setMustFinish(true);
+            setDuration(FAST_DURATION);
+          }}
+          ref={ref}
+        >
+          {[...articles, ...articles].map((article, idx) => (
+            <ArticleMetaCard key={idx} data={article} />
+          ))}
+        </motion.div>
+      </Box>
     </>
   );
 }
