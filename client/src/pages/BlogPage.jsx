@@ -23,11 +23,12 @@ import { animate } from "motion";
 
 export function BlogPage() {
   const { articles } = useBlog();
+
   let [ref, { width }] = useMeasure();
   const xTranslation = useMotionValue(0);
 
-  const FAST_DURATION = 5;
-  const SLOW_DURATION = 75;
+  const FAST_DURATION = 25;
+  const SLOW_DURATION = 5;
 
   const [duration, setDuration] = useState(FAST_DURATION);
 
@@ -36,7 +37,7 @@ export function BlogPage() {
 
   useEffect(() => {
     let controls;
-    let finalPosition = -width / 2;
+    let finalPosition = (-width * articles.length) / 2;
 
     if (mustFinish) {
       controls = animate(xTranslation, [xTranslation.get(), finalPosition], {
@@ -58,7 +59,7 @@ export function BlogPage() {
     }
 
     return controls.stop;
-  }, [xTranslation, width, duration, rerender, mustFinish]);
+  }, [xTranslation, width, duration, articles.length, rerender, mustFinish]);
 
   return (
     <>

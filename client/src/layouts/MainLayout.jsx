@@ -21,8 +21,7 @@ export function MainLayout({ children }) {
       >
         <Box
           sx={{
-            width: "100%",
-            maxWidth: { xs: "100%", sm: "600px", md: "900px" }, // tighter on mobile
+            maxWidth: { xs: "100%", sm: "600px", md: "100%" }, // tighter on mobile
             display: "flex",
             flexDirection: "column",
             gap: { xs: 2, sm: 3, md: 4 },
