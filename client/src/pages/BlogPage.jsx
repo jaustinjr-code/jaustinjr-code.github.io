@@ -11,10 +11,8 @@ import {
   Box,
   Divider,
   Link as MuiLink,
-  Paper,
 } from "@mui/material";
 import ArticleIcon from "@mui/icons-material/Article";
-import { PagePaperStyle } from "@resources/styles";
 // eslint-disable-next-line no-unused-vars
 import { motion, useMotionValue } from "motion/react";
 import useBlog from "@hooks/useBlog";
