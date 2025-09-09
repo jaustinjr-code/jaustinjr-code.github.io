@@ -23,6 +23,7 @@ export function BlogPage() {
   const { articles } = useBlog();
 
   let [ref, { width }] = useMeasure();
+  let [refCard, { width: cardWidth }] = useMeasure();
   const xTranslation = useMotionValue(0);
 
   const FAST_DURATION = 25;
@@ -35,8 +36,9 @@ export function BlogPage() {
 
   useEffect(() => {
     let controls;
-    let finalPosition = -width;
+    let finalPosition = -(articles.length * (cardWidth + 40));
     console.log("width:", width);
+    console.log("card width:", cardWidth);
     console.log("reset point:", finalPosition);
     console.log("x coord:", xTranslation.get());
 
@@ -60,7 +62,15 @@ export function BlogPage() {
     }
 
     return controls.stop;
-  }, [xTranslation, width, duration, articles.length, rerender, mustFinish]);
+  }, [
+    xTranslation,
+    width,
+    duration,
+    articles.length,
+    cardWidth,
+    rerender,
+    mustFinish,
+  ]);
 
   return (
     <div
@@ -87,7 +97,11 @@ export function BlogPage() {
         ref={ref}
       >
         {[...articles, ...articles].map((article, idx) => (
-          <ArticleMetaCard key={idx} data={article} />
+          <ArticleMetaCard
+            key={idx}
+            data={article}
+            ref={idx === 0 ? refCard : null}
+          />
         ))}
       </motion.div>
     </div>
@@ -109,7 +123,7 @@ export function BlogPage() {
  *     excerpt?: string,
  *   }
  */
-function ArticleMetaCard({ data }) {
+function ArticleMetaCard({ data, ref }) {
   const { title, author, date, readTime, image, url, excerpt } = data || {};
 
   const formattedDate = date
@@ -129,6 +143,7 @@ function ArticleMetaCard({ data }) {
         flex: "0 0 auto",
         mr: 5,
       }}
+      ref={ref}
     >
       {image?.src && (
         <CardMedia
