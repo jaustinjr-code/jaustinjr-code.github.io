@@ -35,7 +35,10 @@ export function BlogPage() {
 
   useEffect(() => {
     let controls;
-    let finalPosition = (-width * articles.length) / 2;
+    let finalPosition = -width;
+    console.log("width:", width);
+    console.log("reset point:", finalPosition);
+    console.log("x coord:", xTranslation.get());
 
     if (mustFinish) {
       controls = animate(xTranslation, [xTranslation.get(), finalPosition], {
@@ -60,30 +63,34 @@ export function BlogPage() {
   }, [xTranslation, width, duration, articles.length, rerender, mustFinish]);
 
   return (
-    <>
-      <Box sx={{ mb: 5 }}>
-        <motion.div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            x: xTranslation,
-          }}
-          onHoverStart={() => {
-            setMustFinish(true);
-            setDuration(SLOW_DURATION);
-          }}
-          onHoverEnd={() => {
-            setMustFinish(true);
-            setDuration(FAST_DURATION);
-          }}
-          ref={ref}
-        >
-          {[...articles, ...articles].map((article, idx) => (
-            <ArticleMetaCard key={idx} data={article} />
-          ))}
-        </motion.div>
-      </Box>
-    </>
+    <div
+      style={{
+        width: "100%",
+        overflow: "hidden",
+      }}
+      ref={ref}
+    >
+      <motion.div
+        style={{
+          x: xTranslation,
+          display: "flex",
+          flexDirection: "row",
+        }}
+        onHoverStart={() => {
+          setMustFinish(true);
+          setDuration(SLOW_DURATION);
+        }}
+        onHoverEnd={() => {
+          setMustFinish(true);
+          setDuration(FAST_DURATION);
+        }}
+        ref={ref}
+      >
+        {[...articles, ...articles].map((article, idx) => (
+          <ArticleMetaCard key={idx} data={article} />
+        ))}
+      </motion.div>
+    </div>
   );
 }
 
@@ -120,6 +127,7 @@ function ArticleMetaCard({ data }) {
         maxWidth: 560,
         borderRadius: 4,
         flex: "0 0 auto",
+        mr: 5,
       }}
     >
       {image?.src && (

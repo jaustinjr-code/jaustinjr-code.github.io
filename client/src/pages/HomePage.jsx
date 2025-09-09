@@ -7,12 +7,10 @@ import ContactPage from "./ContactPage";
 export function HomePage() {
   return (
     <>
-      <Box flexDirection="column" my={5}>
-        <BlogPage />
-        <AboutMePage />
-        {/* <ProjectsPage /> */}
-        <ContactPage />
-      </Box>
+      {/* <BlogPage /> */}
+      <AboutMePage />
+      {/* <ProjectsPage /> */}
+      <ContactPage />
     </>
   );
 }
