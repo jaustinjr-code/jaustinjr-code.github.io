@@ -75,6 +75,7 @@ export function BlogPage() {
         x: xTranslation,
         display: "flex",
         flexDirection: "row",
+        marginBottom: 5,
       }}
       onHoverStart={() => {
         setMustFinish(true);
