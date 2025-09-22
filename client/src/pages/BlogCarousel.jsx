@@ -22,12 +22,11 @@ import { animate } from "motion";
 export function BlogPage() {
   const { articles } = useBlog();
 
-  let [ref, { width }] = useMeasure();
   let [refCard, { width: cardWidth }] = useMeasure();
   const xTranslation = useMotionValue(0);
 
-  const FAST_DURATION = 25;
-  const SLOW_DURATION = 5;
+  const FAST_DURATION = 40;
+  const SLOW_DURATION = 200;
 
   const [duration, setDuration] = useState(FAST_DURATION);
 
@@ -37,7 +36,6 @@ export function BlogPage() {
   useEffect(() => {
     let controls;
     let finalPosition = -(articles.length * (cardWidth + 40));
-    console.log("width:", width);
     console.log("card width:", cardWidth);
     console.log("reset point:", finalPosition);
     console.log("x coord:", xTranslation.get());
@@ -64,7 +62,6 @@ export function BlogPage() {
     return controls.stop;
   }, [
     xTranslation,
-    width,
     duration,
     articles.length,
     cardWidth,
@@ -73,38 +70,29 @@ export function BlogPage() {
   ]);
 
   return (
-    <div
+    <motion.div
       style={{
-        width: "100%",
-        overflow: "hidden",
+        x: xTranslation,
+        display: "flex",
+        flexDirection: "row",
       }}
-      ref={ref}
+      onHoverStart={() => {
+        setMustFinish(true);
+        setDuration(SLOW_DURATION);
+      }}
+      onHoverEnd={() => {
+        setMustFinish(true);
+        setDuration(FAST_DURATION);
+      }}
     >
-      <motion.div
-        style={{
-          x: xTranslation,
-          display: "flex",
-          flexDirection: "row",
-        }}
-        onHoverStart={() => {
-          setMustFinish(true);
-          setDuration(SLOW_DURATION);
-        }}
-        onHoverEnd={() => {
-          setMustFinish(true);
-          setDuration(FAST_DURATION);
-        }}
-        ref={ref}
-      >
-        {[...articles, ...articles].map((article, idx) => (
-          <ArticleMetaCard
-            key={idx}
-            data={article}
-            ref={idx === 0 ? refCard : null}
-          />
-        ))}
-      </motion.div>
-    </div>
+      {[...articles, ...articles].map((article, idx) => (
+        <ArticleMetaCard
+          key={idx}
+          data={article}
+          ref={idx === 0 ? refCard : null}
+        />
+      ))}
+    </motion.div>
   );
 }
 

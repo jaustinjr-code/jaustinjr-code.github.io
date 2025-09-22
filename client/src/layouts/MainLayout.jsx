@@ -1,13 +1,14 @@
 import HeaderLayout from "./HeaderLayout";
+import ShowcaseLayout from "./ShowcaseLayout";
 import FooterLayout from "./FooterLayout";
 import { Container, Box } from "@mui/material";
-import BlogPage from "../pages/BlogPage";
+import BlogPage from "../pages/BlogCarousel";
 
 export function MainLayout({ children }) {
   return (
     <>
       <HeaderLayout />
-      <BlogPage />
+      <ShowcaseLayout />
       <Container
         disableGutters
         maxWidth="lg"
