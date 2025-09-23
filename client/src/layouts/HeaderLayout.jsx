@@ -26,6 +26,7 @@ export function HeaderLayout() {
     onMenuClose,
     onMenuItemClick,
     onThemeToggle,
+    isSmallScreen,
   } = useHeaderLayout();
 
   return (
@@ -50,39 +51,60 @@ export function HeaderLayout() {
               </Tooltip>
             </Box>
             <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title={OpenMenuTooltip}>
-                <Button
-                  onClick={onMenuClick}
-                  sx={{
-                    height: "5vh",
-                    color: "white",
-                  }}
-                >
-                  <MenuIcon />
-                </Button>
-              </Tooltip>
-              <Menu
-                open={isMenuOpen}
-                onClose={onMenuClose}
-                anchorEl={anchorEl}
-                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-                transformOrigin={{ vertical: "top", horizontal: "center" }}
-              >
-                {MainRoutes &&
-                  MainRoutes.map((route) => {
-                    return (
-                      <MenuItem
-                        id={route.path}
-                        key={route.path}
-                        name={route.name}
-                        title={route.name}
-                        onClick={() => onMenuItemClick(route.path)}
-                      >
-                        <Typography>{route.name}</Typography>
-                      </MenuItem>
-                    );
-                  })}
-              </Menu>
+              {isSmallScreen ? (
+                <>
+                  <Tooltip title={OpenMenuTooltip}>
+                    <Button
+                      onClick={onMenuClick}
+                      sx={{
+                        height: "5vh",
+                        color: "white",
+                      }}
+                    >
+                      <MenuIcon />
+                    </Button>
+                  </Tooltip>
+                  <Menu
+                    open={isMenuOpen}
+                    onClose={onMenuClose}
+                    anchorEl={anchorEl}
+                    anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                    transformOrigin={{ vertical: "top", horizontal: "center" }}
+                  >
+                    {MainRoutes &&
+                      MainRoutes.map((route) => {
+                        return (
+                          <MenuItem
+                            id={route.path}
+                            key={route.path}
+                            name={route.name}
+                            title={route.name}
+                            onClick={() => onMenuItemClick(route.path)}
+                          >
+                            <Typography>{route.name}</Typography>
+                          </MenuItem>
+                        );
+                      })}
+                  </Menu>
+                </>
+              ) : (
+                <Box display="flex" flexDirection="row">
+                  {MainRoutes &&
+                    MainRoutes.map((route) => {
+                      return (
+                        <MenuItem
+                          id={route.path}
+                          key={route.path}
+                          name={route.name}
+                          title={route.name}
+                          onClick={() => onMenuItemClick(route.path)}
+                        >
+                          <Typography>{route.name}</Typography>
+                        </MenuItem>
+                      );
+                    })}
+                </Box>
+              )}
             </Box>
           </Toolbar>
         </Container>
