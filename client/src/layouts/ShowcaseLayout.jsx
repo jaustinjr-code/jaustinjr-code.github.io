@@ -1,4 +1,3 @@
-import { Container } from "@mui/material";
 import BlogPage from "@pages/BlogCarousel";
 
 export function ShowcaseLayout() {
