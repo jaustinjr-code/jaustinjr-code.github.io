@@ -12,4 +12,15 @@ export const PagePaperStyle = {
   boxShadow: 3, // optional: consistent elevation
 };
 
-export default { PagePaperStyle };
+export const StartEndTransparencyGradientStyle = {
+  WebkitMaskImage:
+    "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+  WebkitMaskRepeat: "no-repeat",
+  WebkitMaskSize: "100% 100%",
+  maskImage:
+    "linear-gradient(to right, transparent, black 10%, black 90%, transparent)",
+  maskRepeat: "no-repeat",
+  maskSize: "100% 100%",
+};
+
+export default { PagePaperStyle, StartEndTransparencyGradientStyle };

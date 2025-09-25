@@ -5,6 +5,7 @@ import useBlog from "@hooks/useBlog";
 import useMeasure from "react-use-measure";
 import { animate } from "motion";
 import ArticleCard from "@components/ArticleCard";
+import { StartEndTransparencyGradientStyle } from "@resources/styles";
 
 export function BlogCarousel() {
   const { articles } = useBlog();
@@ -62,6 +63,7 @@ export function BlogCarousel() {
         width: "100%",
         overflow: "hidden",
         paddingBottom: "25px", // make responsive, consider using a different component from div
+        ...StartEndTransparencyGradientStyle,
       }}
     >
       <motion.div
