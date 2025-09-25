@@ -6,7 +6,7 @@ import useMeasure from "react-use-measure";
 import { animate } from "motion";
 import ArticleCard from "@components/ArticleCard";
 
-export function BlogPage() {
+export function BlogCarousel() {
   const { articles } = useBlog();
 
   let [refCard, { width: cardWidth }] = useMeasure();
@@ -57,31 +57,39 @@ export function BlogPage() {
   ]);
 
   return (
-    <motion.div
+    <div
       style={{
-        x: xTranslation,
-        display: "flex",
-        flexDirection: "row",
-        marginBottom: 5,
-      }}
-      onHoverStart={() => {
-        setMustFinish(true);
-        setDuration(SLOW_DURATION);
-      }}
-      onHoverEnd={() => {
-        setMustFinish(true);
-        setDuration(FAST_DURATION);
+        width: "100%",
+        overflow: "hidden",
+        paddingBottom: "25px", // make responsive, consider using a different component from div
       }}
     >
-      {[...articles, ...articles].map((article, idx) => (
-        <ArticleCard
-          key={idx}
-          data={article}
-          ref={idx === 0 ? refCard : null}
-        />
-      ))}
-    </motion.div>
+      <motion.div
+        style={{
+          x: xTranslation,
+          display: "flex",
+          flexDirection: "row",
+          marginBottom: 5,
+        }}
+        onHoverStart={() => {
+          setMustFinish(true);
+          setDuration(SLOW_DURATION);
+        }}
+        onHoverEnd={() => {
+          setMustFinish(true);
+          setDuration(FAST_DURATION);
+        }}
+      >
+        {[...articles, ...articles].map((article, idx) => (
+          <ArticleCard
+            key={idx}
+            data={article}
+            ref={idx === 0 ? refCard : null}
+          />
+        ))}
+      </motion.div>
+    </div>
   );
 }
 
-export default BlogPage;
+export default BlogCarousel;

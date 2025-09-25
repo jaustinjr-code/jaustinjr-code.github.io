@@ -6,6 +6,7 @@ export const PagePaperStyle = {
   justifyContent: "center",
   alignItems: "center",
   width: "100%",
+  maxWidth: "lg",
   minHeight: { xs: "auto", md: "50vh" }, // allow natural height on mobile
   borderRadius: 3, // optional: soften edges
   boxShadow: 3, // optional: consistent elevation

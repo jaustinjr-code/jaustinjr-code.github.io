@@ -1,4 +1,4 @@
-import BlogPage from "@pages/BlogCarousel";
+import BlogCarousel from "@pages/BlogCarousel";
 
 export function ShowcaseLayout() {
   return (
@@ -10,7 +10,7 @@ export function ShowcaseLayout() {
         marginBottom: 10,
       }}
     >
-      <BlogPage />
+      <BlogCarousel />
     </div>
   );
 }
