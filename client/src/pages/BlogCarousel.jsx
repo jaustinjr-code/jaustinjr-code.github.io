@@ -24,9 +24,9 @@ export function BlogCarousel() {
   useEffect(() => {
     let controls;
     let finalPosition = -(articles.length * (cardWidth + 40));
-    console.log("card width:", cardWidth);
-    console.log("reset point:", finalPosition);
-    console.log("x coord:", xTranslation.get());
+    // console.log("card width:", cardWidth);
+    // console.log("reset point:", finalPosition);
+    // console.log("x coord:", xTranslation.get());
 
     if (mustFinish) {
       controls = animate(xTranslation, [xTranslation.get(), finalPosition], {
