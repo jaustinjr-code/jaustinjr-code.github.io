@@ -6,19 +6,19 @@ function useRssParser() {
     // let url = "https://www.medium.com/feed/@jaustinjr.blog";
     let response = await fetch(`https://api.allorigins.win/get?url=${url}`)
       .catch(console.log("Something wrong happened."))
-      .catch(console.error("All Origins failed."));
+      .catch((err) => console.error("All Origins failed.", err));
     const feed = await response
       .json()
       .catch(console.log("Something wrong happened."))
-      .catch(console.error("Response JSON failed."));
+      .catch((err) => console.error("Response JSON failed.", err));
     // console.log(feed);
 
-    let rssParser = new Parser();
+    const rssParser = new Parser();
 
     const feedJson = await rssParser
       .parseString(feed.contents)
       .catch(console.log("Something wrong happened."))
-      .catch(console.error("Parse contents failed."));
+      .catch((err) => console.error("Parse contents failed.", err));
 
     // console.log(feedJson.items);
     // feedJson.items.forEach((item) => {
@@ -29,7 +29,7 @@ function useRssParser() {
   }, []);
 
   const parseFeed = useCallback(async (feed) => {
-    let rssParser = new Parser();
+    const rssParser = new Parser();
 
     console.log(feed);
     const feedJson = await rssParser
@@ -47,7 +47,8 @@ function useRssParser() {
 
   const parseImageFromFeed = useCallback((feed) => {
     const sourceImageRegex = /(?<=src\s*=\s*["'])([^"']+)(?=["'])/g;
-    return feed.match(sourceImageRegex);
+    let matches = feed.match(sourceImageRegex);
+    return matches.length > 1 ? matches[0] : matches;
   }, []);
 
   return { getFeedItems, parseFeed, parseImageFromFeed };
