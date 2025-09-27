@@ -18,7 +18,7 @@ export default function useBlog() {
         "A personal reflection on the winding path into software engineering — the starts, stalls, and breakthroughs that shaped the journey.",
     },
   ]);
-  const { getFeedItems } = useRssParser();
+  const { getFeedItems, parseFeed } = useRssParser();
 
   useEffect(() => {
     const createArticleEmbeds = async () => {
@@ -27,14 +27,35 @@ export default function useBlog() {
       );
       let articleEmbeds = [];
       liveArticles.items.forEach(async (item) => {
+        console.log(item.content);
+        console.log(item);
+        // img tag does not have a close brace, parse it manually
+        // parseFeed(item.content);
+
+        const regex = /(?<=src\s*=\s*["'])([^"']+)(?=["'])/g;
+        let img = item.content.match(regex);
+
+        // let imgSub = item.content.substring(item.content.indexOf("<img "));
+        // let subEnd = imgSub.indexOf(">");
+        // let imgTag = imgSub.substring(0, subEnd);
+
+        // console.log(imgTag.toString());
+        // let imgStart = imgTag.indexOf('src="') + 5;
+        // let imgSrc = imgTag.substring(imgStart);
+        // let imgEnd = imgSrc.indexOf('"');
+        // console.log(imgSrc, imgEnd);
+        // const img = imgTag.substring(imgStart, imgEnd);
+        console.log(img.toString());
+
         articleEmbeds.push({
           ...item,
+          image: img,
         });
       });
       setArticles(articleEmbeds);
     };
     createArticleEmbeds();
-  }, [getFeedItems]);
+  }, [getFeedItems, parseFeed]);
 
   //   const articles = [
   //     {

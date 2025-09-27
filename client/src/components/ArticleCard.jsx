@@ -15,27 +15,28 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 
 /**
  * ArticleMetaCard
- * Renders article metadata (title, author, date, read time, cover image, link).
+ * Renders article metadata (title, creator, date, read time, cover image, link).
  *
  * Props:
  * - data: {
  *     title: string,
- *     author: string,
+ *     creator: string,
  *     date: string | Date, // e.g. "2024-09-17"
  *     readTime?: string,   // e.g. "6 min read"
  *     image?: { src: string, alt?: string, credit?: string },
- *     url?: string,
- *     excerpt?: string,
+ *     guid?: string,
+ *     contentSnippet?: string,
  *   }
  */
 function ArticleCard({ data, ref }) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const { title, author, date, readTime, image, url, excerpt } = data || {};
+  const { title, creator, pubDate, readTime, image, guid, contentSnippet } =
+    data || {};
 
-  const formattedDate = date
-    ? new Date(date).toLocaleDateString(undefined, {
+  const formattedDate = pubDate
+    ? new Date(pubDate).toLocaleDateString(undefined, {
         year: "numeric",
         month: "long",
         day: "numeric",
@@ -53,14 +54,14 @@ function ArticleCard({ data, ref }) {
         textDecoration: "none",
       }}
       component="a"
-      href={url}
+      href={guid}
       ref={ref}
     >
-      {image?.src && (
+      {image && (
         <CardMedia
           component="img"
-          image={image.src}
-          alt={image.alt || title}
+          image={image}
+          alt={title}
           sx={{
             height: 280,
             objectFit: isSmallScreen ? "fill" : "cover",
@@ -82,7 +83,7 @@ function ArticleCard({ data, ref }) {
               flexWrap="wrap"
             >
               <Typography variant="body2" color="text.secondary">
-                {author}
+                {creator}
               </Typography>
               {formattedDate && (
                 <>
@@ -108,9 +109,9 @@ function ArticleCard({ data, ref }) {
       />
       {!isSmallScreen && (
         <CardContent>
-          {excerpt && (
+          {contentSnippet && (
             <Typography variant="body1" sx={{ mb: 2 }}>
-              {excerpt}
+              {contentSnippet}
             </Typography>
           )}
 
