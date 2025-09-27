@@ -3,7 +3,6 @@ import Parser from "rss-parser";
 
 function useRssParser() {
   const getFeedItems = useCallback(async (url) => {
-    // let url = "https://www.medium.com/feed/@jaustinjr.blog";
     let response = await fetch(`https://api.allorigins.win/get?url=${url}`)
       .catch(console.log("Something wrong happened."))
       .catch((err) => console.error("All Origins failed.", err));
@@ -11,7 +10,6 @@ function useRssParser() {
       .json()
       .catch(console.log("Something wrong happened."))
       .catch((err) => console.error("Response JSON failed.", err));
-    // console.log(feed);
 
     const rssParser = new Parser();
 
@@ -19,11 +17,6 @@ function useRssParser() {
       .parseString(feed.contents)
       .catch(console.log("Something wrong happened."))
       .catch((err) => console.error("Parse contents failed.", err));
-
-    // console.log(feedJson.items);
-    // feedJson.items.forEach((item) => {
-    //   console.log(item);
-    // });
 
     return feedJson;
   }, []);
@@ -35,7 +28,7 @@ function useRssParser() {
     const feedJson = await rssParser
       .parseString(feed)
       .catch(console.log("Something wrong happened."))
-      .catch(console.error("Parse feed failed."));
+      .catch((err) => console.error("Parse feed failed.", err));
 
     console.log(feedJson.items);
     feedJson.items.forEach((item) => {
