@@ -11,10 +11,10 @@ export default function useBlog() {
       const liveArticles = await getFeedItems(BlogFeedUrl);
       let articleEmbeds = [];
       liveArticles.items.forEach(async (item) => {
-        let img = null;
-        if (item.content === undefined) {
-          img = parseImageFromFeed(item["content:encoded"]);
-        } else img = parseImageFromFeed(item.content);
+        let img =
+          item.content === undefined
+            ? parseImageFromFeed(item["content:encoded"])
+            : parseImageFromFeed(item.content);
 
         articleEmbeds.push({
           ...item,
