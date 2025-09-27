@@ -43,4 +43,4 @@ export const ResumeButton = "Resume";
 
 // Blog
 export const BlogTitle = "Blog";
-export const BlogUrl = "https://www.medium.com/feed/@jaustinjr.blog";
+export const BlogFeedUrl = "https://www.medium.com/feed/@jaustinjr.blog";

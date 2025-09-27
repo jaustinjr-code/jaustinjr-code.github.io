@@ -45,7 +45,12 @@ function useRssParser() {
     return feedJson;
   }, []);
 
-  return { getFeedItems, parseFeed };
+  const parseImageFromFeed = useCallback((feed) => {
+    const sourceImageRegex = /(?<=src\s*=\s*["'])([^"']+)(?=["'])/g;
+    return feed.match(sourceImageRegex);
+  }, []);
+
+  return { getFeedItems, parseFeed, parseImageFromFeed };
 }
 
 export default useRssParser;

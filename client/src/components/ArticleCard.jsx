@@ -43,7 +43,7 @@ function ArticleCard({ data, ref }) {
       })
     : undefined;
 
-  return (
+  return data ? (
     <Card
       elevation={2}
       sx={{
@@ -75,36 +75,34 @@ function ArticleCard({ data, ref }) {
           </Typography>
         }
         subheader={
-          !isSmallScreen && (
-            <Stack
-              direction="row"
-              spacing={1}
-              alignItems="center"
-              flexWrap="wrap"
-            >
-              <Typography variant="body2" color="text.secondary">
-                {creator}
-              </Typography>
-              {formattedDate && (
-                <>
-                  <Divider orientation="vertical" flexItem sx={{ mx: 0.5 }} />
-                  <Typography variant="body2" color="text.secondary">
-                    {formattedDate}
-                  </Typography>
-                </>
-              )}
-              {readTime && (
-                <>
-                  <Divider orientation="vertical" flexItem sx={{ mx: 0.5 }} />
-                  <Chip
-                    size="small"
-                    icon={<ArticleIcon fontSize="small" />}
-                    label={readTime}
-                  />
-                </>
-              )}
-            </Stack>
-          )
+          <Stack
+            direction="row"
+            spacing={1}
+            alignItems="center"
+            flexWrap="wrap"
+          >
+            <Typography variant="body2" color="text.secondary">
+              {creator}
+            </Typography>
+            {formattedDate && (
+              <>
+                <Divider orientation="vertical" flexItem sx={{ mx: 0.5 }} />
+                <Typography variant="body2" color="text.secondary">
+                  {formattedDate}
+                </Typography>
+              </>
+            )}
+            {readTime && (
+              <>
+                <Divider orientation="vertical" flexItem sx={{ mx: 0.5 }} />
+                <Chip
+                  size="small"
+                  icon={<ArticleIcon fontSize="small" />}
+                  label={readTime}
+                />
+              </>
+            )}
+          </Stack>
         }
       />
       {!isSmallScreen && (
@@ -114,20 +112,11 @@ function ArticleCard({ data, ref }) {
               {contentSnippet}
             </Typography>
           )}
-
-          {image?.credit && (
-            <Typography
-              variant="caption"
-              color="text.secondary"
-              display="block"
-              sx={{ mt: -1, mb: 1 }}
-            >
-              {image.credit}
-            </Typography>
-          )}
         </CardContent>
       )}
     </Card>
+  ) : (
+    <div>Coming soon...</div>
   );
 }
 
