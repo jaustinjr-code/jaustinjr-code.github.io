@@ -62,6 +62,7 @@ function ArticleCard({ data, ref }) {
           component="img"
           image={image}
           alt={title}
+          loading="eager"
           sx={{
             height: 280,
             objectFit: isSmallScreen ? "fill" : "cover",
