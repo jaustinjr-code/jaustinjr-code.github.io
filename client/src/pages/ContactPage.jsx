@@ -95,7 +95,7 @@ export function ContactPage() {
           >
             {MediaButtons &&
               MediaButtons.map((button) => (
-                <Grid item key={button.link}>
+                <Grid key={button.link}>
                   <Tooltip title={button.tooltip}>
                     <IconButton
                       href={button.link}

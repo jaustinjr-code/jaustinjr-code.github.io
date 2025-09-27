@@ -7,7 +7,6 @@ export function MainLayout({ children }) {
     <>
       <HeaderLayout />
       <Container
-        disableGutters
         maxWidth="lg"
         sx={{
           flex: 1,
