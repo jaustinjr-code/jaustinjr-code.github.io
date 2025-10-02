@@ -15,7 +15,7 @@ export default function useBlog() {
       console.log(liveArticles);
 
       let articleEmbeds = [];
-      liveArticles.items.forEach(async (item) => {
+      liveArticles.items.forEach((item) => {
         let img =
           item.content === undefined
             ? parseImageFromFeed(item["content:encoded"])
