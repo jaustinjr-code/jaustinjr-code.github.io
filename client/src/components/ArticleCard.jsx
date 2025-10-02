@@ -6,11 +6,10 @@ import {
   Typography,
   Chip,
   Stack,
-  Box,
   Divider,
   Grid,
 } from "@mui/material";
-import ArticleIcon from "@mui/icons-material/Article";
+import { Lightbulb } from "@mui/icons-material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
@@ -102,7 +101,7 @@ function ArticleCard({ data, ref }) {
                   </>
                 )}
               </Stack>
-              <Grid alignItems="center" flexWrap="wrap">
+              <Grid alignItems="center" flexWrap="wrap" my={1}>
                 {categories &&
                   categories.map((category) => {
                     return (
@@ -111,8 +110,9 @@ function ArticleCard({ data, ref }) {
                           key={category}
                           size="small"
                           color="primary"
-                          icon={<ArticleIcon fontSize="small" />}
+                          icon={<Lightbulb fontSize="small" />}
                           label={category}
+                          sx={{ mr: 1 }}
                         />
                       </>
                     );
