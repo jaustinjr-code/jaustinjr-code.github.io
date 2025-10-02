@@ -8,6 +8,7 @@ import {
   Stack,
   Box,
   Divider,
+  Grid,
 } from "@mui/material";
 import ArticleIcon from "@mui/icons-material/Article";
 import { useTheme } from "@mui/material/styles";
@@ -32,7 +33,7 @@ function ArticleCard({ data, ref }) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const { title, creator, pubDate, readTime, image, guid, contentSnippet } =
+  const { title, creator, pubDate, categories, image, guid, contentSnippet } =
     data || {};
 
   const formattedDate = pubDate
@@ -82,33 +83,41 @@ function ArticleCard({ data, ref }) {
             </Typography>
           }
           subheader={
-            <Stack
-              direction="row"
-              spacing={1}
-              alignItems="center"
-              flexWrap="wrap"
-            >
-              <Typography variant="body2" color="text.secondary">
-                {creator}
-              </Typography>
-              {formattedDate && (
-                <>
-                  <Divider orientation="vertical" flexItem sx={{ mx: 0.5 }} />
-                  <Typography variant="body2" color="text.secondary">
-                    {formattedDate}
-                  </Typography>
-                </>
-              )}
-              {readTime && (
-                <>
-                  <Divider orientation="vertical" flexItem sx={{ mx: 0.5 }} />
-                  <Chip
-                    size="small"
-                    icon={<ArticleIcon fontSize="small" />}
-                    label={readTime}
-                  />
-                </>
-              )}
+            <Stack>
+              <Stack
+                direction="row"
+                spacing={1}
+                alignItems="center"
+                flexWrap="wrap"
+              >
+                <Typography variant="body2" color="text.secondary">
+                  {creator}
+                </Typography>
+                {formattedDate && (
+                  <>
+                    <Divider orientation="vertical" flexItem sx={{ mx: 0.5 }} />
+                    <Typography variant="body2" color="text.secondary">
+                      {formattedDate}
+                    </Typography>
+                  </>
+                )}
+              </Stack>
+              <Grid alignItems="center" flexWrap="wrap">
+                {categories &&
+                  categories.map((category) => {
+                    return (
+                      <>
+                        <Chip
+                          key={category}
+                          size="small"
+                          color="primary"
+                          icon={<ArticleIcon fontSize="small" />}
+                          label={category}
+                        />
+                      </>
+                    );
+                  })}
+              </Grid>
             </Stack>
           }
         />
