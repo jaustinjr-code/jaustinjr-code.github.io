@@ -105,16 +105,14 @@ function ArticleCard({ data, ref }) {
                 {categories &&
                   categories.map((category) => {
                     return (
-                      <>
-                        <Chip
-                          key={category}
-                          size="small"
-                          color="primary"
-                          icon={<Lightbulb fontSize="small" />}
-                          label={category}
-                          sx={{ mr: 1 }}
-                        />
-                      </>
+                      <Chip
+                        key={category}
+                        size="small"
+                        color="primary"
+                        icon={<Lightbulb fontSize="small" />}
+                        label={category}
+                        sx={{ mr: 1 }}
+                      />
                     );
                   })}
               </Grid>

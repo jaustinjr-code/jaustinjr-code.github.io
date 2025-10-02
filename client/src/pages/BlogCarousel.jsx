@@ -13,7 +13,7 @@ export function BlogCarousel() {
   let [refCard, { width: cardWidth }] = useMeasure();
   const xTranslation = useMotionValue(0);
 
-  const FAST_DURATION = 40;
+  const FAST_DURATION = 80;
   const SLOW_DURATION = 200;
 
   const [duration, setDuration] = useState(FAST_DURATION);
