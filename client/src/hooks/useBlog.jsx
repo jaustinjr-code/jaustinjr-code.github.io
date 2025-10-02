@@ -9,6 +9,11 @@ export default function useBlog() {
   useEffect(() => {
     const createArticleEmbeds = async () => {
       const liveArticles = await getFeedItems(BlogFeedUrl);
+
+      if (!liveArticles.items) return;
+
+      console.log(liveArticles);
+
       let articleEmbeds = [];
       liveArticles.items.forEach(async (item) => {
         let img =

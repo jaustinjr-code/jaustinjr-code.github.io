@@ -6,10 +6,15 @@ function useRssParser() {
     let response = await fetch(`https://api.allorigins.win/get?url=${url}`)
       .catch(console.log("Something wrong happened."))
       .catch((err) => console.error("All Origins failed.", err));
+
+    if (!(response && response.ok)) return {};
+
     const feed = await response
       .json()
       .catch(console.log("Something wrong happened."))
       .catch((err) => console.error("Response JSON failed.", err));
+
+    if (!(feed && feed.contents)) return {};
 
     const rssParser = new Parser();
 
