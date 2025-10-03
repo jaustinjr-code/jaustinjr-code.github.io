@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-// eslint-disable-next-line no-unused-vars
 import { useMotionValue } from "motion/react";
 import useMeasure from "react-use-measure";
 import { animate } from "motion";
