@@ -1,58 +1,18 @@
-import { useEffect, useState } from "react";
 // eslint-disable-next-line no-unused-vars
-import { motion, useMotionValue } from "motion/react";
+import { motion } from "motion/react";
 import useBlog from "@hooks/useBlog";
-import useMeasure from "react-use-measure";
-import { animate } from "motion";
 import ArticleCard from "@components/ArticleCard";
 import { StartEndTransparencyGradientStyle } from "@resources/styles";
+import useCarousel from "@hooks/useCarousel";
 
 export function BlogCarousel() {
   const { articles } = useBlog();
-
-  let [refCard, { width: cardWidth }] = useMeasure();
-  const xTranslation = useMotionValue(0);
+  const { xTranslation, itemRef, handleHoverDuration } = useCarousel(
+    articles.length
+  );
 
   const FAST_DURATION = 80;
   const SLOW_DURATION = 200;
-
-  const [duration, setDuration] = useState(FAST_DURATION);
-
-  const [mustFinish, setMustFinish] = useState(false);
-  const [rerender, setRerender] = useState(false);
-
-  useEffect(() => {
-    let controls;
-    let finalPosition = -(articles.length * (cardWidth + 40));
-
-    if (mustFinish) {
-      controls = animate(xTranslation, [xTranslation.get(), finalPosition], {
-        ease: "linear",
-        duration: duration * (1 - xTranslation.get() / finalPosition),
-        onComplete: () => {
-          setMustFinish(false);
-          setRerender(!rerender);
-        },
-      });
-    } else {
-      controls = animate(xTranslation, [0, finalPosition], {
-        ease: "linear",
-        duration: duration,
-        repeat: Infinity,
-        repeatType: "loop",
-        repeatDelay: 0,
-      });
-    }
-
-    return controls.stop;
-  }, [
-    xTranslation,
-    duration,
-    articles.length,
-    cardWidth,
-    rerender,
-    mustFinish,
-  ]);
 
   return (
     <div
@@ -71,19 +31,17 @@ export function BlogCarousel() {
           marginBottom: 5,
         }}
         onHoverStart={() => {
-          setMustFinish(true);
-          setDuration(SLOW_DURATION);
+          handleHoverDuration(SLOW_DURATION);
         }}
         onHoverEnd={() => {
-          setMustFinish(true);
-          setDuration(FAST_DURATION);
+          handleHoverDuration(FAST_DURATION);
         }}
       >
         {[...articles, ...articles].map((article, idx) => (
           <ArticleCard
             key={idx}
             data={article}
-            ref={idx === 0 ? refCard : null}
+            ref={idx === 0 ? itemRef : null}
           />
         ))}
       </motion.div>
