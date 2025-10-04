@@ -29,13 +29,11 @@ function useRssParser() {
   const parseFeed = useCallback(async (feed) => {
     const rssParser = new Parser();
 
-    console.log(feed);
     const feedJson = await rssParser
       .parseString(feed)
       .catch(console.log("Something wrong happened."))
       .catch((err) => console.error("Parse feed failed.", err));
 
-    console.log(feedJson.items);
     feedJson.items.forEach((item) => {
       console.log(item);
     });

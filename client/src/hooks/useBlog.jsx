@@ -12,8 +12,6 @@ export default function useBlog() {
 
       if (!liveArticles.items) return;
 
-      console.log(liveArticles);
-
       let articleEmbeds = [];
       liveArticles.items.forEach((item) => {
         let img =
