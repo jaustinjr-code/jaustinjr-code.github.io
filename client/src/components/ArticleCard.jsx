@@ -13,21 +13,6 @@ import { Lightbulb } from "@mui/icons-material";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-/**
- * ArticleMetaCard
- * Renders article metadata (title, creator, date, read time, cover image, link).
- *
- * Props:
- * - data: {
- *     title: string,
- *     creator: string,
- *     date: string | Date, // e.g. "2024-09-17"
- *     readTime?: string,   // e.g. "6 min read"
- *     image?: { src: string, alt?: string, credit?: string },
- *     guid?: string,
- *     contentSnippet?: string,
- *   }
- */
 function ArticleCard({ data, ref }) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
