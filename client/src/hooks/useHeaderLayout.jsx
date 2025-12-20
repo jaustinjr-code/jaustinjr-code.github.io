@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useColorScheme } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 export default function useHeaderLayout() {
   let navigate = useNavigate();
   const { mode, setMode } = useColorScheme();
   const [anchorEl, setAnchorEl] = useState(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const onHomeClick = () => {
     navigate("/");
@@ -43,5 +47,6 @@ export default function useHeaderLayout() {
     onMenuClose,
     onMenuItemClick,
     onThemeToggle,
+    isSmallScreen,
   };
 }
