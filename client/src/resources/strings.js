@@ -40,3 +40,7 @@ export const OpenMediumTooltip = "Open Medium";
 export const MediumLink = "https://medium.com/@jaustinjr.blog";
 export const OpenResumeTooltip = "Open Resume";
 export const ResumeButton = "Resume";
+
+// Blog
+export const BlogTitle = "Blog";
+export const BlogFeedUrl = "https://www.medium.com/feed/@jaustinjr.blog";
