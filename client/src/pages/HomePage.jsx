@@ -5,8 +5,8 @@ import ContactPage from "./ContactPage";
 export function HomePage() {
   return (
     <>
-      <BlogCarousel />
       <AboutMePage />
+      <BlogCarousel />
       <ContactPage />
     </>
   );
