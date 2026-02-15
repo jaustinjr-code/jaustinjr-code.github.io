@@ -2,13 +2,14 @@
 import { motion } from "motion/react";
 import useBlog from "@hooks/useBlog";
 import ArticleCard from "@components/ArticleCard";
+import BlankCard from "@components/BlankCard";
 import { StartEndTransparencyGradientStyle } from "@resources/styles";
 import useCarousel from "@hooks/useCarousel";
 
 export function BlogCarousel() {
-  const { articles } = useBlog();
+  const { articles, isLoading } = useBlog();
   const { xTranslation, itemRef, handleHoverDuration } = useCarousel(
-    articles.length
+    articles.length,
   );
 
   const FAST_DURATION = 80;
@@ -37,13 +38,20 @@ export function BlogCarousel() {
           handleHoverDuration(FAST_DURATION);
         }}
       >
-        {[...articles, ...articles].map((article, idx) => (
-          <ArticleCard
-            key={idx}
-            data={article}
-            ref={idx === 0 ? itemRef : null}
-          />
-        ))}
+        {(isLoading
+          ? Array.from(new Array(5))
+          : [...articles, ...articles]
+        ).map((article, idx) =>
+          article ? (
+            <ArticleCard
+              key={idx}
+              data={article}
+              ref={idx === 0 ? itemRef : null}
+            />
+          ) : (
+            <BlankCard key={idx} />
+          ),
+        )}
       </motion.div>
     </div>
   );

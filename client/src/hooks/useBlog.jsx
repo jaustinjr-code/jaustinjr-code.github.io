@@ -4,10 +4,12 @@ import { BlogFeedUrl } from "@resources/strings";
 
 export default function useBlog() {
   const [articles, setArticles] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const { getFeedItems, parseImageFromFeed } = useRssParser();
 
   useEffect(() => {
     const createArticleEmbeds = async () => {
+      setIsLoading(true);
       const liveArticles = await getFeedItems(BlogFeedUrl);
 
       if (!liveArticles.items) return;
@@ -25,9 +27,10 @@ export default function useBlog() {
         });
       });
       setArticles(articleEmbeds);
+      setIsLoading(false);
     };
     createArticleEmbeds();
   }, [getFeedItems, parseImageFromFeed]);
 
-  return { articles };
+  return { articles, isLoading };
 }
