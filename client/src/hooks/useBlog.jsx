@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import useRssParser from "./useRssParser";
-import { BlogFeedUrl } from "@resources/strings";
 
 export default function useBlog() {
   const [articles, setArticles] = useState([]);
@@ -8,9 +7,11 @@ export default function useBlog() {
 
   useEffect(() => {
     const createArticleEmbeds = async () => {
-      const liveArticles = await getFeedItems(BlogFeedUrl);
+      const liveArticles = await getFeedItems();
 
-      if (!liveArticles.items) return;
+      if (!(liveArticles && liveArticles.items)) {
+        return;
+      }
 
       let articleEmbeds = [];
       liveArticles.items.forEach((item) => {

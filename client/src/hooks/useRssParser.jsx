@@ -1,27 +1,22 @@
 import { useCallback } from "react";
 import Parser from "rss-parser";
+import { getFeed } from "medium-parser/fetcher";
 
 function useRssParser() {
-  const getFeedItems = useCallback(async (url) => {
-    let response = await fetch(`https://api.allorigins.win/get?url=${url}`)
-      .catch(console.log("Something wrong happened."))
-      .catch((err) => console.error("All Origins failed.", err));
+  const getFeedItems = useCallback(async () => {
+    const feed = await getFeed("@jaustinjr.blog").catch((err) => {
+      console.error("Get feed failed.", err);
+      return null;
+    });
 
-    if (!(response && response.ok)) return {};
-
-    const feed = await response
-      .json()
-      .catch(console.log("Something wrong happened."))
-      .catch((err) => console.error("Response JSON failed.", err));
-
-    if (!(feed && feed.contents)) return {};
+    if (!feed) return;
 
     const rssParser = new Parser();
 
-    const feedJson = await rssParser
-      .parseString(feed.contents)
-      .catch(console.log("Something wrong happened."))
-      .catch((err) => console.error("Parse contents failed.", err));
+    const feedJson = await rssParser.parseString(feed.contents).catch((err) => {
+      console.error("Parse contents failed.", err);
+      return null;
+    });
 
     return feedJson;
   }, []);
