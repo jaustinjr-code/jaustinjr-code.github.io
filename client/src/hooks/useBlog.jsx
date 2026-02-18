@@ -1,18 +1,21 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useRssParser from "./useRssParser";
 import { BlogFeedUrl } from "@resources/strings";
+import { BlogStatus } from "@resources/enums";
 
 export default function useBlog() {
   const [articles, setArticles] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [blogStatus, setBlogStatus] = useState(BlogStatus.loading);
   const { getFeedItems, parseImageFromFeed } = useRssParser();
 
   useEffect(() => {
     const createArticleEmbeds = async () => {
-      setIsLoading(true);
       const liveArticles = await getFeedItems(BlogFeedUrl);
 
-      if (!liveArticles.items) return;
+      if (!(liveArticles && liveArticles.items)) {
+        setBlogStatus(BlogStatus.error);
+        return;
+      }
 
       let articleEmbeds = [];
       liveArticles.items.forEach((item) => {
@@ -27,10 +30,25 @@ export default function useBlog() {
         });
       });
       setArticles(articleEmbeds);
-      setIsLoading(false);
+      setBlogStatus(BlogStatus.success);
     };
     createArticleEmbeds();
   }, [getFeedItems, parseImageFromFeed]);
 
-  return { articles, isLoading };
+  const isLoading = useMemo(
+    () => blogStatus === BlogStatus.loading,
+    [blogStatus],
+  );
+  const isSuccess = useMemo(
+    () => blogStatus === BlogStatus.success,
+    [blogStatus],
+  );
+  const isError = useMemo(() => blogStatus === BlogStatus.error, [blogStatus]);
+
+  return {
+    articles,
+    isLoading,
+    isSuccess,
+    isError,
+  };
 }
