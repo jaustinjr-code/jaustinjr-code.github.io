@@ -3,6 +3,7 @@ import BlogCarousel from "./BlogCarousel";
 import useBlog from "@hooks/useBlog";
 import BlankCard from "@components/BlankCard";
 import { StartEndTransparencyGradientStyle } from "@resources/styles";
+import { BlogErrorDescription, BlogErrorTitle } from "@resources/strings";
 
 export function BlogPage() {
   const { articles, isLoading, isSuccess, isError } = useBlog();
@@ -54,8 +55,8 @@ export function BlogPage() {
               justifyItems: "center",
             }}
           >
-            <h2>Blog is currently unavailable.</h2>
-            <p>Sorry for the inconvenience. Please check back later!</p>
+            <h2>{BlogErrorTitle}</h2>
+            <p>{BlogErrorDescription}</p>
           </div>
           <Box
             sx={{
