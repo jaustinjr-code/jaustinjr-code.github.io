@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import BlogCarousel from "@components/BlogCarousel";
+import BlankCardCarousel from "@components/BlankCardCarousel";
 import useBlog from "@hooks/useBlog";
-import BlankCard from "@components/BlankCard";
 import { StartEndTransparencyGradientStyle } from "@resources/styles";
 import { BlogErrorDescription, BlogErrorTitle } from "@resources/strings";
 
@@ -31,9 +31,7 @@ export function BlogPage() {
             height: "100%",
           }}
         >
-          {Array.from(new Array(5)).map((_, idx) => (
-            <BlankCard key={idx} />
-          ))}
+          <BlankCardCarousel />
         </Box>
       )}
       {isError && (
@@ -64,9 +62,7 @@ export function BlogPage() {
               flexDirection: "row",
             }}
           >
-            {Array.from(new Array(5)).map((_, idx) => (
-              <BlankCard key={idx} isAnimated={false} />
-            ))}
+            <BlankCardCarousel isAnimated={false} />
           </Box>
         </Box>
       )}
