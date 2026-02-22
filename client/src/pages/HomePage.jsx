@@ -1,12 +1,12 @@
-import BlogCarousel from "./BlogCarousel";
 import AboutMePage from "./AboutMePage";
+import BlogPage from "./BlogPage";
 import ContactPage from "./ContactPage";
 
 export function HomePage() {
   return (
     <>
       <AboutMePage />
-      <BlogCarousel />
+      <BlogPage />
       <ContactPage />
     </>
   );
