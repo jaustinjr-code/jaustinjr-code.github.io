@@ -1,9 +1,9 @@
 import { Box } from "@mui/material";
 import BlogCarousel from "@components/BlogCarousel";
 import BlankCardCarousel from "@components/BlankCardCarousel";
+import BlogError from "@components/BlogError";
 import useBlog from "@hooks/useBlog";
 import { StartEndTransparencyGradientStyle } from "@resources/styles";
-import { BlogErrorDescription, BlogErrorTitle } from "@resources/strings";
 
 export function BlogPage() {
   const { articles, isLoading, isSuccess, isError } = useBlog();
@@ -13,7 +13,7 @@ export function BlogPage() {
       style={{
         width: "100%",
         overflow: "hidden",
-        paddingBottom: "25px", // make responsive, consider using a different component from div
+        paddingBottom: "25px",
         display: "flex",
         flexDirection: "row",
         ...StartEndTransparencyGradientStyle,
@@ -53,8 +53,7 @@ export function BlogPage() {
               justifyItems: "center",
             }}
           >
-            <h2>{BlogErrorTitle}</h2>
-            <p>{BlogErrorDescription}</p>
+            <BlogError />
           </div>
           <Box
             sx={{
