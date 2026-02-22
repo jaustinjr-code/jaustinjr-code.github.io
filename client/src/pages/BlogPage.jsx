@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import BlogCarousel from "./BlogCarousel";
+import BlogCarousel from "@components/BlogCarousel";
 import useBlog from "@hooks/useBlog";
 import BlankCard from "@components/BlankCard";
 import { StartEndTransparencyGradientStyle } from "@resources/styles";
