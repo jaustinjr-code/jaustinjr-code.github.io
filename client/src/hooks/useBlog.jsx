@@ -9,7 +9,7 @@ export default function useBlog() {
   const { getFeedItems, parseImageFromFeed } = useRssParser();
 
   useEffect(() => {
-    const createArticleEmbeds = async () => {
+    const initBlog = async () => {
       const liveArticles = await getFeedItems(BlogFeedUrl);
 
       if (!(liveArticles && liveArticles.items)) {
@@ -29,10 +29,17 @@ export default function useBlog() {
           image: img,
         });
       });
+
       setArticles(articleEmbeds);
       setBlogStatus(BlogStatus.success);
     };
-    createArticleEmbeds();
+
+    try {
+      initBlog();
+    } catch (err) {
+      console.error("Error initializing blog:", err);
+      setBlogStatus(BlogStatus.error);
+    }
   }, [getFeedItems, parseImageFromFeed]);
 
   const isLoading = useMemo(
