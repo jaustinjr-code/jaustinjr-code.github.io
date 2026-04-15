@@ -17,6 +17,7 @@
     "@mui/material": "^7.1.0",
     "axios": "^1.9.0",
     "events": "^3.3.0",
+    "medium-parser": "file:../../npm/medium-parser/medium-parser-0.0.1.tgz",
     "motion": "^12.23.12",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
