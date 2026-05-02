@@ -17,7 +17,7 @@ function ArticleCard({ data, ref }) {
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const { title, creator, pubDate, categories, image, guid, contentSnippet } =
+  const { title, creator, pubDate, categories, images, guid, contentSnippet } =
     data || {};
 
   const formattedDate = pubDate
@@ -43,10 +43,10 @@ function ArticleCard({ data, ref }) {
         href={guid}
         ref={ref}
       >
-        {image && (
+        {images && (
           <CardMedia
             component="img"
-            image={image}
+            image={images[0]} // First image is the header image
             alt={title}
             loading="eager"
             sx={{
