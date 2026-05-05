@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { parseFeed } from "medium-parser/parser";
+import { parseFeed } from "medium-rss-feed-parser/parser";
 
 export default function useBlog() {
   const [articles, setArticles] = useState([]);
