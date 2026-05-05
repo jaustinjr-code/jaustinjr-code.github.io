@@ -44,3 +44,6 @@ export const ResumeButton = "Resume";
 // Blog
 export const BlogTitle = "Blog";
 export const BlogFeedUrl = "https://www.medium.com/feed/@jaustinjr.blog";
+export const BlogErrorTitle = "Blog is currently unavailable.";
+export const BlogRedirectDescription = "Please check back later or visit ";
+export const BlogRedirectName = "my blog!";
