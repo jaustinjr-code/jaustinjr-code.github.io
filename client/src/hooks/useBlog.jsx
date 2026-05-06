@@ -11,8 +11,13 @@ export default function useBlog() {
     const initBlog = async () => {
       const articleFeed = await parseFeed("@jaustinjr").catch((err) => {
         console.error("Parse feed failed.", err);
-        return [];
+        return null;
       });
+
+      if (!articleFeed || !articleFeed.items) {
+        throw new Error("Failed to fetch or parse the articles.");
+      }
+
       setArticles(articleFeed.items);
       setBlogStatus(BlogStatus.success);
     };
