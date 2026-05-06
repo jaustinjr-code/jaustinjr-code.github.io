@@ -43,7 +43,7 @@ function ArticleCard({ data, ref }) {
         href={guid}
         ref={ref}
       >
-        {images && (
+        {images && images.length > 0 && (
           <CardMedia
             component="img"
             image={images[0]} // First image is the header image
