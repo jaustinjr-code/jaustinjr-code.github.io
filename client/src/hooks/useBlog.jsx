@@ -15,7 +15,8 @@ export default function useBlog() {
       });
 
       if (!articleFeed || !articleFeed.items) {
-        throw new Error("Failed to fetch or parse the articles.");
+        setBlogStatus(BlogStatus.error);
+        return;
       }
 
       setArticles(articleFeed.items);
