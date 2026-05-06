@@ -6,7 +6,6 @@ import { BlogStatus } from "@resources/enums";
 export default function useBlog() {
   const [articles, setArticles] = useState([]);
   const [blogStatus, setBlogStatus] = useState(BlogStatus.loading);
-  const { getFeedItems, parseImageFromFeed } = useRssParser();
 
   useEffect(() => {
     const initBlog = async () => {
@@ -24,7 +23,7 @@ export default function useBlog() {
       console.error("Error initializing blog:", err);
       setBlogStatus(BlogStatus.error);
     }
-  }, [getFeedItems, parseImageFromFeed]);
+  }, []);
 
   const isLoading = useMemo(
     () => blogStatus === BlogStatus.loading,
