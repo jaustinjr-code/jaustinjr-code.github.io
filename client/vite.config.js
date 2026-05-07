@@ -5,9 +5,9 @@ import path from "path";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  // esbuild: {
-  //   drop: ["console", "debugger"],
-  // },
+  esbuild: {
+    drop: ["console", "debugger"],
+  },
   base: "/",
   resolve: {
     alias: {
