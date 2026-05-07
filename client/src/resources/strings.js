@@ -33,17 +33,17 @@ export const ContactEmailButton = "Email";
 export const OpenGitHubTooltip = "Open GitHub";
 export const GitHubLink = "https://github.com/jaustinjr-code";
 export const OpenLinkedInTooltip = "Open LinkedIn";
-export const LinkedInLink = "https://www.linkedin.com/in/jaustinjr-office/";
+export const LinkedInLink = "https://www.linkedin.com/in/jaustinjr/";
 export const OpenInstagramTooltip = "Open Instagram";
-export const InstagramLink = "https://www.instagram.com/jaustinjr.blog/";
+export const InstagramLink = "https://www.instagram.com/jaustinjrr/";
 export const OpenMediumTooltip = "Open Medium";
-export const MediumLink = "https://medium.com/@jaustinjr.blog";
+export const MediumLink = "https://medium.com/@jaustinjr";
 export const OpenResumeTooltip = "Open Resume";
 export const ResumeButton = "Resume";
 
 // Blog
 export const BlogTitle = "Blog";
-export const BlogFeedUrl = "https://www.medium.com/feed/@jaustinjr.blog";
+export const BlogFeedUsername = "@jaustinjr";
 export const BlogErrorTitle = "Blog is currently unavailable.";
 export const BlogRedirectDescription = "Please check back later or visit ";
 export const BlogRedirectName = "my blog!";
