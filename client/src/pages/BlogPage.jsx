@@ -19,21 +19,7 @@ export function BlogPage() {
         ...StartEndTransparencyGradientStyle,
       }}
     >
-      {isLoading && (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyItems: "center",
-            alignContent: "center",
-            textAlign: "center",
-            width: "100%",
-            height: "100%",
-          }}
-        >
-          <BlankCardCarousel />
-        </Box>
-      )}
+      {isLoading && <BlankCardCarousel />}
       {isError && (
         <Box
           sx={{
@@ -65,7 +51,7 @@ export function BlogPage() {
           </Box>
         </Box>
       )}
-      {isSuccess && <BlogCarousel articles={articles} isLoading={isLoading} />}
+      {isSuccess && <BlogCarousel articles={articles} />}
     </div>
   );
 }

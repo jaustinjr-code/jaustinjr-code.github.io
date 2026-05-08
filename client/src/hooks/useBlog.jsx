@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { parseFeed } from "medium-rss-feed-parser/parser";
 import { BlogFeedUsername } from "@resources/strings";
 import { BlogStatus } from "@resources/enums";
@@ -23,23 +23,12 @@ export default function useBlog() {
       setBlogStatus(BlogStatus.success);
     };
 
-    try {
-      initBlog();
-    } catch (err) {
-      console.error("Error initializing blog:", err);
-      setBlogStatus(BlogStatus.error);
-    }
+    initBlog();
   }, []);
 
-  const isLoading = useMemo(
-    () => blogStatus === BlogStatus.loading,
-    [blogStatus],
-  );
-  const isSuccess = useMemo(
-    () => blogStatus === BlogStatus.success,
-    [blogStatus],
-  );
-  const isError = useMemo(() => blogStatus === BlogStatus.error, [blogStatus]);
+  const isLoading = blogStatus === BlogStatus.loading;
+  const isSuccess = blogStatus === BlogStatus.success;
+  const isError = blogStatus === BlogStatus.error;
 
   return {
     articles,
