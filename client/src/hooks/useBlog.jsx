@@ -1,33 +1,39 @@
 import { useEffect, useState } from "react";
-import useRssParser from "./useRssParser";
-import { BlogFeedUrl } from "@resources/strings";
+import { parseFeed } from "medium-rss-feed-parser/parser";
+import { BlogFeedUsername } from "@resources/strings";
+import { BlogStatus } from "@resources/enums";
 
 export default function useBlog() {
   const [articles, setArticles] = useState([]);
-  const { getFeedItems, parseImageFromFeed } = useRssParser();
+  const [blogStatus, setBlogStatus] = useState(BlogStatus.loading);
 
   useEffect(() => {
-    const createArticleEmbeds = async () => {
-      const liveArticles = await getFeedItems(BlogFeedUrl);
-
-      if (!liveArticles.items) return;
-
-      let articleEmbeds = [];
-      liveArticles.items.forEach((item) => {
-        let img =
-          item.content === undefined
-            ? parseImageFromFeed(item["content:encoded"])
-            : parseImageFromFeed(item.content);
-
-        articleEmbeds.push({
-          ...item,
-          image: img,
-        });
+    const initBlog = async () => {
+      const articleFeed = await parseFeed(BlogFeedUsername).catch((err) => {
+        console.error("Parse feed failed.", err);
+        return null;
       });
-      setArticles(articleEmbeds);
-    };
-    createArticleEmbeds();
-  }, [getFeedItems, parseImageFromFeed]);
 
-  return { articles };
+      if (!articleFeed || !articleFeed.items) {
+        setBlogStatus(BlogStatus.error);
+        return;
+      }
+
+      setArticles(articleFeed.items);
+      setBlogStatus(BlogStatus.success);
+    };
+
+    initBlog();
+  }, []);
+
+  const isLoading = blogStatus === BlogStatus.loading;
+  const isSuccess = blogStatus === BlogStatus.success;
+  const isError = blogStatus === BlogStatus.error;
+
+  return {
+    articles,
+    isLoading,
+    isSuccess,
+    isError,
+  };
 }

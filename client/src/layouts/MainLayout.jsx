@@ -7,7 +7,6 @@ export function MainLayout({ children }) {
     <>
       <HeaderLayout />
       <Box
-        disableGutters
         width="100%"
         justifyItems="center"
         alignContent="center"
