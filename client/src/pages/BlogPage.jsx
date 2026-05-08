@@ -65,7 +65,7 @@ export function BlogPage() {
           </Box>
         </Box>
       )}
-      {isSuccess && <BlogCarousel articles={articles} isLoading={isLoading} />}
+      {isSuccess && <BlogCarousel articles={articles} />}
     </div>
   );
 }
