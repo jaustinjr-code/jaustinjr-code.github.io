@@ -23,12 +23,7 @@ export default function useBlog() {
       setBlogStatus(BlogStatus.success);
     };
 
-    try {
-      initBlog();
-    } catch (err) {
-      console.error("Error initializing blog:", err);
-      setBlogStatus(BlogStatus.error);
-    }
+    initBlog();
   }, []);
 
   const isLoading = blogStatus === BlogStatus.loading;
