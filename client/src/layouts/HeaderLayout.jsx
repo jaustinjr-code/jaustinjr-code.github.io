@@ -92,15 +92,23 @@ export function HeaderLayout() {
                   {MainRoutes &&
                     MainRoutes.map((route) => {
                       return (
-                        <MenuItem
+                        <Button
+                          variant="none"
                           id={route.path}
                           key={route.path}
                           name={route.name}
                           title={route.name}
                           onClick={() => onMenuItemClick(route.path)}
+                          sx={{
+                            "&:hover": {
+                              backgroundColor: "primary.dark",
+                              opacity: 0.9,
+                              transform: "scale(1.05)",
+                            },
+                          }}
                         >
                           <Typography>{route.name}</Typography>
-                        </MenuItem>
+                        </Button>
                       );
                     })}
                 </Box>
