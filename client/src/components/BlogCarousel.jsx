@@ -28,7 +28,7 @@ export function BlogCarousel({ articles }) {
     >
       {[...articles, ...articles].map((article, idx) => (
         <ArticleCard
-          key={idx}
+          key={article.guid + "-" + idx}
           data={article}
           ref={idx === 0 ? itemRef : null}
         />
