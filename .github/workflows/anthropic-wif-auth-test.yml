@@ -1,4 +1,4 @@
-name: anthropic-wif-test
+name: anthropic-wif-auth-test
 on:
   pull_request:
     types:
