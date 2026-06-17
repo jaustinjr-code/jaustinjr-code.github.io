@@ -1,5 +1,8 @@
 name: anthropic-wif-test
-on: pull_request
+on:
+  pull_request:
+    types:
+      - opened
 permissions:
   id-token: write
   contents: read
