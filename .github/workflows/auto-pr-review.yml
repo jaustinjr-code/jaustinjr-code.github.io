@@ -1,0 +1,40 @@
+name: Auto PR Review
+
+on:
+  pull_request:
+    types: [opened]
+  pull_request_review_comment:
+    types: [created]
+
+jobs:
+  claude:
+    if: |
+      (github.event_name == 'pull_request') ||
+      (github.event_name == 'pull_request_review_comment' && github.event.comment.body == '@claude')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+      id-token: write
+      actions: read # Required for Claude to read CI results on PRs
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: Run Code Review
+        id: claude
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_federation_rule_id: fdrl_01EqUgCdzeC3uZpsFi5sXWTH
+          anthropic_organization_id: 943ac73e-feda-4f07-85ed-47bc3fb51046
+          anthropic_service_account_id: svac_012yopguQg96SC7mhBAZwVGE
+
+          # Optional: Trigger when specific user is assigned to an issue
+          # assignee_trigger: "claude-bot"
+
+          # Optional: Configure Claude's behavior with CLI arguments
+          claude_args: |
+            /code-review medium --comment
