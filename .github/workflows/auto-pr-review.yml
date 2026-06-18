@@ -28,9 +28,7 @@ jobs:
         id: claude
         uses: anthropics/claude-code-action@v1
         with:
-          anthropic_federation_rule_id: fdrl_01EqUgCdzeC3uZpsFi5sXWTH
-          anthropic_organization_id: 943ac73e-feda-4f07-85ed-47bc3fb51046
-          anthropic_service_account_id: svac_012yopguQg96SC7mhBAZwVGE
+          anthropic_api_key: ${{ secrets.GH_CLAUDE_API_KEY }}
           plugin_marketplaces: "https://github.com/anthropics/claude-code.git"
           plugins: "code-review@claude-code-plugins"
           prompt: "/code-review:code-review ${{ github.repository }}/pull/${{ github.event.pull_request.number }}"
