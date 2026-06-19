@@ -9,10 +9,20 @@ import {
 export function BlogError() {
   return (
     <>
-      <Typography variant="h5" fontWeight="bold">
+      <Typography
+        fontWeight="bold"
+        sx={{
+          fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
+        }}
+      >
         {BlogErrorTitle}
       </Typography>
-      <Typography variant="subtitle1">
+      <Typography
+        sx={{
+          fontSize: { xs: "0.75rem", sm: "1rem", md: "1.5rem" },
+          marginTop: 1,
+        }}
+      >
         {BlogRedirectDescription}
         <Link href={MediumLink} color="inherit">
           {BlogRedirectName}
