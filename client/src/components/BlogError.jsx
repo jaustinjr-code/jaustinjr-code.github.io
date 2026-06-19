@@ -19,7 +19,7 @@ export function BlogError() {
       </Typography>
       <Typography
         sx={{
-          fontSize: { xs: "0.75rem", sm: "1rem", md: "1.5rem" },
+          fontSize: { xs: "0.8rem", sm: "1rem", md: "1.5rem" },
           marginTop: 1,
         }}
       >
