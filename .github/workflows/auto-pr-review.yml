@@ -74,7 +74,6 @@ jobs:
           # safe to pass via claude_args.
           claude_args: |
             --model sonnet
-            --max-turns 2
 
           # Use sticky comments to make Claude reuse the same comment on subsequent pushes to the same PR
           use_sticky_comment: true
