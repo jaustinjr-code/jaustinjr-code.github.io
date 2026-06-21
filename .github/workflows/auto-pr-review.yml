@@ -6,6 +6,10 @@ on:
   pull_request_review_comment:
     types: [created]
 
+env:
+  ACTIONS_STEP_DEBUG: true
+  ACTIONS_RUNNER_DEBUG: true
+
 jobs:
   claude:
     if: |
@@ -61,11 +65,7 @@ jobs:
                   "Bash(gh pr view:*)",
                   "Bash(gh pr list:*)",
                   "mcp__github_inline_comment__create_inline_comment",
-                  "mcp__github_comment__update_claude_comment",
-                  "mcp__github__create_pending_pull_request_review",
-                  "mcp__github__add_pull_request_review_comment_to_pending_review",
-                  "mcp__github__submit_pending_pull_request_review",
-                  "mcp__github__get_pull_request_diff"
+                  "mcp__github_comment__update_claude_comment"
                 ]
               }
             }
