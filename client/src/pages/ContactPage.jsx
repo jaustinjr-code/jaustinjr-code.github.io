@@ -23,7 +23,7 @@ import {
   OpenResumeTooltip,
   ResumeButton,
 } from "../resources/strings";
-import { PagePaperStyle } from "@resources/styles";
+import { PagePaperStyle, ResponsiveFontSizes } from "@resources/styles";
 import {
   Send,
   GitHub,
@@ -82,7 +82,7 @@ export function ContactPage() {
               }}
             >
               <Typography mx={1}>{ContactEmailButton}</Typography>
-              <Send sx={{ fontSize: { xs: "20px", md: "30px" } }} />
+              <Send sx={{ fontSize: ResponsiveFontSizes.iconSmall }} />
             </Button>
           </Tooltip>
 
@@ -102,7 +102,7 @@ export function ContactPage() {
                       target="_blank"
                       size="large"
                       sx={{
-                        fontSize: { xs: "28px", sm: "36px", md: "40px" },
+                        fontSize: ResponsiveFontSizes.iconLarge,
                       }}
                     >
                       {button.icon}
@@ -124,7 +124,7 @@ export function ContactPage() {
                 px: 2,
               }}
             >
-              <FilePresent sx={{ fontSize: { xs: "20px", md: "30px" } }} />
+              <FilePresent sx={{ fontSize: ResponsiveFontSizes.iconSmall }} />
               <Typography mx={1}>{ResumeButton}</Typography>
             </Button>
           </Tooltip>

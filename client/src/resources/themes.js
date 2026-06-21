@@ -1,7 +1,141 @@
-import { createTheme } from "@mui/material/styles";
+import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 
-export const MainTheme = createTheme({
-  colorSchemes: {
+export const MainTheme = responsiveFontSizes(
+  createTheme({
+    typography: {
+      fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+      h1: {
+        fontSize: "2.5rem",
+        fontWeight: 700,
+        lineHeight: 1.2,
+        letterSpacing: "-0.01562em",
+        "@media (max-width:600px)": {
+          fontSize: "1.75rem",
+        },
+        "@media (min-width:601px) and (max-width:960px)": {
+          fontSize: "2rem",
+        },
+      },
+      h2: {
+        fontSize: "2rem",
+        fontWeight: 700,
+        lineHeight: 1.3,
+        letterSpacing: "-0.0078125em",
+        "@media (max-width:600px)": {
+          fontSize: "1.5rem",
+        },
+        "@media (min-width:601px) and (max-width:960px)": {
+          fontSize: "1.75rem",
+        },
+      },
+      h3: {
+        fontSize: "1.75rem",
+        fontWeight: 700,
+        lineHeight: 1.4,
+        "@media (max-width:600px)": {
+          fontSize: "1.25rem",
+        },
+        "@media (min-width:601px) and (max-width:960px)": {
+          fontSize: "1.5rem",
+        },
+      },
+      h4: {
+        fontSize: "1.5rem",
+        fontWeight: 600,
+        lineHeight: 1.4,
+        "@media (max-width:600px)": {
+          fontSize: "1.125rem",
+        },
+        "@media (min-width:601px) and (max-width:960px)": {
+          fontSize: "1.25rem",
+        },
+      },
+      h5: {
+        fontSize: "1.25rem",
+        fontWeight: 600,
+        lineHeight: 1.5,
+        "@media (max-width:600px)": {
+          fontSize: "1rem",
+        },
+        "@media (min-width:601px) and (max-width:960px)": {
+          fontSize: "1.125rem",
+        },
+      },
+      h6: {
+        fontSize: "1rem",
+        fontWeight: 600,
+        lineHeight: 1.6,
+        "@media (max-width:600px)": {
+          fontSize: "0.875rem",
+        },
+      },
+      subtitle1: {
+        fontSize: "1rem",
+        fontWeight: 500,
+        lineHeight: 1.75,
+        letterSpacing: "0.009375em",
+        "@media (max-width:600px)": {
+          fontSize: "0.875rem",
+        },
+        "@media (min-width:601px) and (max-width:960px)": {
+          fontSize: "0.9375rem",
+        },
+      },
+      subtitle2: {
+        fontSize: "0.875rem",
+        fontWeight: 500,
+        lineHeight: 1.57,
+        letterSpacing: "0.0071875em",
+        "@media (max-width:600px)": {
+          fontSize: "0.8125rem",
+        },
+      },
+      body1: {
+        fontSize: "1rem",
+        fontWeight: 400,
+        lineHeight: 1.5,
+        letterSpacing: "0.03125em",
+        "@media (max-width:600px)": {
+          fontSize: "0.9375rem",
+        },
+        "@media (min-width:601px) and (max-width:960px)": {
+          fontSize: "0.9687rem",
+        },
+      },
+      body2: {
+        fontSize: "0.875rem",
+        fontWeight: 400,
+        lineHeight: 1.43,
+        letterSpacing: "0.0178571429em",
+        "@media (max-width:600px)": {
+          fontSize: "0.8125rem",
+        },
+        "@media (min-width:601px) and (max-width:960px)": {
+          fontSize: "0.84375rem",
+        },
+      },
+      button: {
+        fontSize: "0.875rem",
+        fontWeight: 600,
+        lineHeight: 1.75,
+        letterSpacing: "0.0892857143em",
+        textTransform: "uppercase",
+      },
+      caption: {
+        fontSize: "0.75rem",
+        fontWeight: 400,
+        lineHeight: 1.66,
+        letterSpacing: "0.0333333333em",
+      },
+      overline: {
+        fontSize: "0.75rem",
+        fontWeight: 700,
+        lineHeight: 2.66,
+        letterSpacing: "0.1666666667em",
+        textTransform: "uppercase",
+      },
+    },
+    colorSchemes: {
     light: {
       palette: {
         mode: "light",
@@ -67,4 +201,5 @@ export const MainTheme = createTheme({
       },
     },
   },
-});
+  })
+);
