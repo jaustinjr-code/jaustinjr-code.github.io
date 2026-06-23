@@ -78,5 +78,5 @@ jobs:
 
           # Use sticky comments to make Claude reuse the same comment on subsequent pushes to the same PR
           # use_sticky_comment: true
+          # classify_inline_comments: false
           track_progress: true
-          classify_inline_comments: false
