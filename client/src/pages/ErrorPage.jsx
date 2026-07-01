@@ -1,5 +1,11 @@
 import { Box, Button, Typography } from "@mui/material";
 import { useNavigate, useRouteError } from "react-router";
+import {
+  ErrorPageHeading,
+  ErrorPageTitle,
+  ErrorPageDescription,
+  ErrorPageHomeButton,
+} from "@resources/strings";
 
 export function ErrorPage() {
   const navigate = useNavigate();
@@ -29,7 +35,7 @@ export function ErrorPage() {
           mb: 2,
         }}
       >
-        Oops!
+        {ErrorPageHeading}
       </Typography>
 
       <Typography
@@ -40,7 +46,7 @@ export function ErrorPage() {
           maxWidth: "600px",
         }}
       >
-        Something went wrong.
+        {ErrorPageTitle}
       </Typography>
 
       <Typography
@@ -52,7 +58,7 @@ export function ErrorPage() {
           maxWidth: "500px",
         }}
       >
-        Please try again or return to the home page.
+        {ErrorPageDescription}
       </Typography>
 
       <Button
@@ -61,7 +67,7 @@ export function ErrorPage() {
         onClick={() => navigate("/")}
         sx={{ textTransform: "none", px: 4, py: 1.5, fontSize: "1rem" }}
       >
-        Go Home
+        {ErrorPageHomeButton}
       </Button>
     </Box>
   );
