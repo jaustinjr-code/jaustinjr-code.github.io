@@ -1,8 +1,10 @@
 import { Box, Button, Typography } from "@mui/material";
-import { useNavigate } from "react-router";
+import { useNavigate, useRouteError } from "react-router";
 
 export function ErrorPage() {
   const navigate = useNavigate();
+  const error = useRouteError();
+  if (error) console.error(error);
 
   return (
     <Box
@@ -50,7 +52,7 @@ export function ErrorPage() {
           maxWidth: "500px",
         }}
       >
-        Something went wrong. Please try again or return to the home page.
+        Please try again or return to the home page.
       </Typography>
 
       <Button
