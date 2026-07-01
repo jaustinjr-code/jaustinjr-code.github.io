@@ -41,6 +41,12 @@ export const MediumLink = "https://medium.com/@jaustinjr";
 export const OpenResumeTooltip = "Open Resume";
 export const ResumeButton = "Resume";
 
+// Error Page
+export const ErrorPageHeading = "Oops!";
+export const ErrorPageTitle = "Something went wrong.";
+export const ErrorPageDescription = "Please try again or return to the home page.";
+export const ErrorPageHomeButton = "Go Home";
+
 // Blog
 export const BlogTitle = "Blog";
 export const BlogFeedUsername = "@jaustinjr";
