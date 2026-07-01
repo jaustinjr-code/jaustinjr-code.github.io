@@ -50,8 +50,7 @@ export function ErrorPage() {
           maxWidth: "500px",
         }}
       >
-        We couldn&apos;t load the page you were looking for. Please try again or
-        return to the home page.
+        Something went wrong. Please try again or return to the home page.
       </Typography>
 
       <Button
