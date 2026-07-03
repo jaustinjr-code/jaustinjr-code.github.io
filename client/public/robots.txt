@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://jaustinjr.com/sitemap.xml
