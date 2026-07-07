@@ -1,7 +1,8 @@
 import { Box, Stack, Typography } from "@mui/material";
+import { alpha } from "@mui/material/styles";
 import AccentButton from "@components/AccentButton";
 import GlowOrb from "@components/GlowOrb";
-import { Colors } from "@resources/palette";
+import { AccentPrimaryGlow, Colors } from "@resources/palette";
 import { Fonts } from "@resources/themes";
 import { SectionIds } from "@resources/data";
 import {
@@ -36,13 +37,13 @@ export function HeroSection() {
     >
       <GlowOrb
         size={420}
-        color="rgba(0, 138, 57, 0.35)"
+        color={alpha(AccentPrimaryGlow, 0.35)}
         animation={Animations.glowPulseSlow}
         sx={{ top: -60, left: -100 }}
       />
       <GlowOrb
         size={320}
-        color="rgba(0, 185, 195, 0.2)"
+        color={alpha(Colors.glowCyan, 0.2)}
         animation={Animations.glowPulseFast}
         sx={{ top: 80, right: -80 }}
       />

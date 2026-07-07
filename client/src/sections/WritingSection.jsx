@@ -4,8 +4,8 @@ import SectionLabel from "@components/SectionLabel";
 import AccentButton from "@components/AccentButton";
 import { Colors } from "@resources/palette";
 import { SectionIds } from "@resources/data";
-import { MediumLink } from "@resources/strings";
 import {
+  MediumLink,
   WritingCta,
   WritingDescription,
   WritingHeading,

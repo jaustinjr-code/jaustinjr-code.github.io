@@ -8,6 +8,7 @@ import {
   Tooltip,
   useMediaQuery,
 } from "@mui/material";
+import { alpha } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccentButton from "@components/AccentButton";
 import { Colors } from "@resources/palette";
@@ -55,9 +56,9 @@ export function NavBar() {
         justifyContent: "space-between",
         px: { xs: 3, md: 5 },
         py: 2,
-        backgroundColor: "rgba(3, 14, 7, 0.85)",
+        backgroundColor: alpha(Colors.backgroundBase, 0.85),
         backdropFilter: "blur(10px)",
-        borderBottom: "1px solid rgba(39, 56, 44, 0.5)",
+        borderBottom: `1px solid ${alpha(Colors.border, 0.5)}`,
       }}
     >
       <Link

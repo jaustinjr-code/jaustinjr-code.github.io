@@ -11,7 +11,7 @@ import { GlobalStyleObject } from "@resources/styles.js";
 // separate top-level error boundary is needed here.
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <ThemeProvider theme={MainTheme} defaultMode="dark" noSsr>
+    <ThemeProvider theme={MainTheme}>
       <CssBaseline />
       <GlobalStyles styles={GlobalStyleObject} />
       <RouterProvider router={router} />

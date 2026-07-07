@@ -1,3 +1,4 @@
+import { alpha } from "@mui/material/styles";
 import { Colors, AccentPrimary } from "./palette.js";
 
 // Shared layout constants used across sections.
@@ -31,7 +32,7 @@ export const GlobalStyleObject = {
     scrollMarginTop: `${NAV_HEIGHT}px`,
   },
   "::selection": {
-    backgroundColor: "rgba(64, 216, 114, 0.35)",
+    backgroundColor: alpha(AccentPrimary, 0.35),
     color: Colors.textPrimary,
   },
   "@keyframes glowPulse": {
