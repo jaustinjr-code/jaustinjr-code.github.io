@@ -1,14 +1,18 @@
 import { createBrowserRouter } from "react-router";
-import App from "../App.jsx";
+import PortfolioPage from "@pages/PortfolioPage.jsx";
 import ErrorPage from "@pages/ErrorPage.jsx";
-import { MainRoutes } from "./Routes.jsx";
 
+// Single-page portfolio at "/", with the error page as both the route error
+// boundary and the catch-all for unknown paths (served via the SPA fallback).
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <PortfolioPage />,
     errorElement: <ErrorPage />,
-    children: [...MainRoutes],
+  },
+  {
+    path: "*",
+    element: <ErrorPage />,
   },
 ]);
 
