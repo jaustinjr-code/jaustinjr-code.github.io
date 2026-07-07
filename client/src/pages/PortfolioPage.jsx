@@ -16,7 +16,10 @@ export function PortfolioPage() {
         backgroundColor: Colors.backgroundBase,
         color: Colors.textPrimary,
         minHeight: "100vh",
-        overflowX: "hidden",
+        // Use `clip` (not `hidden`) to contain the hero's off-canvas glow orbs:
+        // `overflow-x: hidden` would make this element a scroll container and
+        // break the sticky nav, whereas `clip` clips without establishing one.
+        overflowX: "clip",
       }}
     >
       <NavBar />

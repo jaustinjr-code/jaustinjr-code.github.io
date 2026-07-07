@@ -2,7 +2,9 @@ import { alpha } from "@mui/material/styles";
 import { Colors, AccentPrimary } from "./palette.js";
 
 // Shared layout constants used across sections.
-export const NAV_HEIGHT = 65; // approximate sticky-nav height, in px
+// The sticky nav is ~76px tall; this offset (nav height + a little clearance)
+// keeps anchored section headings from hiding beneath it when scrolled to.
+export const NAV_HEIGHT = 84;
 export const CONTENT_MAX_WIDTH = 1100; // px — the design's content column width
 export const SECTION_PADDING_Y = { xs: 7, md: 11 }; // vertical rhythm per section
 export const SECTION_PADDING_X = { xs: 3, sm: 4, md: 5 };

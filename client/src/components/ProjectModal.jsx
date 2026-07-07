@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Box, Dialog, IconButton, Stack, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import ProjectGlyph from "@components/ProjectGlyph";
@@ -12,13 +12,15 @@ import { CloseModalLabel, ProjectModalEyebrow } from "@resources/strings";
  *
  * We retain the last non-null project in local state so the modal's content
  * stays rendered during the closing transition instead of flashing empty.
+ * The value is derived during render (not in an effect) so the content is
+ * present on the very first open with no empty frame.
  */
 export function ProjectModal({ project, onClose }) {
   const [displayed, setDisplayed] = useState(project);
 
-  useEffect(() => {
-    if (project) setDisplayed(project);
-  }, [project]);
+  if (project && project !== displayed) {
+    setDisplayed(project);
+  }
 
   return (
     <Dialog
