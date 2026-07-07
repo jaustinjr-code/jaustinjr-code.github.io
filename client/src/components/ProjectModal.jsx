@@ -24,6 +24,7 @@ export function ProjectModal({ project, onClose }) {
     <Dialog
       open={Boolean(project)}
       onClose={onClose}
+      aria-label={displayed?.title}
       fullWidth
       maxWidth="md"
       slotProps={{

@@ -143,7 +143,7 @@ function BrowserChrome({ addressBar = false, body, children }) {
   return (
     <Box
       sx={{
-        borderRadius: 1.5,
+        borderRadius: 3,
         backgroundColor: Colors.backgroundContact,
         border: `1px solid ${Colors.borderChip}`,
         overflow: "hidden",

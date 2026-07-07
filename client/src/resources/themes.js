@@ -34,9 +34,8 @@ export const MainTheme = createTheme({
     },
     divider: Colors.border,
   },
-  shape: {
-    borderRadius: 10,
-  },
+  // Keep the MUI default shape.borderRadius (4) as the unit; every component's
+  // explicit `borderRadius` sx value is expressed against it (e.g. 2.5 -> 10px).
   typography: {
     fontFamily: Fonts.body,
     h1: { fontFamily: Fonts.display, fontWeight: 700, letterSpacing: "-0.03em" },
