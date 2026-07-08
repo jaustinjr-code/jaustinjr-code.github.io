@@ -101,7 +101,7 @@ export function HeroSection() {
             lineHeight: 1.6,
             color: Colors.textMuted,
             maxWidth: 600,
-            m: "0 0 36px",
+            mb: { xs: 3.5, md: 4.5 },
           }}
         >
           {HeroDescription}

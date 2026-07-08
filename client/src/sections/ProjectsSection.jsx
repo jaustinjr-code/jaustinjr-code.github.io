@@ -31,7 +31,7 @@ export function ProjectsSection() {
           lineHeight: 1.6,
           color: Colors.textMuted,
           maxWidth: 640,
-          m: "0 0 44px",
+          mb: { xs: 4, md: 5.5 },
         }}
       >
         {ProjectsDescription}
