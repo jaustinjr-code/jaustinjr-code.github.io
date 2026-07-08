@@ -1,70 +1,49 @@
 import { createTheme } from "@mui/material/styles";
+import {
+  AccentPrimary,
+  AccentPrimaryHover,
+  Colors,
+} from "./palette.js";
 
+// Font stacks used across the design. Exported so components can reference them
+// by purpose (display headings, body copy, mono labels) without repeating the
+// literal font-family strings.
+export const Fonts = {
+  display: "'Space Grotesk', sans-serif",
+  body: "'Inter', sans-serif",
+  mono: "'JetBrains Mono', monospace",
+};
+
+// The redesign is a single, dark aesthetic — there is no light mode — so the
+// theme is a straightforward dark palette mapped from our design tokens.
 export const MainTheme = createTheme({
-  colorSchemes: {
-    light: {
-      palette: {
-        mode: "light",
-        primary: {
-          main: "#00796B",
-          light: "#4DB6AC",
-          dark: "#004D40",
-        },
-        secondary: {
-          main: "#66CC81",
-        },
-        background: {
-          default: "#FAFAFA",
-          paper: "#FFFFFF",
-        },
-        text: {
-          primary: "#212121",
-          secondary: "#4D4D4D",
-        },
-        divider: "#BDBDBD",
-        error: {
-          main: "#FF5722",
-        },
-        warning: {
-          main: "#FFB300",
-        },
-        success: {
-          main: "#43A047",
-        },
-      },
+  palette: {
+    mode: "dark",
+    primary: {
+      main: AccentPrimary,
+      light: AccentPrimaryHover,
+      contrastText: Colors.backgroundBase,
     },
-    dark: {
-      palette: {
-        mode: "dark",
-        primary: {
-          main: "#004D40",
-          light: "#36A290",
-          dark: "#00332D",
-        },
-        secondary: {
-          main: "#66CC81",
-          light: "#8FE6A1",
-          dark: "#3EA15F",
-        },
-        background: {
-          default: "#001F1A",
-          paper: "#002D25",
-        },
-        text: {
-          primary: "#FFFFFF",
-          secondary: "#A8D5C0",
-        },
-        divider: "#004D14",
-        error: {
-          main: "#4D1600",
-        },
-        warning: {
-          main: "#4D2C00",
-        },
-        success: {
-          main: "#36A290",
-        },
-      },
+    background: {
+      default: Colors.backgroundBase,
+      paper: Colors.surfaceCard,
     },
+    text: {
+      primary: Colors.textPrimary,
+      secondary: Colors.textSecondary,
+    },
+    divider: Colors.border,
+  },
+  // Keep the MUI default shape.borderRadius (4) as the unit; every component's
+  // explicit `borderRadius` sx value is expressed against it (e.g. 2.5 -> 10px).
+  typography: {
+    fontFamily: Fonts.body,
+    h1: { fontFamily: Fonts.display, fontWeight: 700, letterSpacing: "-0.03em" },
+    h2: { fontFamily: Fonts.display, fontWeight: 700, letterSpacing: "-0.02em" },
+    h3: { fontFamily: Fonts.display, fontWeight: 700, letterSpacing: "-0.01em" },
+    h4: { fontFamily: Fonts.display, fontWeight: 700, letterSpacing: "-0.02em" },
+    button: { textTransform: "none", fontWeight: 700 },
   },
 });
+
+export default MainTheme;
