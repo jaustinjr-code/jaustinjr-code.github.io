@@ -3,6 +3,7 @@ import Section from "@components/Section";
 import SectionLabel from "@components/SectionLabel";
 import AccentButton from "@components/AccentButton";
 import { Colors } from "@resources/palette";
+import { TypeScale } from "@resources/styles";
 import { SectionIds } from "@resources/data";
 import {
   MediumLink,
@@ -19,19 +20,27 @@ export function WritingSection() {
       variant="base"
       containerSx={{
         display: "flex",
-        alignItems: "center",
+        flexDirection: { xs: "column", md: "row" },
+        alignItems: { xs: "flex-start", md: "center" },
         justifyContent: "space-between",
-        gap: 5,
-        flexWrap: "wrap",
+        gap: { xs: 4, md: 5 },
       }}
     >
       <Box sx={{ maxWidth: 560 }}>
         <SectionLabel>{WritingSectionLabel}</SectionLabel>
-        <Typography variant="h2" sx={{ fontSize: 34, m: "0 0 16px" }}>
+        <Typography
+          variant="h2"
+          sx={{ fontSize: TypeScale.sectionHeading, m: "0 0 16px" }}
+        >
           {WritingHeading}
         </Typography>
         <Typography
-          sx={{ fontSize: 17, lineHeight: 1.7, color: Colors.textMuted, m: 0 }}
+          sx={{
+            fontSize: TypeScale.body,
+            lineHeight: 1.7,
+            color: Colors.textMuted,
+            m: 0,
+          }}
         >
           {WritingDescription}
         </Typography>

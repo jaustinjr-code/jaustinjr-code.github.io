@@ -9,6 +9,7 @@ import {
   Animations,
   CONTENT_MAX_WIDTH,
   SECTION_PADDING_X,
+  TypeScale,
 } from "@resources/styles";
 import {
   ContactEmailAddress,
@@ -81,7 +82,7 @@ export function HeroSection() {
         <Typography
           variant="h1"
           sx={{
-            fontSize: "clamp(40px, 6vw, 68px)",
+            fontSize: TypeScale.heroHeading,
             lineHeight: 1.05,
             m: "0 0 24px",
             maxWidth: 820,
@@ -96,7 +97,7 @@ export function HeroSection() {
 
         <Typography
           sx={{
-            fontSize: 19,
+            fontSize: TypeScale.lead,
             lineHeight: 1.6,
             color: Colors.textMuted,
             maxWidth: 600,

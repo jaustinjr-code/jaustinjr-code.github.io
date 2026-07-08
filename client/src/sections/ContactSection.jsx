@@ -3,6 +3,7 @@ import Section from "@components/Section";
 import AccentButton from "@components/AccentButton";
 import SocialLinks from "@components/SocialLinks";
 import { Colors } from "@resources/palette";
+import { TypeScale } from "@resources/styles";
 import { ContactSocials, SectionIds } from "@resources/data";
 import {
   ContactDescription,
@@ -21,11 +22,13 @@ export function ContactSection() {
     >
       <Typography
         variant="h2"
-        sx={{ fontSize: "clamp(32px, 5vw, 48px)", m: "0 0 20px" }}
+        sx={{ fontSize: TypeScale.displayHeading, m: "0 0 20px" }}
       >
         {ContactHeading}
       </Typography>
-      <Typography sx={{ fontSize: 18, color: Colors.textMuted, m: "0 0 32px" }}>
+      <Typography
+        sx={{ fontSize: TypeScale.contactLead, color: Colors.textMuted, m: "0 0 32px" }}
+      >
         {ContactDescription}
       </Typography>
 

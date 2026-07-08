@@ -1,16 +1,8 @@
-import { useState } from "react";
-import {
-  Box,
-  IconButton,
-  Link,
-  Menu,
-  MenuItem,
-  Tooltip,
-  useMediaQuery,
-} from "@mui/material";
+import { Box, IconButton, Link, Menu, MenuItem, Tooltip } from "@mui/material";
 import { alpha } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import AccentButton from "@components/AccentButton";
+import useNavBar from "@hooks/useNavBar";
 import { Colors } from "@resources/palette";
 import { Fonts } from "@resources/themes";
 import { NavLinks, SectionIds } from "@resources/data";
@@ -37,12 +29,8 @@ const navLinkSx = {
 const contactButtonSx = { fontSize: 14, px: 2.25, py: 1.15, borderRadius: 2 };
 
 export function NavBar() {
-  const isSmallScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
-  const [anchorEl, setAnchorEl] = useState(null);
-  const isMenuOpen = Boolean(anchorEl);
-
-  const openMenu = (event) => setAnchorEl(event.currentTarget);
-  const closeMenu = () => setAnchorEl(null);
+  const { isSmallScreen, anchorEl, isMenuOpen, openMenu, closeMenu } =
+    useNavBar();
 
   return (
     <Box

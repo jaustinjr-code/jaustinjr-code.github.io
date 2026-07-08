@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import ProjectGlyph from "@components/ProjectGlyph";
 import { Colors } from "@resources/palette";
 import { Fonts } from "@resources/themes";
+import { TypeScale } from "@resources/styles";
 import { ProjectCardCta } from "@resources/strings";
 
 // A clickable project-type card. Opens the project's demo modal on click or
@@ -44,7 +45,7 @@ export function ProjectCard({ project, onOpen }) {
       <Box>
         <Typography
           variant="h3"
-          sx={{ fontSize: 20, fontWeight: 700, m: "0 0 8px" }}
+          sx={{ fontSize: TypeScale.cardHeading, fontWeight: 700, m: "0 0 8px" }}
         >
           {project.title}
         </Typography>

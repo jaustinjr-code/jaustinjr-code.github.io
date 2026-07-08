@@ -5,6 +5,7 @@ import ProjectGlyph from "@components/ProjectGlyph";
 import DeviceMockup from "@components/DeviceMockup";
 import { Colors } from "@resources/palette";
 import { Fonts } from "@resources/themes";
+import { TypeScale } from "@resources/styles";
 import { CloseModalLabel, ProjectModalEyebrow } from "@resources/strings";
 
 /**
@@ -78,7 +79,7 @@ export function ProjectModal({ project, onClose }) {
                 >
                   {ProjectModalEyebrow}
                 </Typography>
-                <Typography variant="h3" sx={{ fontSize: 24, m: 0 }}>
+                <Typography variant="h3" sx={{ fontSize: TypeScale.modalHeading, m: 0 }}>
                   {displayed.title}
                 </Typography>
               </Box>

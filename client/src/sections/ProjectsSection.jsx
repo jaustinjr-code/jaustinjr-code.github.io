@@ -5,6 +5,7 @@ import ProjectCard from "@components/ProjectCard";
 import ProjectModal from "@components/ProjectModal";
 import useProjectModal from "@hooks/useProjectModal";
 import { Colors } from "@resources/palette";
+import { TypeScale } from "@resources/styles";
 import { ProjectTypes, SectionIds } from "@resources/data";
 import {
   ProjectsDescription,
@@ -18,12 +19,15 @@ export function ProjectsSection() {
   return (
     <Section id={SectionIds.projects} variant="alt">
       <SectionLabel>{ProjectsSectionLabel}</SectionLabel>
-      <Typography variant="h2" sx={{ fontSize: 34, m: "0 0 12px" }}>
+      <Typography
+        variant="h2"
+        sx={{ fontSize: TypeScale.sectionHeading, m: "0 0 12px" }}
+      >
         {ProjectsHeading}
       </Typography>
       <Typography
         sx={{
-          fontSize: 17,
+          fontSize: TypeScale.body,
           lineHeight: 1.6,
           color: Colors.textMuted,
           maxWidth: 640,

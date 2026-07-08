@@ -3,6 +3,7 @@ import Section from "@components/Section";
 import SectionLabel from "@components/SectionLabel";
 import SocialLinks from "@components/SocialLinks";
 import { Colors } from "@resources/palette";
+import { TypeScale } from "@resources/styles";
 import { AboutSocials, SectionIds } from "@resources/data";
 import {
   AboutHeading,
@@ -24,7 +25,7 @@ export function AboutSection() {
     >
       <Box>
         <SectionLabel>{AboutSectionLabel}</SectionLabel>
-        <Typography variant="h2" sx={{ fontSize: 34, m: 0 }}>
+        <Typography variant="h2" sx={{ fontSize: TypeScale.sectionHeading, m: 0 }}>
           {AboutHeading}
         </Typography>
       </Box>
@@ -34,7 +35,7 @@ export function AboutSection() {
           <Typography
             key={index}
             sx={{
-              fontSize: 17,
+              fontSize: TypeScale.body,
               lineHeight: 1.75,
               color: Colors.textSecondary,
               m: 0,

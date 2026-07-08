@@ -9,6 +9,21 @@ export const CONTENT_MAX_WIDTH = 1100; // px — the design's content column wid
 export const SECTION_PADDING_Y = { xs: 7, md: 11 }; // vertical rhythm per section
 export const SECTION_PADDING_X = { xs: 3, sm: 4, md: 5 };
 
+// Mobile-first responsive type scale (px). Each entry is a breakpoint object
+// whose base (xs) value targets small screens and scales up at `md` for
+// desktop; the two clamp() entries scale fluidly with the viewport. Centralized
+// here so headings and body copy stay consistent and DRY across every section.
+export const TypeScale = {
+  heroHeading: "clamp(40px, 6vw, 68px)",
+  displayHeading: "clamp(32px, 5vw, 48px)", // Contact's hero-like heading
+  sectionHeading: { xs: 28, md: 34 },
+  cardHeading: { xs: 18, md: 20 },
+  modalHeading: { xs: 22, md: 24 },
+  lead: { xs: 17, md: 19 }, // Hero lead paragraph
+  contactLead: { xs: 16, md: 18 },
+  body: { xs: 15, md: 17 }, // standard section body copy
+};
+
 // Animation names are defined once in GlobalStyles (see below) so any component
 // can reference them by name.
 export const Animations = {
@@ -70,6 +85,7 @@ export default {
   CONTENT_MAX_WIDTH,
   SECTION_PADDING_Y,
   SECTION_PADDING_X,
+  TypeScale,
   Animations,
   GlobalStyleObject,
   SectionLabelSx,
