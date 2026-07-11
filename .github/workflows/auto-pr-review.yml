@@ -45,9 +45,8 @@ jobs:
             summary comment on the PR, even if you have no issues to report
             (e.g. "No issues found, this looks good!").
 
-            When you are done, please post inline comments and any code snippets
-            or documentation references that would help address the review.
-            Post a summary of the review and an overall rating for code quality.
+            Add any code snippets or documentation references that would help
+            address the review comments.
 
           # Use the `settings` input (JSON) instead of --allowed-tools in
           # claude_args. claude_args is parsed by splitting on whitespace,
