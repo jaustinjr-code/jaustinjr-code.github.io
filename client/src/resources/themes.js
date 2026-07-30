@@ -1,48 +1,45 @@
 import { createTheme } from "@mui/material/styles";
-import {
-  AccentPrimary,
-  AccentPrimaryHover,
-  Colors,
-} from "./palette.js";
+import { AccentBaseHex, AccentSecondary, AccentTertiary, Colors } from "./palette.js";
+import { Fonts } from "./styles.js";
 
-// Font stacks used across the design. Exported so components can reference them
-// by purpose (display headings, body copy, mono labels) without repeating the
-// literal font-family strings.
-export const Fonts = {
-  display: "'Space Grotesk', sans-serif",
-  body: "'Inter', sans-serif",
-  mono: "'JetBrains Mono', monospace",
-};
-
-// The redesign is a single, dark aesthetic — there is no light mode — so the
-// theme is a straightforward dark palette mapped from our design tokens.
+// v3 "Dev-Matrix Terminal" theme — a single dark aesthetic mapped from the
+// design tokens in palette.js. The runtime accent shift is handled with CSS
+// variables at the component level (see useAccentColor); the theme keeps the
+// static base accent for MUI's internal color math.
 export const MainTheme = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      main: AccentPrimary,
-      light: AccentPrimaryHover,
-      contrastText: Colors.backgroundBase,
+      main: AccentBaseHex,
+      contrastText: Colors.onAccent,
+    },
+    secondary: {
+      main: AccentSecondary,
+    },
+    info: {
+      main: AccentTertiary,
     },
     background: {
-      default: Colors.backgroundBase,
-      paper: Colors.surfaceCard,
+      default: Colors.surface,
+      paper: Colors.surfaceElevated,
     },
     text: {
       primary: Colors.textPrimary,
       secondary: Colors.textSecondary,
     },
-    divider: Colors.border,
+    divider: Colors.outlineVariant,
   },
-  // Keep the MUI default shape.borderRadius (4) as the unit; every component's
-  // explicit `borderRadius` sx value is expressed against it (e.g. 2.5 -> 10px).
+  shape: {
+    // The design's shape language is "soft" — 4px on standard elements.
+    borderRadius: 4,
+  },
   typography: {
     fontFamily: Fonts.body,
-    h1: { fontFamily: Fonts.display, fontWeight: 700, letterSpacing: "-0.03em" },
+    h1: { fontFamily: Fonts.display, fontWeight: 700, letterSpacing: "-0.02em" },
     h2: { fontFamily: Fonts.display, fontWeight: 700, letterSpacing: "-0.02em" },
-    h3: { fontFamily: Fonts.display, fontWeight: 700, letterSpacing: "-0.01em" },
-    h4: { fontFamily: Fonts.display, fontWeight: 700, letterSpacing: "-0.02em" },
-    button: { textTransform: "none", fontWeight: 700 },
+    h3: { fontFamily: Fonts.display, fontWeight: 600 },
+    h4: { fontFamily: Fonts.display, fontWeight: 600 },
+    button: { fontFamily: Fonts.mono, fontWeight: 600 },
   },
 });
 

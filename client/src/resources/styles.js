@@ -1,66 +1,62 @@
-import { alpha } from "@mui/material/styles";
-import { Colors, AccentPrimary } from "./palette.js";
+import { Accent, AccentBaseHex, Colors } from "./palette.js";
 
-// Shared layout constants used across sections.
-// The sticky nav is ~76px tall; this offset (nav height + a little clearance)
-// keeps anchored section headings from hiding beneath it when scrolled to.
-export const NAV_HEIGHT = 84;
-export const CONTENT_MAX_WIDTH = 1100; // px — the design's content column width
-export const SECTION_PADDING_Y = { xs: 7, md: 11 }; // vertical rhythm per section
-export const SECTION_PADDING_X = { xs: 3, sm: 4, md: 5 };
+// ---------------------------------------------------------------------------
+// Layout constants (mobile-first; desktop values applied at the md breakpoint)
+// ---------------------------------------------------------------------------
 
-// Mobile-first responsive type scale (px). Each entry is a breakpoint object
-// whose base (xs) value targets small screens and scales up at `md` for
-// desktop; the two clamp() entries scale fluidly with the viewport. Centralized
-// here so headings and body copy stay consistent and DRY across every section.
+// Sticky header height — sections use it as scroll-margin so anchored headings
+// never hide beneath the glass app bar.
+export const NAV_HEIGHT = 80;
+export const CONTENT_MAX_WIDTH = 1200; // px — design's fluid-grid container cap
+export const SECTION_PADDING_Y = { xs: 8, md: 12 }; // vertical rhythm (8px base)
+export const SECTION_PADDING_X = { xs: 2, md: 6 }; // 16px mobile / 48px desktop
+
+// Font stacks, referenced by purpose rather than literal family names.
+export const Fonts = {
+  display: "'Hanken Grotesk', sans-serif",
+  body: "'Inter', sans-serif",
+  mono: "'JetBrains Mono', monospace",
+};
+
+// Mobile-first fluid type scale. clamp() lets every size breathe between a
+// phone floor and a desktop ceiling without breakpoint jumps.
 export const TypeScale = {
-  heroHeading: "clamp(40px, 6vw, 68px)",
-  displayHeading: "clamp(32px, 5vw, 48px)", // Contact's hero-like heading
-  sectionHeading: { xs: 28, md: 34 },
-  cardHeading: { xs: 18, md: 20 },
-  modalHeading: { xs: 22, md: 24 },
-  lead: { xs: 17, md: 19 }, // Hero lead paragraph
-  contactLead: { xs: 16, md: 18 },
-  body: { xs: 15, md: 17 }, // standard section body copy
+  headlineXl: "clamp(2rem, 5.5vw, 3rem)", // 32px -> 48px
+  headlineMd: "clamp(1.25rem, 3vw, 1.5rem)", // 20px -> 24px
+  bodyLg: "clamp(1rem, 2vw, 1.125rem)", // 16px -> 18px
+  bodyMd: "1rem",
+  codeSm: "0.875rem",
+  labelCaps: "0.75rem",
+  labelMicro: "0.625rem",
+  metricXl: "clamp(2.5rem, 7vw, 3.5rem)", // big impact numbers
 };
 
-// Animation names are defined once in GlobalStyles (see below) so any component
-// can reference them by name.
-export const Animations = {
-  glowPulseSlow: "glowPulse 7s ease-in-out infinite",
-  glowPulseFast: "glowPulse 9s ease-in-out infinite 1s",
-  fadeUp: "fadeUp 0.7s ease-out",
-  fadeUpFast: "fadeUp 0.2s ease-out",
-};
+// ---------------------------------------------------------------------------
+// Global styles
+// ---------------------------------------------------------------------------
 
-// Global CSS injected via MUI's <GlobalStyles>: base background, smooth
-// anchor scrolling with offset for the sticky nav, text selection color, and
-// the keyframes referenced by Animations above.
+// Subtle 32px background grid + smooth anchored scrolling. The grid evokes the
+// "architectural canvas" from the design brief.
 export const GlobalStyleObject = {
   html: {
     scrollBehavior: "smooth",
   },
   body: {
     margin: 0,
-    backgroundColor: Colors.backgroundBase,
+    backgroundColor: Colors.surface,
+    backgroundImage:
+      "linear-gradient(rgba(16,185,129,0.03) 1px, transparent 1px)," +
+      "linear-gradient(90deg, rgba(16,185,129,0.03) 1px, transparent 1px)",
+    backgroundSize: "32px 32px",
+    overscrollBehavior: "none",
   },
-  // Offset anchored sections so the sticky nav doesn't cover their headings.
   "section[id]": {
     scrollMarginTop: `${NAV_HEIGHT}px`,
   },
   "::selection": {
-    backgroundColor: alpha(AccentPrimary, 0.35),
-    color: Colors.textPrimary,
+    backgroundColor: AccentBaseHex,
+    color: Colors.onAccent,
   },
-  "@keyframes glowPulse": {
-    "0%, 100%": { opacity: 0.55, transform: "scale(1)" },
-    "50%": { opacity: 0.85, transform: "scale(1.06)" },
-  },
-  "@keyframes fadeUp": {
-    from: { opacity: 0, transform: "translateY(10px)" },
-    to: { opacity: 1, transform: "translateY(0)" },
-  },
-  // Respect users who prefer reduced motion.
   "@media (prefers-reduced-motion: reduce)": {
     html: { scrollBehavior: "auto" },
     "*": {
@@ -70,14 +66,101 @@ export const GlobalStyleObject = {
   },
 };
 
-// Reusable eyebrow/label style (JetBrains Mono uppercase kicker above headings).
-export const SectionLabelSx = {
-  fontFamily: "'JetBrains Mono', monospace",
-  fontSize: 13,
-  color: AccentPrimary,
+// ---------------------------------------------------------------------------
+// Reusable sx recipes
+// ---------------------------------------------------------------------------
+
+// Fast color/border transitions so runtime accent shifts feel instantaneous
+// everywhere the dynamic accent is used.
+export const AccentTransitionSx = {
+  transition:
+    "color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease",
+};
+
+// JetBrains Mono uppercase micro-label (the design's `label-caps` type role).
+export const LabelCapsSx = {
+  fontFamily: Fonts.mono,
+  fontSize: TypeScale.labelCaps,
+  fontWeight: 600,
+  letterSpacing: "0.1em",
   textTransform: "uppercase",
-  letterSpacing: "0.08em",
-  mb: 1.5,
+  lineHeight: 1,
+};
+
+// Even smaller mono metadata label used inside cards and form fields.
+export const LabelMicroSx = {
+  ...LabelCapsSx,
+  fontSize: TypeScale.labelMicro,
+};
+
+// Monospace utility text (`code-sm` role): snippets, chips, metadata.
+export const CodeTextSx = {
+  fontFamily: Fonts.mono,
+  fontSize: TypeScale.codeSm,
+  lineHeight: 1.5,
+};
+
+// Section headline (`headline-xl` role).
+export const HeadlineXlSx = {
+  fontFamily: Fonts.display,
+  fontSize: TypeScale.headlineXl,
+  fontWeight: 700,
+  lineHeight: 1.15,
+  letterSpacing: "-0.02em",
+  color: Colors.textPrimary,
+};
+
+// Card / row title (`headline-md` role).
+export const HeadlineMdSx = {
+  fontFamily: Fonts.display,
+  fontSize: TypeScale.headlineMd,
+  fontWeight: 600,
+  lineHeight: 1.3,
+  color: Colors.textPrimary,
+};
+
+// Long-form body copy (`body-lg` / `body-md` roles).
+export const BodyLgSx = {
+  fontFamily: Fonts.body,
+  fontSize: TypeScale.bodyLg,
+  lineHeight: 1.6,
+  color: Colors.textSecondary,
+};
+
+export const BodyMdSx = {
+  fontFamily: Fonts.body,
+  fontSize: TypeScale.bodyMd,
+  lineHeight: 1.6,
+  color: Colors.textSecondary,
+};
+
+// Tonal card surface: elevated slate with a low-contrast outline. Interaction
+// depth comes from brightening the border, never from shadows.
+export const ElevatedPanelSx = {
+  backgroundColor: Colors.surfaceElevated,
+  border: `1px solid rgba(100, 116, 139, 0.2)`,
+  borderRadius: "4px",
+};
+
+// Hover treatment that swaps a panel's border to the live accent color.
+export const AccentHoverBorderSx = {
+  ...AccentTransitionSx,
+  "&:hover": {
+    borderColor: Accent.dim(50),
+  },
+};
+
+// Glassmorphism recipe for the fixed navigation "HUD".
+export const GlassSurfaceSx = {
+  backgroundColor: "rgba(2, 6, 23, 0.8)", // surfaceDeep at 80%
+  backdropFilter: "blur(12px)",
+  WebkitBackdropFilter: "blur(12px)",
+  borderBottom: "1px solid rgba(59, 73, 76, 0.2)",
+};
+
+// Soft radial glow used behind hero art and section corners.
+export const AccentGlowSx = {
+  background: `radial-gradient(circle at 50% 50%, ${Accent.dim(10)}, transparent 70%)`,
 };
 
 export default {
@@ -85,8 +168,19 @@ export default {
   CONTENT_MAX_WIDTH,
   SECTION_PADDING_Y,
   SECTION_PADDING_X,
+  Fonts,
   TypeScale,
-  Animations,
   GlobalStyleObject,
-  SectionLabelSx,
+  AccentTransitionSx,
+  LabelCapsSx,
+  LabelMicroSx,
+  CodeTextSx,
+  HeadlineXlSx,
+  HeadlineMdSx,
+  BodyLgSx,
+  BodyMdSx,
+  ElevatedPanelSx,
+  AccentHoverBorderSx,
+  GlassSurfaceSx,
+  AccentGlowSx,
 };
