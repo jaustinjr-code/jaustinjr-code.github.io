@@ -44,9 +44,10 @@ export default function TerminalPanel({ title, badge, dots = "traffic", sx, head
         }}
       >
         <Box sx={{ display: "flex", gap: 0.75 }}>
-          {dotColors.map((dotColor) => (
+          {dotColors.map((dotColor, index) => (
             <Box
-              key={dotColor}
+              // Muted dots repeat the same color, so key by position.
+              key={index}
               sx={{
                 width: dots === "traffic" ? 12 : 8,
                 height: dots === "traffic" ? 12 : 8,

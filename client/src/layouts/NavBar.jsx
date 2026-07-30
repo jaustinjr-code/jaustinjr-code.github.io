@@ -152,6 +152,9 @@ export default function NavBar() {
         anchor="right"
         open={isOpen}
         onClose={closeMenu}
+        // Keep the page scrollable while the drawer closes so navigating to a
+        // section from the menu can smooth-scroll immediately.
+        ModalProps={{ disableScrollLock: true }}
         PaperProps={{
           sx: {
             ...GlassSurfaceSx,
