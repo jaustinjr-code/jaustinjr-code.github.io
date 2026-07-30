@@ -1,36 +1,36 @@
 import { Box } from "@mui/material";
-import NavBar from "@layouts/NavBar";
-import HeroSection from "@sections/HeroSection";
-import AboutSection from "@sections/AboutSection";
-import SkillsSection from "@sections/SkillsSection";
-import ProjectsSection from "@sections/ProjectsSection";
-import WritingSection from "@sections/WritingSection";
-import ContactSection from "@sections/ContactSection";
-import { Colors } from "@resources/palette";
+import NavBar from "@layouts/NavBar.jsx";
+import Footer from "@layouts/Footer.jsx";
+import HeroSection from "@sections/HeroSection.jsx";
+import ExperienceSection from "@sections/ExperienceSection.jsx";
+import ProjectsSection from "@sections/ProjectsSection.jsx";
+import SkillsSection from "@sections/SkillsSection.jsx";
+import ContactSection from "@sections/ContactSection.jsx";
+import { Colors } from "@resources/palette.js";
+import { NAV_HEIGHT } from "@resources/styles.js";
 
-// The single-page portfolio: a sticky nav over a vertical stack of sections.
-export function PortfolioPage() {
+// The one continuous page: a fixed glass nav over a vertical stack of
+// self-contained sections, ending in the footer. Every section owns its own
+// data and anchor id, so reordering the page is just reordering these lines.
+export default function PortfolioPage() {
   return (
     <Box
       sx={{
-        backgroundColor: Colors.backgroundBase,
         color: Colors.textPrimary,
         minHeight: "100vh",
-        // Use `clip` (not `hidden`) to contain the hero's off-canvas glow orbs:
-        // `overflow-x: hidden` would make this element a scroll container and
-        // break the sticky nav, whereas `clip` clips without establishing one.
+        // `clip` (not `hidden`) contains decorative off-canvas glows without
+        // creating a scroll container that would break the fixed nav.
         overflowX: "clip",
+        pt: `${NAV_HEIGHT}px`,
       }}
     >
       <NavBar />
       <HeroSection />
-      <AboutSection />
-      <SkillsSection />
+      <ExperienceSection />
       <ProjectsSection />
-      <WritingSection />
+      <SkillsSection />
       <ContactSection />
+      <Footer />
     </Box>
   );
 }
-
-export default PortfolioPage;

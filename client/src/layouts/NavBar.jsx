@@ -1,122 +1,198 @@
-import { Box, IconButton, Link, Menu, MenuItem, Tooltip } from "@mui/material";
-import { alpha } from "@mui/material/styles";
-import MenuIcon from "@mui/icons-material/Menu";
-import AccentButton from "@components/AccentButton";
-import useNavBar from "@hooks/useNavBar";
-import { Colors } from "@resources/palette";
-import { Fonts } from "@resources/themes";
-import { NavLinks, SectionIds } from "@resources/data";
 import {
-  NavContactLabel,
+  AppBar,
+  Avatar,
+  Box,
+  Drawer,
+  IconButton,
+  List,
+  ListItemButton,
+  ListItemText,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import CloseIcon from "@mui/icons-material/Close";
+import GlowDot from "@components/GlowDot.jsx";
+import useActiveSection from "@hooks/useActiveSection.jsx";
+import useMobileMenu from "@hooks/useMobileMenu.jsx";
+import useSectionScroll from "@hooks/useSectionScroll.jsx";
+import { NavLinks } from "@resources/data.js";
+import { Accent, Colors } from "@resources/palette.js";
+import {
+  CloseMenuTooltip,
   OpenMenuTooltip,
+  ProfileAvatarAlt,
   WebsiteTitle,
-} from "@resources/strings";
+} from "@resources/strings.js";
+import {
+  AccentTransitionSx,
+  CONTENT_MAX_WIDTH,
+  Fonts,
+  GlassSurfaceSx,
+  LabelCapsSx,
+  NAV_HEIGHT,
+  SECTION_PADDING_X,
+  TypeScale,
+} from "@resources/styles.js";
+import profilePhoto from "@assets/pfp.jpeg";
 
-const CONTACT_HREF = `#${SectionIds.contact}`;
-const HERO_HREF = `#${SectionIds.hero}`;
+const sectionIds = NavLinks.map((link) => link.sectionId);
 
-// Shared style for the desktop text links.
-const navLinkSx = {
-  color: Colors.textSecondary,
-  textDecoration: "none",
-  fontSize: 15,
-  fontWeight: 500,
-  transition: "color 0.15s",
-  "&:hover": { color: "primary.main" },
-};
+// Sticky glass "HUD" header: brand mark, hash-route section links with
+// scroll-spy highlighting on desktop, and a drawer menu on mobile.
+export default function NavBar() {
+  const activeSectionId = useActiveSection(sectionIds);
+  const { isOpen, openMenu, closeMenu } = useMobileMenu();
+  const { goToSection } = useSectionScroll();
 
-// The nav's compact variant of the green pill call-to-action.
-const contactButtonSx = { fontSize: 14, px: 2.25, py: 1.15, borderRadius: 2 };
+  const handleNavClick = (sectionId) => {
+    console.debug("[NavBar] nav link clicked", sectionId);
+    closeMenu();
+    goToSection(sectionId);
+  };
 
-export function NavBar() {
-  const { isSmallScreen, anchorEl, isMenuOpen, openMenu, closeMenu } =
-    useNavBar();
+  const linkSx = (isActive) => ({
+    ...LabelCapsSx,
+    ...AccentTransitionSx,
+    color: isActive ? Accent.dynamic : Colors.textSecondary,
+    cursor: "pointer",
+    background: "none",
+    border: "none",
+    p: 0,
+    "&:hover": { color: Accent.dynamic },
+  });
 
   return (
-    <Box
-      component="nav"
-      sx={{
-        position: "sticky",
-        top: 0,
-        zIndex: 50,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        px: { xs: 3, md: 5 },
-        py: 2,
-        backgroundColor: alpha(Colors.backgroundBase, 0.85),
-        backdropFilter: "blur(10px)",
-        borderBottom: `1px solid ${alpha(Colors.border, 0.5)}`,
-      }}
-    >
-      <Link
-        href={HERO_HREF}
-        underline="none"
-        sx={{
-          fontFamily: Fonts.display,
-          fontWeight: 700,
-          fontSize: 20,
-          letterSpacing: "-0.02em",
-          color: Colors.textPrimary,
-        }}
+    <>
+      <AppBar
+        position="fixed"
+        elevation={0}
+        sx={{ ...GlassSurfaceSx, backgroundImage: "none" }}
       >
-        {WebsiteTitle}
-      </Link>
-
-      {isSmallScreen ? (
-        <>
-          <Tooltip title={OpenMenuTooltip}>
-            <IconButton
-              onClick={openMenu}
-              aria-label={OpenMenuTooltip}
-              aria-haspopup="true"
-              aria-expanded={isMenuOpen}
-              sx={{ color: Colors.textPrimary }}
+        <Toolbar
+          disableGutters
+          sx={{
+            height: NAV_HEIGHT,
+            maxWidth: `${CONTENT_MAX_WIDTH}px`,
+            width: "100%",
+            mx: "auto",
+            px: SECTION_PADDING_X,
+            display: "flex",
+            alignItems: "center",
+            gap: 2,
+          }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1.25 }}>
+            <GlowDot size={12} />
+            <Typography
+              component="span"
+              sx={{
+                fontFamily: Fonts.display,
+                fontSize: TypeScale.headlineMd,
+                fontWeight: 600,
+                letterSpacing: "-0.01em",
+                color: Colors.textPrimary,
+                whiteSpace: "nowrap",
+              }}
             >
-              <MenuIcon />
-            </IconButton>
-          </Tooltip>
-          <Menu
-            anchorEl={anchorEl}
-            open={isMenuOpen}
-            onClose={closeMenu}
-            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-            transformOrigin={{ vertical: "top", horizontal: "right" }}
+              {WebsiteTitle}
+            </Typography>
+          </Box>
+
+          <Box
+            component="nav"
+            sx={{
+              display: { xs: "none", md: "flex" },
+              alignItems: "center",
+              gap: 3,
+              ml: "auto",
+            }}
           >
             {NavLinks.map((link) => (
-              <MenuItem
-                key={link.href}
-                component="a"
-                href={link.href}
-                onClick={closeMenu}
+              <Box
+                key={link.sectionId}
+                component="button"
+                type="button"
+                onClick={() => handleNavClick(link.sectionId)}
+                aria-current={
+                  activeSectionId === link.sectionId ? "page" : undefined
+                }
+                sx={linkSx(activeSectionId === link.sectionId)}
               >
                 {link.label}
-              </MenuItem>
+              </Box>
             ))}
-            <MenuItem
-              component="a"
-              href={CONTACT_HREF}
-              onClick={closeMenu}
-              sx={{ color: "primary.main", fontWeight: 700 }}
-            >
-              {NavContactLabel}
-            </MenuItem>
-          </Menu>
-        </>
-      ) : (
-        <Box sx={{ display: "flex", alignItems: "center", gap: 3.5 }}>
-          {NavLinks.map((link) => (
-            <Link key={link.href} href={link.href} underline="none" sx={navLinkSx}>
-              {link.label}
-            </Link>
-          ))}
-          <AccentButton href={CONTACT_HREF} sx={contactButtonSx}>
-            {NavContactLabel}
-          </AccentButton>
+          </Box>
+
+          <Avatar
+            src={profilePhoto}
+            alt={ProfileAvatarAlt}
+            sx={{
+              width: 32,
+              height: 32,
+              ml: { xs: "auto", md: 2 },
+              border: "2px solid rgba(59, 73, 76, 0.3)",
+            }}
+          />
+
+          <IconButton
+            aria-label={OpenMenuTooltip}
+            onClick={openMenu}
+            sx={{
+              display: { xs: "inline-flex", md: "none" },
+              color: Colors.textPrimary,
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
+        </Toolbar>
+      </AppBar>
+
+      <Drawer
+        anchor="right"
+        open={isOpen}
+        onClose={closeMenu}
+        PaperProps={{
+          sx: {
+            ...GlassSurfaceSx,
+            borderLeft: "1px solid rgba(59, 73, 76, 0.2)",
+            width: "min(70vw, 320px)",
+            backgroundImage: "none",
+          },
+        }}
+      >
+        <Box sx={{ display: "flex", justifyContent: "flex-end", p: 2 }}>
+          <IconButton
+            aria-label={CloseMenuTooltip}
+            onClick={closeMenu}
+            sx={{ color: Colors.textPrimary }}
+          >
+            <CloseIcon />
+          </IconButton>
         </Box>
-      )}
-    </Box>
+        <List>
+          {NavLinks.map((link) => (
+            <ListItemButton
+              key={link.sectionId}
+              onClick={() => handleNavClick(link.sectionId)}
+            >
+              <ListItemText
+                primary={link.label}
+                primaryTypographyProps={{
+                  sx: {
+                    ...LabelCapsSx,
+                    ...AccentTransitionSx,
+                    color:
+                      activeSectionId === link.sectionId
+                        ? Accent.dynamic
+                        : Colors.textSecondary,
+                  },
+                }}
+              />
+            </ListItemButton>
+          ))}
+        </List>
+      </Drawer>
+    </>
   );
 }
-
-export default NavBar;
