@@ -7,11 +7,13 @@ import ProjectsSection from "@sections/ProjectsSection.jsx";
 import SkillsSection from "@sections/SkillsSection.jsx";
 import ContactSection from "@sections/ContactSection.jsx";
 import { Colors } from "@resources/palette.js";
-import { NAV_HEIGHT } from "@resources/styles.js";
 
 // The one continuous page: a fixed glass nav over a vertical stack of
 // self-contained sections, ending in the footer. Every section owns its own
 // data and anchor id, so reordering the page is just reordering these lines.
+// No top padding: the nav stays hidden until the hero name scrolls away, so
+// content starts at the viewport top and the revealed bar overlays it
+// (anchored sections still clear it via their scroll margin).
 export default function PortfolioPage() {
   return (
     <Box
@@ -21,7 +23,6 @@ export default function PortfolioPage() {
         // `clip` (not `hidden`) contains decorative off-canvas glows without
         // creating a scroll container that would break the fixed nav.
         overflowX: "clip",
-        pt: `${NAV_HEIGHT}px`,
       }}
     >
       <NavBar />

@@ -78,6 +78,10 @@ export const SectionIds = {
   contact: "contact",
 };
 
+// DOM id of the hero headline (the large "name title"). The NavBar watches it
+// to reveal itself only after the name scrolls out of view, iOS-style.
+export const HeroHeadingElementId = "hero-heading";
+
 // Primary nav links, in page order.
 export const NavLinks = [
   { label: NavIntroLabel, sectionId: SectionIds.intro },

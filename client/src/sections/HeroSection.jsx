@@ -7,7 +7,7 @@ import TerminalRain from "@components/TerminalRain.jsx";
 import useAccentColor from "@hooks/useAccentColor.jsx";
 import useTerminalRain from "@hooks/useTerminalRain.jsx";
 import { Accent } from "@resources/palette.js";
-import { SectionIds } from "@resources/data.js";
+import { HeroHeadingElementId, SectionIds } from "@resources/data.js";
 import {
   AccentGlowSx,
   AccentTransitionSx,
@@ -89,7 +89,11 @@ export default function HeroSection() {
       >
         {/* Headline / lead / CTA column */}
         <Box sx={{ gridColumn: { xs: "auto", lg: "span 7" } }}>
-          <Typography component="h1" sx={{ ...HeadlineXlSx, maxWidth: "42rem" }}>
+          <Typography
+            component="h1"
+            id={HeroHeadingElementId}
+            sx={{ ...HeadlineXlSx, maxWidth: "42rem" }}
+          >
             <Box component="span" sx={{ display: "block" }}>
               {HeroHeadingName}
             </Box>

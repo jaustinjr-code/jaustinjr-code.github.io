@@ -14,12 +14,12 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
-import GlowDot from "@components/GlowDot.jsx";
 import useActiveSection from "@hooks/useActiveSection.jsx";
 import useColorMode from "@hooks/useColorMode.jsx";
 import useMobileMenu from "@hooks/useMobileMenu.jsx";
+import useScrolledPast from "@hooks/useScrolledPast.jsx";
 import useSectionScroll from "@hooks/useSectionScroll.jsx";
-import { NavLinks } from "@resources/data.js";
+import { HeroHeadingElementId, NavLinks } from "@resources/data.js";
 import { Accent, Colors } from "@resources/palette.js";
 import {
   CloseMenuTooltip,
@@ -44,12 +44,15 @@ import profilePhoto from "@assets/pfp.jpeg";
 const sectionIds = NavLinks.map((link) => link.sectionId);
 
 // Sticky glass "HUD" header: brand mark, hash-route section links with
-// scroll-spy highlighting on desktop, and a drawer menu on mobile.
+// scroll-spy highlighting on desktop, and a drawer menu on mobile. Mimicking
+// the iOS top app bar, it stays hidden until the hero's large name headline
+// scrolls out of view, then slides in.
 export default function NavBar() {
   const activeSectionId = useActiveSection(sectionIds);
   const { isOpen, openMenu, closeMenu } = useMobileMenu();
   const { goToSection } = useSectionScroll();
   const { isLightMode, toggleColorMode } = useColorMode();
+  const isRevealed = useScrolledPast(HeroHeadingElementId);
 
   const handleNavClick = (sectionId) => {
     console.debug("[NavBar] nav link clicked", sectionId);
@@ -73,7 +76,16 @@ export default function NavBar() {
       <AppBar
         position="fixed"
         elevation={0}
-        sx={{ ...GlassSurfaceSx, backgroundImage: "none" }}
+        sx={{
+          ...GlassSurfaceSx,
+          backgroundImage: "none",
+          // iOS-style reveal: slide in once the hero name scrolls away.
+          // `visibility` transitions discretely after the slide finishes so
+          // the hidden bar is untabbable and invisible to screen readers.
+          transform: isRevealed ? "translateY(0)" : "translateY(-100%)",
+          visibility: isRevealed ? "visible" : "hidden",
+          transition: "transform 0.3s ease, visibility 0.3s",
+        }}
       >
         <Toolbar
           disableGutters
@@ -88,8 +100,7 @@ export default function NavBar() {
             gap: 2,
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1.25 }}>
-            <GlowDot size={12} />
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             <Typography
               component="span"
               sx={{
