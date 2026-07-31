@@ -171,6 +171,12 @@ export const AccentHoverBorderSx = {
 // Glassmorphism recipe for the fixed navigation "HUD".
 export const GlassSurfaceSx = {
   backgroundColor: `color-mix(in srgb, ${Colors.surfaceDeep} 80%, transparent)`,
+  // MUI Paper hosts (AppBar, Drawer) paint their own opaque background with
+  // the same specificity as sx, so the winner depends on style-injection
+  // order. The double-class selector outranks it deterministically.
+  "&.MuiPaper-root": {
+    backgroundColor: `color-mix(in srgb, ${Colors.surfaceDeep} 80%, transparent)`,
+  },
   backdropFilter: "blur(12px)",
   WebkitBackdropFilter: "blur(12px)",
   borderBottom: "1px solid rgba(59, 73, 76, 0.2)",

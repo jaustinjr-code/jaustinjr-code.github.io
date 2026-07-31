@@ -100,7 +100,16 @@ export default function NavBar() {
             gap: 2,
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1.25 }}>
+            <Avatar
+              src={profilePhoto}
+              alt={ProfileAvatarAlt}
+              sx={{
+                width: 32,
+                height: 32,
+                border: "2px solid rgba(59, 73, 76, 0.3)",
+              }}
+            />
             <Typography
               component="span"
               sx={{
@@ -158,17 +167,6 @@ export default function NavBar() {
               <LightModeIcon fontSize="small" />
             )}
           </IconButton>
-
-          <Avatar
-            src={profilePhoto}
-            alt={ProfileAvatarAlt}
-            sx={{
-              width: 32,
-              height: 32,
-              ml: { md: 1 },
-              border: "2px solid rgba(59, 73, 76, 0.3)",
-            }}
-          />
 
           <IconButton
             aria-label={OpenMenuTooltip}
