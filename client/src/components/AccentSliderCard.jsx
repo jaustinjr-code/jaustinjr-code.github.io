@@ -20,7 +20,7 @@ export default function AccentSliderCard({ value, onChange }) {
     <Box
       sx={{
         p: 2,
-        backgroundColor: "rgba(2, 6, 23, 0.9)", // surfaceDeep at 90%
+        backgroundColor: `color-mix(in srgb, ${Colors.surfaceDeep} 90%, transparent)`,
         backdropFilter: "blur(12px)",
         WebkitBackdropFilter: "blur(12px)",
         border: "1px solid rgba(59, 73, 76, 0.2)",

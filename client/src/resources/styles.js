@@ -1,4 +1,11 @@
-import { Accent, AccentBaseHex, Colors } from "./palette.js";
+import {
+  Accent,
+  AccentSchemeFormulas,
+  buildColorVariables,
+  Colors,
+  DarkColors,
+  LightColors,
+} from "./palette.js";
 
 // ---------------------------------------------------------------------------
 // Layout constants (mobile-first; desktop values applied at the md breakpoint)
@@ -35,9 +42,20 @@ export const TypeScale = {
 // Global styles
 // ---------------------------------------------------------------------------
 
-// Subtle 32px background grid + smooth anchored scrolling. The grid evokes the
-// "architectural canvas" from the design brief.
+// Scheme-aware token definitions, subtle 32px background grid, and smooth
+// anchored scrolling. The grid evokes the "architectural canvas" from the
+// design brief. MUI toggles the `.light` / `.dark` class on <html> (see
+// themes.js), which swaps every `--color-*` token and the accent formula at
+// once; dark is the default scheme.
 export const GlobalStyleObject = {
+  ":root": {
+    ...buildColorVariables(DarkColors),
+    "--accent-color": AccentSchemeFormulas.dark,
+  },
+  ":root.light": {
+    ...buildColorVariables(LightColors),
+    "--accent-color": AccentSchemeFormulas.light,
+  },
   html: {
     scrollBehavior: "smooth",
   },
@@ -45,8 +63,8 @@ export const GlobalStyleObject = {
     margin: 0,
     backgroundColor: Colors.surface,
     backgroundImage:
-      "linear-gradient(rgba(16,185,129,0.03) 1px, transparent 1px)," +
-      "linear-gradient(90deg, rgba(16,185,129,0.03) 1px, transparent 1px)",
+      `linear-gradient(${Colors.gridLine} 1px, transparent 1px),` +
+      `linear-gradient(90deg, ${Colors.gridLine} 1px, transparent 1px)`,
     backgroundSize: "32px 32px",
     overscrollBehavior: "none",
   },
@@ -54,7 +72,7 @@ export const GlobalStyleObject = {
     scrollMarginTop: `${NAV_HEIGHT}px`,
   },
   "::selection": {
-    backgroundColor: AccentBaseHex,
+    backgroundColor: Accent.dynamic,
     color: Colors.onAccent,
   },
   "@media (prefers-reduced-motion: reduce)": {
@@ -152,7 +170,7 @@ export const AccentHoverBorderSx = {
 
 // Glassmorphism recipe for the fixed navigation "HUD".
 export const GlassSurfaceSx = {
-  backgroundColor: "rgba(2, 6, 23, 0.8)", // surfaceDeep at 80%
+  backgroundColor: `color-mix(in srgb, ${Colors.surfaceDeep} 80%, transparent)`,
   backdropFilter: "blur(12px)",
   WebkitBackdropFilter: "blur(12px)",
   borderBottom: "1px solid rgba(59, 73, 76, 0.2)",

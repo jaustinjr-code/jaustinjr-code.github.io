@@ -1,33 +1,53 @@
 import { createTheme } from "@mui/material/styles";
-import { AccentBaseHex, AccentSecondary, AccentTertiary, Colors } from "./palette.js";
+import {
+  AccentBaseHex,
+  AccentBaseLightHex,
+  DarkColors,
+  LightColors,
+} from "./palette.js";
 import { Fonts } from "./styles.js";
 
-// v3 "Dev-Matrix Terminal" theme — a single dark aesthetic mapped from the
-// design tokens in palette.js. The runtime accent shift is handled with CSS
-// variables at the component level (see useAccentColor); the theme keeps the
-// static base accent for MUI's internal color math.
+// v3 "Dev-Matrix Terminal" theme — dark (default) and complementary light
+// schemes mapped from the design tokens in palette.js. MUI's CSS-variables
+// mode toggles a `.light` / `.dark` class on <html>, which also drives the
+// custom `--color-*` tokens defined in styles.js, so the two systems switch
+// together. The runtime accent shift stays a CSS variable at the component
+// level (see useAccentColor); each scheme keeps a static base accent for
+// MUI's internal color math.
+const buildSchemePalette = (mode, schemeColors, accentHex) => ({
+  mode,
+  primary: {
+    main: accentHex,
+    contrastText: schemeColors.onAccent,
+  },
+  secondary: {
+    main: schemeColors.accentSecondary,
+  },
+  info: {
+    main: schemeColors.accentTertiary,
+  },
+  background: {
+    default: schemeColors.surface,
+    paper: schemeColors.surfaceElevated,
+  },
+  text: {
+    primary: schemeColors.textPrimary,
+    secondary: schemeColors.textSecondary,
+  },
+  divider: schemeColors.outlineVariant,
+});
+
 export const MainTheme = createTheme({
-  palette: {
-    mode: "dark",
-    primary: {
-      main: AccentBaseHex,
-      contrastText: Colors.onAccent,
+  cssVariables: {
+    colorSchemeSelector: "class",
+  },
+  colorSchemes: {
+    dark: {
+      palette: buildSchemePalette("dark", DarkColors, AccentBaseHex),
     },
-    secondary: {
-      main: AccentSecondary,
+    light: {
+      palette: buildSchemePalette("light", LightColors, AccentBaseLightHex),
     },
-    info: {
-      main: AccentTertiary,
-    },
-    background: {
-      default: Colors.surface,
-      paper: Colors.surfaceElevated,
-    },
-    text: {
-      primary: Colors.textPrimary,
-      secondary: Colors.textSecondary,
-    },
-    divider: Colors.outlineVariant,
   },
   shape: {
     // The design's shape language is "soft" — 4px on standard elements.

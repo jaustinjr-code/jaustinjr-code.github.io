@@ -12,8 +12,11 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
 import GlowDot from "@components/GlowDot.jsx";
 import useActiveSection from "@hooks/useActiveSection.jsx";
+import useColorMode from "@hooks/useColorMode.jsx";
 import useMobileMenu from "@hooks/useMobileMenu.jsx";
 import useSectionScroll from "@hooks/useSectionScroll.jsx";
 import { NavLinks } from "@resources/data.js";
@@ -22,6 +25,8 @@ import {
   CloseMenuTooltip,
   OpenMenuTooltip,
   ProfileAvatarAlt,
+  SwitchToDarkModeTooltip,
+  SwitchToLightModeTooltip,
   WebsiteTitle,
 } from "@resources/strings.js";
 import {
@@ -44,6 +49,7 @@ export default function NavBar() {
   const activeSectionId = useActiveSection(sectionIds);
   const { isOpen, openMenu, closeMenu } = useMobileMenu();
   const { goToSection } = useSectionScroll();
+  const { isLightMode, toggleColorMode } = useColorMode();
 
   const handleNavClick = (sectionId) => {
     console.debug("[NavBar] nav link clicked", sectionId);
@@ -124,13 +130,31 @@ export default function NavBar() {
             ))}
           </Box>
 
+          <IconButton
+            aria-label={
+              isLightMode ? SwitchToDarkModeTooltip : SwitchToLightModeTooltip
+            }
+            onClick={toggleColorMode}
+            sx={{
+              ml: { xs: "auto", md: 0 },
+              color: Colors.textSecondary,
+              "&:hover": { color: Accent.dynamic },
+            }}
+          >
+            {isLightMode ? (
+              <DarkModeIcon fontSize="small" />
+            ) : (
+              <LightModeIcon fontSize="small" />
+            )}
+          </IconButton>
+
           <Avatar
             src={profilePhoto}
             alt={ProfileAvatarAlt}
             sx={{
               width: 32,
               height: 32,
-              ml: { xs: "auto", md: 2 },
+              ml: { md: 1 },
               border: "2px solid rgba(59, 73, 76, 0.3)",
             }}
           />

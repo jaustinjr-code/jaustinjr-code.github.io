@@ -13,6 +13,8 @@ export const NavSkillsLabel = "Skills";
 export const NavContactLabel = "Contact";
 export const OpenMenuTooltip = "Open menu";
 export const CloseMenuTooltip = "Close menu";
+export const SwitchToLightModeTooltip = "Switch to light mode";
+export const SwitchToDarkModeTooltip = "Switch to dark mode";
 export const ProfileAvatarAlt = "James Austin Jr. profile photo";
 
 // Hero

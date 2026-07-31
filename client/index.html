@@ -30,6 +30,18 @@
          is needed for static hosting. -->
   </head>
   <body>
+    <!-- Apply the saved color scheme before React mounts so returning
+         light-mode visitors don't see a dark flash. Mirrors MUI's
+         useColorScheme persistence (localStorage "mui-mode" -> html class). -->
+    <script>
+      try {
+        if (localStorage.getItem("mui-mode") === "light") {
+          document.documentElement.classList.add("light");
+        }
+      } catch (storageError) {
+        /* private browsing or blocked storage — fall back to dark */
+      }
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
