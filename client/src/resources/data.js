@@ -2,17 +2,21 @@
 // Components consume these arrays so markup stays declarative and content is
 // easy to edit in one place. Text lives in strings.js; colors in palette.js.
 
+import ComputerIcon from "@mui/icons-material/ComputerOutlined";
 import CloudIcon from "@mui/icons-material/CloudOutlined";
 import TerminalIcon from "@mui/icons-material/Terminal";
-import DeveloperBoardIcon from "@mui/icons-material/DeveloperBoardOutlined";
+import TrendIcon from "@mui/icons-material/TrendingUpOutlined";
 import StorageIcon from "@mui/icons-material/StorageOutlined";
-import WatchIcon from "@mui/icons-material/WatchOutlined";
 import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
 import BluetoothIcon from "@mui/icons-material/Bluetooth";
+import WifiIcon from "@mui/icons-material/WifiOutlined";
+import PinIcon from "@mui/icons-material/PinDropOutlined";
 import SpeedIcon from "@mui/icons-material/Speed";
 import SecurityIcon from "@mui/icons-material/SecurityOutlined";
 import MailIcon from "@mui/icons-material/MailOutline";
-import LinkIcon from "@mui/icons-material/Link";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import InstagramIcon from "@mui/icons-material/Instagram";
 import CodeIcon from "@mui/icons-material/Code";
 import {
   ContactEmailAddress,
@@ -26,6 +30,8 @@ import {
   InfraDatabasesName,
   InfraGitHubActionsName,
   InfraPipelinesName,
+  InstagramLabel,
+  InstagramLink,
   LinkedInHandleDisplay,
   LinkedInLabel,
   LinkedInLink,
@@ -34,10 +40,6 @@ import {
   NavIntroLabel,
   NavProjectsLabel,
   NavSkillsLabel,
-  NodeSyncDescription,
-  NodeSyncOrderTag,
-  NodeSyncTitle,
-  NodeSyncWindowTitle,
   ProjectStatCoverageLabel,
   ProjectStatCoverageValue,
   ProjectStatDownloadsLabel,
@@ -51,6 +53,7 @@ import {
   SkillJavaName,
   SkillJavaScriptName,
   SkillKotlinName,
+  SkillSqlName,
   SkillLevelAdvanced,
   SkillLevelExpert,
   SkillLevelIntermediate,
@@ -97,6 +100,7 @@ export const TimelineEntries = [
   {
     period: TimelineCountyPeriod,
     title: TimelineCountyTitle,
+    platformIcons: [ComputerIcon, CloudIcon, StorageIcon],
     summary: TimelineCountySummary,
     emphasis: "primary",
     metric: {
@@ -109,13 +113,13 @@ export const TimelineEntries = [
   {
     period: TimelineGarminPeriod,
     title: TimelineGarminTitle,
+    platformIcons: [PhoneAndroidIcon, BluetoothIcon, WifiIcon, PinIcon],
     summary: TimelineGarminSummary,
     emphasis: "secondary",
     metric: {
       value: TimelineGarminMetricValue,
       label: TimelineGarminMetricLabel,
       detail: TimelineGarminMetricDetail,
-      icons: [WatchIcon, PhoneAndroidIcon, BluetoothIcon],
     },
   },
 ];
@@ -128,23 +132,14 @@ export const MediumParserStats = [
   { label: ProjectStatLicenseLabel, value: ProjectStatLicenseValue },
 ];
 
-// Featured project: the secondary module card.
-export const NodeSyncProject = {
-  windowTitle: NodeSyncWindowTitle,
-  orderTag: NodeSyncOrderTag,
-  title: NodeSyncTitle,
-  description: NodeSyncDescription,
-  icon: SecurityIcon,
-  tags: ["RUST", "GRPC", "REDIS"],
-};
-
 // Language proficiencies (0-100 drives the bar width).
 export const LanguageSkills = [
   { name: SkillJavaScriptName, level: SkillLevelExpert, proficiency: 95 },
   { name: SkillCSharpName, level: SkillLevelAdvanced, proficiency: 90 },
   { name: SkillKotlinName, level: SkillLevelAdvanced, proficiency: 85 },
-  { name: SkillCppName, level: SkillLevelIntermediate, proficiency: 75 },
-  { name: SkillJavaName, level: SkillLevelAdvanced, proficiency: 80 },
+  { name: SkillJavaName, level: SkillLevelIntermediate, proficiency: 75 },
+  { name: SkillSqlName, level: SkillLevelIntermediate, proficiency: 75 },
+  { name: SkillCppName, level: SkillLevelIntermediate, proficiency: 70 },
 ];
 
 export const FrameworkSkills = FrameworkNames;
@@ -152,7 +147,7 @@ export const FrameworkSkills = FrameworkNames;
 export const InfrastructureSkills = [
   { name: InfraAzureName, icon: CloudIcon },
   { name: InfraGitHubActionsName, icon: TerminalIcon },
-  { name: InfraPipelinesName, icon: DeveloperBoardIcon },
+  { name: InfraPipelinesName, icon: TrendIcon },
   { name: InfraDatabasesName, icon: StorageIcon },
 ];
 
@@ -168,13 +163,14 @@ export const ContactChannels = [
     label: ContactLinkedInChannelLabel,
     display: LinkedInHandleDisplay,
     href: LinkedInLink,
-    icon: LinkIcon,
+    icon: LinkedInIcon,
   },
 ];
 
 // Footer social links.
 export const FooterLinks = [
-  { label: LinkedInLabel, href: LinkedInLink, icon: LinkIcon },
-  { label: GitHubLabel, href: GitHubLink, icon: CodeIcon },
+  { label: LinkedInLabel, href: LinkedInLink, icon: LinkedInIcon },
+  { label: InstagramLabel, href: InstagramLink, icon: InstagramIcon },
+  { label: GitHubLabel, href: GitHubLink, icon: GitHubIcon },
   { label: EmailLabel, href: `mailto:${ContactEmailAddress}`, icon: MailIcon },
 ];

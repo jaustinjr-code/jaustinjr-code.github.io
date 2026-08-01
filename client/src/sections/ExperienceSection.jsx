@@ -68,7 +68,11 @@ function BeforeAfterMetricCard({ metric }) {
         >
           <Typography
             component="span"
-            sx={{ ...MetricValueSx, color: Accent.dynamic, ...AccentTransitionSx }}
+            sx={{
+              ...MetricValueSx,
+              color: Accent.dynamic,
+              ...AccentTransitionSx,
+            }}
           >
             {metric.before}
           </Typography>
@@ -103,29 +107,17 @@ function HeadlineValueMetricCard({ metric }) {
       hoverBorderColor={AccentSecondaryBright}
       sx={{ textAlign: { md: "right" } }}
     >
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: { xs: "flex-start", md: "flex-end" },
-          gap: 2,
-          mb: 2,
-        }}
+      <Typography
+        component="div"
+        sx={{ ...LabelCapsSx, color: Colors.codeComment, mb: 1 }}
       >
-        {metric.icons.map((MetricIcon, index) => (
-          <MetricIcon key={index} sx={{ color: Colors.textSecondary }} />
-        ))}
-      </Box>
+        {metric.label}
+      </Typography>
       <Typography
         component="div"
         sx={{ ...MetricValueSx, color: AccentSecondaryBright }}
       >
         {metric.value}
-      </Typography>
-      <Typography
-        component="div"
-        sx={{ ...LabelCapsSx, color: Colors.codeComment, mt: 1 }}
-      >
-        {metric.label}
       </Typography>
       <Typography sx={{ ...BodyMdSx, mt: 2 }}>{metric.detail}</Typography>
     </MetricPanel>
@@ -152,20 +144,6 @@ export default function ExperienceSection() {
           eyebrow={ExperienceSectionEyebrow}
           heading={ExperienceHeading}
         />
-        <Typography
-          component="span"
-          sx={{
-            ...CodeTextSx,
-            color: Accent.dynamic,
-            backgroundColor: Colors.surfaceContainer,
-            borderLeft: `2px solid ${Accent.dynamic}`,
-            px: 2,
-            py: 1,
-            ...AccentTransitionSx,
-          }}
-        >
-          {ExperienceStatusChip}
-        </Typography>
       </Box>
 
       <Box sx={{ position: "relative" }}>
@@ -198,6 +176,7 @@ export default function ExperienceSection() {
                 key={entry.title}
                 period={entry.period}
                 title={entry.title}
+                platforms={entry.platformIcons}
                 summary={entry.summary}
                 emphasis={entry.emphasis}
                 flip={index % 2 === 1}

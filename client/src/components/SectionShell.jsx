@@ -16,7 +16,13 @@ import {
 //                 so the global grid canvas shows through)
 //   sx          — extra styles for the outer band (e.g. overflow, position)
 //   contentSx   — extra styles for the inner content column
-export default function SectionShell({ id, background, sx, contentSx, children }) {
+export default function SectionShell({
+  id,
+  background,
+  sx,
+  contentSx,
+  children,
+}) {
   return (
     <Box
       component="section"

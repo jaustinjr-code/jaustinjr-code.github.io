@@ -68,7 +68,6 @@ export default function SkillsSection() {
         }}
       />
       <SectionHeading
-        align="center"
         eyebrow={SkillsSectionEyebrow}
         heading={SkillsHeading}
         sx={{ mb: { xs: 6, md: 8 } }}
@@ -80,7 +79,10 @@ export default function SkillsSection() {
           gap: 4,
         }}
       >
-        <SkillPanel accentColor={Accent.dynamic} title={SkillLanguagesPanelTitle}>
+        <SkillPanel
+          accentColor={Accent.dynamic}
+          title={SkillLanguagesPanelTitle}
+        >
           <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
             {LanguageSkills.map((skill) => (
               <SkillLevelBar
@@ -92,7 +94,10 @@ export default function SkillsSection() {
             ))}
           </Box>
         </SkillPanel>
-        <SkillPanel accentColor={AccentSecondary} title={SkillFrameworksPanelTitle}>
+        <SkillPanel
+          accentColor={AccentSecondary}
+          title={SkillFrameworksPanelTitle}
+        >
           <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
             {FrameworkSkills.map((framework) => (
               <TagChip key={framework} size="code" hoverColor={AccentSecondary}>

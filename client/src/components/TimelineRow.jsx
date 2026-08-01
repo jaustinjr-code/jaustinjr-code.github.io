@@ -25,6 +25,7 @@ import {
 export default function TimelineRow({
   period,
   title,
+  platforms = [],
   summary,
   emphasis = "primary",
   flip = false,
@@ -77,16 +78,43 @@ export default function TimelineRow({
             px: 1.5,
             py: 0.75,
             color: accentColor,
-            backgroundColor: isPrimary ? Accent.dim(10) : Colors.surfaceContainer,
+            backgroundColor: isPrimary
+              ? Accent.dim(10)
+              : Colors.surfaceContainer,
             borderRadius: "2px",
             ...AccentTransitionSx,
           }}
         >
           {period}
         </Typography>
-        <Typography component="h3" sx={{ ...HeadlineMdSx, mt: 2 }}>
-          {title}
-        </Typography>
+
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "row", md: flip ? "row" : "row-reverse" },
+            textAlign: { md: flip ? "left" : "right" },
+            alignItems: "center",
+            mt: 2,
+            gap: 2,
+            justifyContent: "flex-start",
+          }}
+        >
+          <Typography component="h3" sx={{ ...HeadlineMdSx }}>
+            {title}
+          </Typography>
+
+          <Box
+            sx={{
+              display: "flex",
+              gap: 2,
+              alignItems: "center",
+            }}
+          >
+            {platforms.map((MetricIcon, index) => (
+              <MetricIcon key={index} sx={{ color: Colors.textSecondary }} />
+            ))}
+          </Box>
+        </Box>
         <Typography sx={{ ...BodyMdSx, mt: 1 }}>{summary}</Typography>
       </Box>
 
