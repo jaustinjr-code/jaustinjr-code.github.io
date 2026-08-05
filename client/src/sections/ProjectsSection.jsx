@@ -111,7 +111,7 @@ export default function ProjectsSection() {
               }}
             >
               <Link
-                href={MediumParserGitHubLink}
+                href={MediumParserNpmLink}
                 target="_blank"
                 rel="noreferrer"
                 underline="hover"
@@ -126,10 +126,10 @@ export default function ProjectsSection() {
                 }}
               >
                 <TerminalIcon sx={{ fontSize: "1.125rem" }} />
-                {MediumParserNpmLink}
+                {MediumParserInstallCommand}
               </Link>
               <Link
-                href={MediumParserInstallCommand}
+                href={MediumParserGitHubLink}
                 target="_blank"
                 rel="noreferrer"
                 underline="hover"
