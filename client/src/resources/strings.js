@@ -3,7 +3,7 @@
 
 // Brand / general
 export const WebsiteTitle = "James Austin Jr.";
-export const CopyrightText = "© 2026 James Austin Jr.";
+export const CopyrightText = `© ${new Date().getFullYear()} James Austin Jr.`;
 
 // Navigation
 export const NavIntroLabel = "Intro";

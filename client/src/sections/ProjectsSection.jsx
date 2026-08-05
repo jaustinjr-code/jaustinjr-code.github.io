@@ -1,11 +1,9 @@
 import { Box, Link, Typography } from "@mui/material";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import CodeIcon from "@mui/icons-material/Code";
 import TerminalIcon from "@mui/icons-material/Terminal";
 import SectionHeading from "@components/SectionHeading";
 import SectionShell from "@components/SectionShell";
 import StatTile from "@components/StatTile";
-import TagChip from "@components/TagChip";
 import TerminalPanel from "@components/TerminalPanel";
 import { Accent, Colors } from "@resources/palette.js";
 import {
@@ -26,7 +24,6 @@ import {
   MediumParserTitle,
   MediumParserVersionBadge,
   MediumParserWindowTitle,
-  ProjectExploreCta,
   ProjectsHeading,
   ProjectsSectionEyebrow,
 } from "@resources/strings.js";
@@ -129,10 +126,10 @@ export default function ProjectsSection() {
                 }}
               >
                 <TerminalIcon sx={{ fontSize: "1.125rem" }} />
-                {MediumParserInstallCommand}
+                {MediumParserNpmLink}
               </Link>
               <Link
-                href={MediumParserNpmLink}
+                href={MediumParserInstallCommand}
                 target="_blank"
                 rel="noreferrer"
                 underline="hover"

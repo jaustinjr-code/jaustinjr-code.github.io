@@ -5,6 +5,7 @@ import AccentSliderCard from "@components/AccentSliderCard.jsx";
 import SectionShell from "@components/SectionShell.jsx";
 import TerminalRain from "@components/TerminalRain.jsx";
 import useAccentColor from "@hooks/useAccentColor.jsx";
+import useSectionScroll from "@hooks/useSectionScroll.jsx";
 import useTerminalRain from "@hooks/useTerminalRain.jsx";
 import { Accent } from "@resources/palette.js";
 import { HeroHeadingElementId, SectionIds } from "@resources/data.js";
@@ -33,6 +34,7 @@ import resumePdf from "@assets/resume.pdf";
 export default function HeroSection() {
   const { hue, shiftHue } = useAccentColor();
   const { rows, litCells } = useTerminalRain();
+  const { goToSection } = useSectionScroll();
 
   const handleResumeClick = () => {
     console.debug("[HeroSection] resume download clicked");
@@ -40,6 +42,7 @@ export default function HeroSection() {
 
   const handleViewSourceClick = () => {
     console.debug("[HeroSection] view source clicked");
+    goToSection(SectionIds.projects);
   };
 
   return (
@@ -120,7 +123,6 @@ export default function HeroSection() {
             </AccentButton>
             <AccentButton
               variant="ghost"
-              href="#/projects"
               onClick={handleViewSourceClick}
             >
               {HeroSecondaryCta}

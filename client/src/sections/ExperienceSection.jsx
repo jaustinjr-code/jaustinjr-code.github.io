@@ -17,7 +17,6 @@ import { SectionIds, TimelineEntries } from "@resources/data.js";
 import {
   ExperienceHeading,
   ExperienceSectionEyebrow,
-  ExperienceStatusChip,
   ImpactMetricEyebrow,
 } from "@resources/strings.js";
 
