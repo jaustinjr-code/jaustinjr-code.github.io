@@ -18,6 +18,7 @@ export default defineConfig({
       "@pages": path.resolve("./src/pages"),
       "@resources": path.resolve("./src/resources"),
       "@routes": path.resolve("./src/routes"),
+      "@sections": path.resolve("./src/sections"),
     },
   },
 });
