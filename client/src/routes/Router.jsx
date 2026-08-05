@@ -1,18 +1,23 @@
-import { createBrowserRouter } from "react-router";
+import { createHashRouter } from "react-router";
 import PortfolioPage from "@pages/PortfolioPage.jsx";
 import ErrorPage from "@pages/ErrorPage.jsx";
 
-// Single-page portfolio at "/", with the error page as both the route error
-// boundary and the catch-all for unknown paths (served via the SPA fallback).
-const router = createBrowserRouter([
+// The site is one continuous page navigated purely by hash routes
+// (e.g. /#/experience). Each hash path segment names a section id; the page
+// scrolls to it on navigation (see useSectionScroll). Hash routing needs no
+// server-side fallback, which suits static GitHub Pages hosting exactly.
+const router = createHashRouter([
   {
     path: "/",
     element: <PortfolioPage />,
     errorElement: <ErrorPage />,
   },
   {
-    path: "*",
-    element: <ErrorPage />,
+    // Unknown segments simply render the page from the top rather than a 404 —
+    // every route is the same single page.
+    path: "/:sectionId",
+    element: <PortfolioPage />,
+    errorElement: <ErrorPage />,
   },
 ]);
 

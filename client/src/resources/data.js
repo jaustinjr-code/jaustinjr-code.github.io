@@ -1,122 +1,176 @@
 // Structured, presentation-agnostic content for the portfolio sections.
-// Components consume these arrays so markup stays declarative and the content
-// is easy to edit in one place. Text lives in strings.js; colors in palette.js.
+// Components consume these arrays so markup stays declarative and content is
+// easy to edit in one place. Text lives in strings.js; colors in palette.js.
 
-import { Accents } from "./palette.js";
+import ComputerIcon from "@mui/icons-material/ComputerOutlined";
+import CloudIcon from "@mui/icons-material/CloudOutlined";
+import TerminalIcon from "@mui/icons-material/Terminal";
+import TrendIcon from "@mui/icons-material/TrendingUpOutlined";
+import StorageIcon from "@mui/icons-material/StorageOutlined";
+import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
+import BluetoothIcon from "@mui/icons-material/Bluetooth";
+import WifiIcon from "@mui/icons-material/WifiOutlined";
+import PinIcon from "@mui/icons-material/PinDropOutlined";
+import SpeedIcon from "@mui/icons-material/Speed";
+import SecurityIcon from "@mui/icons-material/SecurityOutlined";
+import MailIcon from "@mui/icons-material/MailOutline";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import CodeIcon from "@mui/icons-material/Code";
 import {
+  ContactEmailAddress,
+  ContactEmailChannelLabel,
+  ContactLinkedInChannelLabel,
+  EmailLabel,
+  FrameworkNames,
   GitHubLabel,
   GitHubLink,
+  InfraAzureName,
+  InfraDatabasesName,
+  InfraGitHubActionsName,
+  InfraPipelinesName,
   InstagramLabel,
   InstagramLink,
+  LinkedInHandleDisplay,
   LinkedInLabel,
   LinkedInLink,
-  MediumLabel,
-  MediumLink,
-  NavAboutLabel,
+  NavContactLabel,
+  NavExperienceLabel,
+  NavIntroLabel,
   NavProjectsLabel,
   NavSkillsLabel,
-  NavWritingLabel,
+  ProjectStatCoverageLabel,
+  ProjectStatCoverageValue,
+  ProjectStatDownloadsLabel,
+  ProjectStatDownloadsValue,
+  ProjectStatLanguageLabel,
+  ProjectStatLanguageValue,
+  ProjectStatLicenseLabel,
+  ProjectStatLicenseValue,
+  SkillCSharpName,
+  SkillCppName,
+  SkillJavaName,
+  SkillJavaScriptName,
+  SkillKotlinName,
+  SkillSqlName,
+  SkillLevelAdvanced,
+  SkillLevelExpert,
+  SkillLevelIntermediate,
+  TimelineCountyMetricAfter,
+  TimelineCountyMetricBefore,
+  TimelineCountyMetricDetail,
+  TimelineCountyPeriod,
+  TimelineCountySummary,
+  TimelineCountyTitle,
+  TimelineGarminMetricDetail,
+  TimelineGarminMetricLabel,
+  TimelineGarminMetricValue,
+  TimelineGarminPeriod,
+  TimelineGarminSummary,
+  TimelineGarminTitle,
 } from "./strings.js";
 
-// Anchor targets for in-page navigation and scroll-spy.
+// Anchor ids for each section — the hash router path segment and the DOM id
+// the page scrolls to are the same value.
 export const SectionIds = {
-  hero: "top",
-  about: "about",
-  skills: "skills",
+  intro: "intro",
+  experience: "experience",
   projects: "projects",
-  writing: "writing",
+  skills: "skills",
   contact: "contact",
 };
 
-// Primary nav links (the Contact call-to-action is rendered separately).
+// DOM id of the hero headline (the large "name title"). The NavBar watches it
+// to reveal itself only after the name scrolls out of view, iOS-style.
+export const HeroHeadingElementId = "hero-heading";
+
+// Primary nav links, in page order.
 export const NavLinks = [
-  { label: NavAboutLabel, href: `#${SectionIds.about}` },
-  { label: NavSkillsLabel, href: `#${SectionIds.skills}` },
-  { label: NavProjectsLabel, href: `#${SectionIds.projects}` },
-  { label: NavWritingLabel, href: `#${SectionIds.writing}` },
+  { label: NavIntroLabel, sectionId: SectionIds.intro },
+  { label: NavExperienceLabel, sectionId: SectionIds.experience },
+  { label: NavProjectsLabel, sectionId: SectionIds.projects },
+  { label: NavSkillsLabel, sectionId: SectionIds.skills },
+  { label: NavContactLabel, sectionId: SectionIds.contact },
 ];
 
-// Skill pills, each with an accent dot color.
-export const Skills = [
-  { name: "React & TypeScript", color: Accents.green },
-  { name: "Kotlin & Android", color: Accents.cyan },
-  { name: "Swift / iOS", color: Accents.magenta },
-  { name: ".NET & C#", color: Accents.orange },
-  { name: "SQL & Postgres", color: Accents.yellow },
-  { name: "Docker & Azure", color: Accents.green },
-  { name: "CI/CD Pipelines", color: Accents.cyan },
-  { name: "System Design", color: Accents.magenta },
-];
-
-// The kind of device mockup rendered inside a project's demo modal.
-export const ProjectKind = Object.freeze({
-  mobile: "mobile",
-  desktop: "desktop",
-  web: "web",
-});
-
-// Project types offered to clients. Opening a card reveals a placeholder demo
-// whose mockup shape is chosen by `kind`.
-export const ProjectTypes = [
+// Professional timeline, newest first. `emphasis: "primary"` renders the entry
+// with the glowing dynamic-accent treatment; "secondary" uses the teal accent.
+export const TimelineEntries = [
   {
-    id: "mobile",
-    glyph: "M",
-    color: Accents.cyan,
-    kind: ProjectKind.mobile,
-    title: "Mobile App",
-    summary:
-      "Native or cross-platform Android & iOS apps — from consumer products to internal field tools.",
-    description:
-      "A placeholder walkthrough of what a mobile engagement looks like: onboarding, a core workflow screen, and a details view. Screens below are illustrative — real projects are built to your product and brand.",
-    tags: ["Android (Kotlin)", "iOS (Swift)", "Push notifications", "Offline-first"],
+    period: TimelineCountyPeriod,
+    title: TimelineCountyTitle,
+    platformIcons: [ComputerIcon, CloudIcon, StorageIcon],
+    summary: TimelineCountySummary,
+    emphasis: "primary",
+    metric: {
+      before: TimelineCountyMetricBefore,
+      after: TimelineCountyMetricAfter,
+      detail: TimelineCountyMetricDetail,
+      icon: SpeedIcon,
+    },
   },
   {
-    id: "desktop",
-    glyph: "D",
-    color: Accents.orange,
-    kind: ProjectKind.desktop,
-    title: "Internal Desktop Tool",
-    summary:
-      "Line-of-business dashboards and back-office tools that replace spreadsheets and manual process.",
-    description:
-      "A placeholder view of an internal tool: sidebar navigation, a data table, and lightweight reporting. This is the shape of dashboards built for ops, finance, and support teams.",
-    tags: [".NET / C#", "SQL Server", "Role-based access", "Reporting"],
-  },
-  {
-    id: "web",
-    glyph: "W",
-    color: Accents.magenta,
-    kind: ProjectKind.web,
-    title: "Landing Page / Catalog Site",
-    summary:
-      "Marketing sites and product catalogs built to convert — fast, responsive, and easy to update.",
-    description:
-      "A placeholder landing page: hero banner up top, catalog grid below. Real builds are tailored to your brand, copy, and product photography.",
-    tags: ["Responsive design", "CMS-ready", "SEO basics", "Fast load"],
+    period: TimelineGarminPeriod,
+    title: TimelineGarminTitle,
+    platformIcons: [PhoneAndroidIcon, BluetoothIcon, WifiIcon, PinIcon],
+    summary: TimelineGarminSummary,
+    emphasis: "secondary",
+    metric: {
+      value: TimelineGarminMetricValue,
+      label: TimelineGarminMetricLabel,
+      detail: TimelineGarminMetricDetail,
+    },
   },
 ];
 
-// Social links shown in the About section (compact set).
-export const AboutSocials = [
-  { label: GitHubLabel, href: GitHubLink },
-  { label: LinkedInLabel, href: LinkedInLink },
-  { label: MediumLabel, href: MediumLink },
+// Featured project: the primary terminal-window card.
+export const MediumParserStats = [
+  { label: ProjectStatDownloadsLabel, value: ProjectStatDownloadsValue },
+  { label: ProjectStatLanguageLabel, value: ProjectStatLanguageValue },
+  { label: ProjectStatCoverageLabel, value: ProjectStatCoverageValue },
+  { label: ProjectStatLicenseLabel, value: ProjectStatLicenseValue },
 ];
 
-// Social links shown in the Contact footer (full set).
-export const ContactSocials = [
-  { label: GitHubLabel, href: GitHubLink },
-  { label: LinkedInLabel, href: LinkedInLink },
-  { label: InstagramLabel, href: InstagramLink },
-  { label: MediumLabel, href: MediumLink },
+// Language proficiencies (0-100 drives the bar width).
+export const LanguageSkills = [
+  { name: SkillJavaScriptName, level: SkillLevelExpert, proficiency: 95 },
+  { name: SkillCSharpName, level: SkillLevelAdvanced, proficiency: 90 },
+  { name: SkillKotlinName, level: SkillLevelAdvanced, proficiency: 85 },
+  { name: SkillJavaName, level: SkillLevelIntermediate, proficiency: 75 },
+  { name: SkillSqlName, level: SkillLevelIntermediate, proficiency: 75 },
+  { name: SkillCppName, level: SkillLevelIntermediate, proficiency: 70 },
 ];
 
-export default {
-  SectionIds,
-  NavLinks,
-  Skills,
-  ProjectKind,
-  ProjectTypes,
-  AboutSocials,
-  ContactSocials,
-};
+export const FrameworkSkills = FrameworkNames;
+
+export const InfrastructureSkills = [
+  { name: InfraAzureName, icon: CloudIcon },
+  { name: InfraGitHubActionsName, icon: TerminalIcon },
+  { name: InfraPipelinesName, icon: TrendIcon },
+  { name: InfraDatabasesName, icon: StorageIcon },
+];
+
+// Contact channels rendered as round-icon rows in the contact section.
+export const ContactChannels = [
+  {
+    label: ContactEmailChannelLabel,
+    display: ContactEmailAddress,
+    href: `mailto:${ContactEmailAddress}`,
+    icon: MailIcon,
+  },
+  {
+    label: ContactLinkedInChannelLabel,
+    display: LinkedInHandleDisplay,
+    href: LinkedInLink,
+    icon: LinkedInIcon,
+  },
+];
+
+// Footer social links.
+export const FooterLinks = [
+  { label: LinkedInLabel, href: LinkedInLink, icon: LinkedInIcon },
+  { label: InstagramLabel, href: InstagramLink, icon: InstagramIcon },
+  { label: GitHubLabel, href: GitHubLink, icon: GitHubIcon },
+  { label: EmailLabel, href: `mailto:${ContactEmailAddress}`, icon: MailIcon },
+];
