@@ -29,8 +29,8 @@ import resumePdf from "@assets/resume.pdf";
 
 // Hero section container: wires the accent-shift and terminal-rain hooks and
 // lays out the intro per the design — headline + CTAs on the left, glowing
-// portrait with the ACCENT_SHIFT slider card on the right, all floating over
-// the animated terminal backdrop.
+// portrait with the ACCENT_SHIFT slider card beneath it on the right, all
+// floating over the animated terminal backdrop.
 export default function HeroSection() {
   const { hue, shiftHue } = useAccentColor();
   const { rows, litCells } = useTerminalRain();
@@ -147,45 +147,43 @@ export default function HeroSection() {
               "&:hover .heroPortraitImage": { filter: "grayscale(0)" },
             }}
           >
-            {/* Soft blurred accent halo behind the portrait */}
-            <Box
-              aria-hidden
-              className="heroPortraitGlow"
-              sx={{
-                position: "absolute",
-                inset: "-16px",
-                backgroundColor: Accent.dim(20),
-                filter: "blur(40px)",
-                borderRadius: "50%",
-                opacity: 0.5,
-                transition: "opacity 0.3s ease, background-color 0.3s ease",
-              }}
-            />
-            <Box
-              component="img"
-              className="heroPortraitImage"
-              src={portrait}
-              alt={HeroPortraitAlt}
-              sx={{
-                position: "relative",
-                display: "block",
-                width: "100%",
-                maxWidth: "100%",
-                aspectRatio: "1 / 1",
-                objectFit: "cover",
-                filter: "grayscale(1)",
-                transition: "filter 0.7s ease",
-                border: "2px solid rgba(59, 73, 76, 0.3)",
-              }}
-            />
-            <Box
-              sx={{
-                position: "absolute",
-                left: "16px",
-                right: "16px",
-                bottom: "16px",
-              }}
-            >
+            {/* Portrait + its halo, kept as their own stacking context so the
+                glow hugs the image and not the accent control below it */}
+            <Box sx={{ position: "relative" }}>
+              {/* Soft blurred accent halo behind the portrait */}
+              <Box
+                aria-hidden
+                className="heroPortraitGlow"
+                sx={{
+                  position: "absolute",
+                  inset: "-16px",
+                  backgroundColor: Accent.dim(20),
+                  filter: "blur(40px)",
+                  borderRadius: "50%",
+                  opacity: 0.5,
+                  transition: "opacity 0.3s ease, background-color 0.3s ease",
+                }}
+              />
+              <Box
+                component="img"
+                className="heroPortraitImage"
+                src={portrait}
+                alt={HeroPortraitAlt}
+                sx={{
+                  position: "relative",
+                  display: "block",
+                  width: "100%",
+                  maxWidth: "100%",
+                  aspectRatio: "1 / 1",
+                  objectFit: "cover",
+                  filter: "grayscale(1)",
+                  transition: "filter 0.7s ease",
+                  border: "2px solid rgba(59, 73, 76, 0.3)",
+                }}
+              />
+            </Box>
+            {/* Accent control sits below the portrait rather than over it */}
+            <Box sx={{ position: "relative", mt: 2 }}>
               <AccentSliderCard value={hue} onChange={shiftHue} />
             </Box>
           </Box>

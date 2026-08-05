@@ -7,8 +7,8 @@ import {
   AccentSliderVersionTag,
 } from "@resources/strings.js";
 
-// The hero's ACCENT_SHIFT control: a translucent glass card that overlays the
-// bottom of the portrait and hosts the hue slider driving the site-wide
+// The hero's ACCENT_SHIFT control: a translucent glass card that sits below
+// the portrait and hosts the hue slider driving the site-wide
 // `--accent-color` custom property. Presentational only — the hue state lives
 // in useAccentColor, wired up by the hero container.
 //
