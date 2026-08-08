@@ -19,6 +19,21 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import CodeIcon from "@mui/icons-material/Code";
 import {
+  ArticleCodeReviewDescription,
+  ArticleCodeReviewImageLink,
+  ArticleCodeReviewLink,
+  ArticleCodeReviewTag,
+  ArticleCodeReviewTitle,
+  ArticleInterviewPrepDescription,
+  ArticleInterviewPrepImageLink,
+  ArticleInterviewPrepLink,
+  ArticleInterviewPrepTag,
+  ArticleInterviewPrepTitle,
+  ArticleSecretStorageDescription,
+  ArticleSecretStorageImageLink,
+  ArticleSecretStorageLink,
+  ArticleSecretStorageTag,
+  ArticleSecretStorageTitle,
   ContactEmailAddress,
   ContactEmailChannelLabel,
   ContactLinkedInChannelLabel,
@@ -131,6 +146,43 @@ export const MediumParserStats = [
   { label: ProjectStatCoverageLabel, value: ProjectStatCoverageValue },
   { label: ProjectStatLicenseLabel, value: ProjectStatLicenseValue },
 ];
+
+// Featured publications rendered by the article feed. The shape is provider
+// agnostic: `imageLink`, `title`, and `link` are required, everything else is
+// optional metadata that the card renders only when present. Swapping this
+// array for a fetched feed (e.g. medium-rss-feed-parser) is the only change
+// needed to make the feed live — see useArticles for the mapping seam.
+//
+// `readTimeMinutes` is a manual estimate until a feed provides it.
+export const FeaturedArticles = [
+  {
+    title: ArticleSecretStorageTitle,
+    description: ArticleSecretStorageDescription,
+    link: ArticleSecretStorageLink,
+    imageLink: ArticleSecretStorageImageLink,
+    tags: [ArticleSecretStorageTag],
+    readTimeMinutes: 7,
+  },
+  {
+    title: ArticleInterviewPrepTitle,
+    description: ArticleInterviewPrepDescription,
+    link: ArticleInterviewPrepLink,
+    imageLink: ArticleInterviewPrepImageLink,
+    tags: [ArticleInterviewPrepTag],
+    readTimeMinutes: 4,
+  },
+  {
+    title: ArticleCodeReviewTitle,
+    description: ArticleCodeReviewDescription,
+    link: ArticleCodeReviewLink,
+    imageLink: ArticleCodeReviewImageLink,
+    tags: [ArticleCodeReviewTag],
+    readTimeMinutes: 6,
+  },
+];
+
+// How many articles the feed shows at once (one row of cards on desktop).
+export const FeaturedArticleLimit = 3;
 
 // Language proficiencies (0-100 drives the bar width).
 export const LanguageSkills = [

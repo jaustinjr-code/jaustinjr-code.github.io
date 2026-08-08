@@ -74,6 +74,44 @@ export const ProjectStatCoverageValue = "98%";
 export const ProjectStatLicenseLabel = "License";
 export const ProjectStatLicenseValue = "MIT";
 
+// Articles — publication feed sub-section under Featured Projects
+export const ArticlesSectionEyebrow = "Publication_Feed";
+export const ArticlesHeading = "Latest Articles";
+export const ArticleReadCta = "Read on Medium";
+export const ArticleReadTimeUnit = "MIN READ";
+
+// Articles — featured entries (metadata mirrors the Medium RSS feed so the
+// same shape can later be produced by medium-rss-feed-parser)
+export const ArticleSecretStorageTitle =
+  "Solving the GitHub Variable and Secret Storage Problem with Google SRE Principles";
+export const ArticleSecretStorageDescription =
+  "A guide to apply release engineering and configuration-as-code principles in GitHub repositories.";
+export const ArticleSecretStorageTag = "Devops";
+export const ArticleSecretStorageLink =
+  "https://aws.plainenglish.io/solving-the-github-variable-and-secret-storage-problem-with-google-sre-principles-a8d032298228";
+export const ArticleSecretStorageImageLink =
+  "https://cdn-images-1.medium.com/max/1537/1*yLG4hcJEdSGEDX2BSB-64Q.png";
+
+export const ArticleInterviewPrepTitle =
+  "At this point, anything will help in this job market.";
+export const ArticleInterviewPrepDescription =
+  "5 unhinged interview preparation tips that actually work.";
+export const ArticleInterviewPrepTag = "Careers";
+export const ArticleInterviewPrepLink =
+  "https://medium.com/@jaustinjr/at-this-point-anything-will-help-in-this-job-market-73dd2c87a427";
+export const ArticleInterviewPrepImageLink =
+  "https://cdn-images-1.medium.com/max/2600/0*PTMGLQfuuz-GWoFt";
+
+export const ArticleCodeReviewTitle =
+  "Setting up Claude Code Review in GitHub Actions";
+export const ArticleCodeReviewDescription =
+  "Technical insights on using Claude in Pull Request reviews with the Claude Pro subscription plan.";
+export const ArticleCodeReviewTag = "Claude_Code";
+export const ArticleCodeReviewLink =
+  "https://medium.com/@jaustinjr/setting-up-claude-code-review-in-github-actions-d7128067646c";
+export const ArticleCodeReviewImageLink =
+  "https://cdn-images-1.medium.com/max/1536/1*lvzQBynYiv6bdsdzNex-fQ.png";
+
 // Skills
 export const SkillsSectionEyebrow = "Capabilities_Matrix";
 export const SkillsHeading = "Technical Expertise";
