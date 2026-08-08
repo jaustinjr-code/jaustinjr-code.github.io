@@ -92,15 +92,15 @@ export const ArticleSecretStorageLink =
 export const ArticleSecretStorageImageLink =
   "https://cdn-images-1.medium.com/max/1537/1*yLG4hcJEdSGEDX2BSB-64Q.png";
 
-export const ArticleInterviewPrepTitle =
-  "At this point, anything will help in this job market.";
-export const ArticleInterviewPrepDescription =
-  "5 unhinged interview preparation tips that actually work.";
-export const ArticleInterviewPrepTag = "Careers";
-export const ArticleInterviewPrepLink =
-  "https://medium.com/@jaustinjr/at-this-point-anything-will-help-in-this-job-market-73dd2c87a427";
-export const ArticleInterviewPrepImageLink =
-  "https://cdn-images-1.medium.com/max/2600/0*PTMGLQfuuz-GWoFt";
+export const ArticleScalingSystemsTitle =
+  "Scaling Systems: Vertical vs. Horizontal Scaling Explained";
+export const ArticleScalingSystemsDescription =
+  "Simple guidelines for scaling to large distributed systems and addressing CAP theorem trade-offs.";
+export const ArticleScalingSystemsTag = "Distributed_Systems";
+export const ArticleScalingSystemsLink =
+  "https://medium.com/@jaustinjr/scaling-systems-vertical-vs-horizontal-scaling-explained-03019b48491b";
+export const ArticleScalingSystemsImageLink =
+  "https://cdn-images-1.medium.com/max/1536/1*2B5SVBPgCYPhNthL1QDKGQ.png";
 
 export const ArticleCodeReviewTitle =
   "Setting up Claude Code Review in GitHub Actions";
