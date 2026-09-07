@@ -74,6 +74,43 @@ export const ProjectStatCoverageValue = "98%";
 export const ProjectStatLicenseLabel = "License";
 export const ProjectStatLicenseValue = "MIT";
 
+// Articles — publication feed sub-section under Featured Projects
+export const ArticlesSectionEyebrow = "Publication_Feed";
+export const ArticlesHeading = "Latest Articles";
+export const ArticleReadCta = "Read on Medium";
+export const ArticleReadTimeUnit = "MIN READ";
+export const ArticlesUnavailableMessage =
+  "Articles are unavailable right now — check back shortly.";
+
+// Articles — featured entries (metadata mirrors the Medium RSS feed so the
+// same shape can later be produced by medium-rss-feed-parser). Card imagery
+// is bundled locally from client/src/assets/ rather than hotlinked from
+// Medium's CDN — see data.js — so these three don't carry an *ImageLink
+// string; a future fetched feed will supply its own remote image URLs.
+export const ArticleSecretStorageTitle =
+  "Solving the GitHub Variable and Secret Storage Problem with Google SRE Principles";
+export const ArticleSecretStorageDescription =
+  "A guide to apply release engineering and configuration-as-code principles in GitHub repositories.";
+export const ArticleSecretStorageTag = "Devops";
+export const ArticleSecretStorageLink =
+  "https://aws.plainenglish.io/solving-the-github-variable-and-secret-storage-problem-with-google-sre-principles-a8d032298228";
+
+export const ArticleScalingSystemsTitle =
+  "Scaling Systems: Vertical vs. Horizontal Scaling Explained";
+export const ArticleScalingSystemsDescription =
+  "Simple guidelines for scaling to large distributed systems and addressing CAP theorem trade-offs.";
+export const ArticleScalingSystemsTag = "Distributed_Systems";
+export const ArticleScalingSystemsLink =
+  "https://medium.com/@jaustinjr/scaling-systems-vertical-vs-horizontal-scaling-explained-03019b48491b";
+
+export const ArticleCodeReviewTitle =
+  "Setting up Claude Code Review in GitHub Actions";
+export const ArticleCodeReviewDescription =
+  "Technical insights on using Claude in Pull Request reviews with the Claude Pro subscription plan.";
+export const ArticleCodeReviewTag = "Claude_Code";
+export const ArticleCodeReviewLink =
+  "https://medium.com/@jaustinjr/setting-up-claude-code-review-in-github-actions-d7128067646c";
+
 // Skills
 export const SkillsSectionEyebrow = "Capabilities_Matrix";
 export const SkillsHeading = "Technical Expertise";

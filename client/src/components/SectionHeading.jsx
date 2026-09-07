@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 import { Colors } from "@resources/palette.js";
-import { HeadlineXlSx, LabelCapsSx } from "@resources/styles.js";
+import { HeadlineMdSx, HeadlineXlSx, LabelCapsSx } from "@resources/styles.js";
 
 // Standard section header: a monospace uppercase eyebrow kicker above a
 // display headline.
@@ -8,16 +8,26 @@ import { HeadlineXlSx, LabelCapsSx } from "@resources/styles.js";
 // Props:
 //   eyebrow      — the small mono kicker text
 //   heading      — the display headline text
+//   level        — "section" (default, h2 at display size) or "sub" (h3 at
+//                  card-title size, for a block nested inside a section)
 //   align        — "left" (default) or "center"
 //   eyebrowColor — overrides the muted kicker color (e.g. the live accent)
 //   sx           — extra styles on the wrapper
+const HeadingLevels = {
+  section: { component: "h2", typeSx: HeadlineXlSx },
+  sub: { component: "h3", typeSx: HeadlineMdSx },
+};
+
 export default function SectionHeading({
   eyebrow,
   heading,
+  level = "section",
   align = "left",
   eyebrowColor,
   sx,
 }) {
+  const { component, typeSx } = HeadingLevels[level] ?? HeadingLevels.section;
+
   return (
     <Box sx={{ textAlign: align, ...sx }}>
       <Typography
@@ -26,7 +36,7 @@ export default function SectionHeading({
       >
         {eyebrow}
       </Typography>
-      <Typography component="h2" sx={{ ...HeadlineXlSx, mt: 1.5 }}>
+      <Typography component={component} sx={{ ...typeSx, mt: 1.5 }}>
         {heading}
       </Typography>
     </Box>

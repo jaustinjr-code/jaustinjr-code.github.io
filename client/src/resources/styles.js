@@ -168,6 +168,17 @@ export const AccentHoverBorderSx = {
   },
 };
 
+// Editorial imagery sits in grayscale at rest and fades to full color while an
+// ancestor (usually its card) is hovered. The class marks the image; the sx
+// recipe goes on the hovering ancestor so the whole card triggers the reveal.
+export const HOVER_REVEAL_IMAGE_CLASS = "hover-reveal-image";
+
+export const HoverRevealImageHoverSx = {
+  [`&:hover .${HOVER_REVEAL_IMAGE_CLASS}`]: {
+    filter: "grayscale(0)",
+  },
+};
+
 // Glassmorphism recipe for the fixed navigation "HUD".
 export const GlassSurfaceSx = {
   backgroundColor: `color-mix(in srgb, ${Colors.surfaceDeep} 80%, transparent)`,
@@ -205,6 +216,8 @@ export default {
   BodyMdSx,
   ElevatedPanelSx,
   AccentHoverBorderSx,
+  HOVER_REVEAL_IMAGE_CLASS,
+  HoverRevealImageHoverSx,
   GlassSurfaceSx,
   AccentGlowSx,
 };
