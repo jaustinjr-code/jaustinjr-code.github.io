@@ -4,7 +4,7 @@
   "description": "Scripts used by the Update Latest Articles workflow to read the Medium RSS feed.",
   "type": "module",
   "engines": {
-    "node": ">=18"
+    "node": ">=24"
   },
   "dependencies": {
     "medium-rss-feed-parser": "^1.1.2"

@@ -52,6 +52,8 @@ section needs a fallback for that case.
 
 ## Running the scripts locally
 
+These scripts run on Node 24, matching the workflow.
+
 ```bash
 cd .github/scripts
 npm ci
