@@ -105,6 +105,11 @@ jobs:
     outputs:
       selection: ${{ steps.await.outputs.selection }}
     steps:
+      # Checked out for the selection script; must precede the artifact
+      # download, since checkout cleans the workspace.
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
       - name: Download the candidate list
         uses: actions/download-artifact@v4
         with:
@@ -120,150 +125,8 @@ jobs:
           SELECTION_TIMEOUT_MINUTES: ${{ inputs.selection_timeout_minutes }}
         with:
           script: |
-            const { readFileSync } = require('node:fs');
-
-            const POLL_INTERVAL_MS = 15000;
-            // Stop early enough that closing the issue beats the job timeout.
-            const SHUTDOWN_GRACE_MS = 120000;
-            const SELECT_COMMAND = /^\s*\/select\s+([0-9][0-9\s,]*)\s*$/im;
-            const CANCEL_COMMAND = /^\s*\/cancel\s*$/im;
-            const ALLOWED_PERMISSIONS = ['admin', 'write', 'maintain'];
-
-            const { owner, repo } = context.repo;
-            const articleCount = Number(process.env.ARTICLE_COUNT);
-            const candidateCount = Number(process.env.CANDIDATE_COUNT);
-            const timeoutMinutes = Number(process.env.SELECTION_TIMEOUT_MINUTES);
-            const candidateTable = readFileSync(process.env.CANDIDATES_MARKDOWN, 'utf8');
-            const runUrl = `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`;
-
-            const issueBody = [
-              `**[Run #${context.runNumber}](${runUrl}) is paused and waiting for you.**`,
-              '',
-              `Reply below with the ${articleCount} posts you want in the Latest Articles section. The order you list them in is the order the site will show them.`,
-              '',
-              '```',
-              '/select 1 2 3',
-              '```',
-              '',
-              `Numbers must be between 1 and ${candidateCount}, with no repeats. Comment \`/cancel\` to stop the run. The workflow gives up after ${timeoutMinutes} minutes.`,
-              '',
-              candidateTable,
-            ].join('\n');
-
-            const issue = await github.rest.issues.create({
-              owner,
-              repo,
-              title: `Select ${articleCount} Medium articles (run #${context.runNumber})`,
-              body: issueBody,
-            });
-            const issueNumber = issue.data.number;
-
-            core.notice(`Waiting for your selection in ${issue.data.html_url}`);
-            await core.summary
-              .addHeading('Waiting for your selection', 3)
-              .addRaw(`Comment \`/select <numbers>\` on ${issue.data.html_url} to continue this run.`)
-              .addBreak()
-              .addRaw(candidateTable)
-              .write();
-
-            /** Closes the selection issue with a closing comment. */
-            const closeIssue = async (comment) => {
-              await github.rest.issues.createComment({ owner, repo, issue_number: issueNumber, body: comment });
-              await github.rest.issues.update({ owner, repo, issue_number: issueNumber, state: 'closed' });
-            };
-
-            /** True when the commenter may drive this workflow. */
-            const isAuthorized = async (login) => {
-              if (login === context.actor) return true;
-              try {
-                const { data } = await github.rest.repos.getCollaboratorPermissionLevel({ owner, repo, username: login });
-                return ALLOWED_PERMISSIONS.includes(data.permission);
-              } catch {
-                return false;
-              }
-            };
-
-            /** Validates the numbers in a /select comment. */
-            const validate = (raw) => {
-              const tokens = raw.trim().split(/[\s,]+/).filter(Boolean);
-              if (tokens.length !== articleCount) {
-                return { error: `I need exactly ${articleCount} numbers, but got ${tokens.length}.` };
-              }
-              const positions = tokens.map((token) => Number.parseInt(token, 10));
-              const outOfRange = positions.find((position) => position < 1 || position > candidateCount);
-              if (outOfRange !== undefined) {
-                return { error: `\`${outOfRange}\` is outside the range 1-${candidateCount}.` };
-              }
-              if (new Set(positions).size !== positions.length) {
-                return { error: 'Each article can only be picked once.' };
-              }
-              return { positions };
-            };
-
-            const handled = new Set();
-            const deadline =
-              Date.now() +
-              Math.max(POLL_INTERVAL_MS, timeoutMinutes * 60000 - SHUTDOWN_GRACE_MS);
-
-            while (Date.now() < deadline) {
-              await new Promise((resolve) => setTimeout(resolve, POLL_INTERVAL_MS));
-
-              const comments = await github.paginate(github.rest.issues.listComments, {
-                owner,
-                repo,
-                issue_number: issueNumber,
-                per_page: 100,
-              });
-
-              for (const comment of comments) {
-                if (handled.has(comment.id)) continue;
-                handled.add(comment.id);
-
-                const body = comment.body ?? '';
-                const login = comment.user?.login ?? '';
-                if (comment.user?.type === 'Bot') continue;
-                if (!SELECT_COMMAND.test(body) && !CANCEL_COMMAND.test(body)) continue;
-
-                if (!(await isAuthorized(login))) {
-                  await github.rest.issues.createComment({
-                    owner,
-                    repo,
-                    issue_number: issueNumber,
-                    body: `@${login} only maintainers of this repository can choose the featured articles, so this run will keep waiting.`,
-                  });
-                  continue;
-                }
-
-                if (CANCEL_COMMAND.test(body)) {
-                  await closeIssue(`Cancelled by @${login}. [Run #${context.runNumber}](${runUrl}) will stop here.`);
-                  core.setFailed(`Selection cancelled by @${login}.`);
-                  return;
-                }
-
-                const { positions, error } = validate(body.match(SELECT_COMMAND)[1]);
-                if (error) {
-                  await github.rest.issues.createComment({
-                    owner,
-                    repo,
-                    issue_number: issueNumber,
-                    body: `@${login} ${error} Try again with \`/select\` and ${articleCount} numbers between 1 and ${candidateCount}.`,
-                  });
-                  continue;
-                }
-
-                await closeIssue(
-                  `Got it — featuring articles ${positions.join(', ')}, chosen by @${login}. [Run #${context.runNumber}](${runUrl}) is building the article data now.`,
-                );
-                core.setOutput('selection', positions.join(','));
-                core.notice(`Selected articles: ${positions.join(', ')}`);
-                return;
-              }
-            }
-
-            await closeIssue(
-              `No selection arrived within ${timeoutMinutes} minutes, so [run #${context.runNumber}](${runUrl}) stopped. Start the workflow again when you are ready.`,
-            );
-            core.setFailed(`Timed out after ${timeoutMinutes} minutes waiting for a selection.`);
+            const awaitSelection = require('${{ github.workspace }}/.github/scripts/await-selection.cjs');
+            await awaitSelection({ github, context, core });
 
   build-article-data:
     name: Build article data

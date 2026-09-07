@@ -10,10 +10,14 @@ and builds the data the site's "Latest Articles" section renders.
 1. **Fetch** — `fetch-medium-articles.mjs` parses the feed and normalizes the
    newest posts into `medium-candidates.json`, plus a numbered Markdown table
    that lands in the run summary.
-2. **Pause** — the workflow opens an issue with that table and waits. Comment
-   `/select 2 5 7` on it to choose, or `/cancel` to stop the run. Only
+2. **Pause** — `await-selection.cjs` opens an issue with that table and waits.
+   Comment `/select 2 5 7` on it to choose, or `/cancel` to stop the run. Only
    maintainers can drive it, and the workflow closes the issue on its way out.
    Supply the `selection` input at dispatch time to skip the pause entirely.
+
+   It runs through `actions/github-script`, which injects an authenticated
+   Octokit client, so the workflow step is a two-line `require` bridge and the
+   logic lives here. CommonJS is what that bridge takes, hence the `.cjs`.
 3. **Build** — `build-latest-articles.mjs` writes the chosen posts to
    `client/src/resources/articles.json` and uploads it as the `latest-articles`
    artifact. Nothing is committed or deployed yet — that comes later.
