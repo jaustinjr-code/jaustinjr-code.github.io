@@ -1,6 +1,7 @@
 import { Box, Link, Typography } from "@mui/material";
 import CodeIcon from "@mui/icons-material/Code";
 import TerminalIcon from "@mui/icons-material/Terminal";
+import ArticleFeed from "@components/ArticleFeed";
 import SectionHeading from "@components/SectionHeading";
 import SectionShell from "@components/SectionShell";
 import StatTile from "@components/StatTile";
@@ -14,7 +15,11 @@ import {
   HeadlineMdSx,
   LabelCapsSx,
 } from "@resources/styles.js";
-import { MediumParserStats, SectionIds } from "@resources/data.js";
+import {
+  LatestArticles,
+  MediumParserStats,
+  SectionIds,
+} from "@resources/data.js";
 import {
   MediumParserGitHubLink,
   MediumParserNpmLink,
@@ -151,6 +156,9 @@ export default function ProjectsSection() {
           </Box>
         </TerminalPanel>
       </Box>
+
+      {/* Publication feed sits directly beneath the featured projects grid. */}
+      <ArticleFeed source={LatestArticles} />
     </SectionShell>
   );
 }

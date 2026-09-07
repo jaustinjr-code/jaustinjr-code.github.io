@@ -31,6 +31,17 @@ const articles = positions.map((position) => {
   return article;
 });
 
+// useArticles drops any article whose imageLink is missing or unsafe, so a
+// pick with no cover image would quietly leave the section a card short.
+const imageless = articles.filter((article) => !article.imageLink);
+if (imageless.length > 0) {
+  for (const article of imageless) {
+    console.log(
+      `::warning::"${article.title}" has no cover image in its Medium post, so the site will not render it. Re-run and pick a post that has one.`,
+    );
+  }
+}
+
 const output = {
   generatedAt: new Date().toISOString(),
   source: document.source,
@@ -94,10 +105,10 @@ function renderMarkdown(output) {
     const tags = article.categories.slice(0, 3).join(", ") || "—";
     return [
       `${index + 1}. **${escapeText(article.title)}**`,
-      `   - Published: ${article.publishedLabel ?? "—"} · ${article.readingTimeMinutes} min read · Tags: ${escapeText(tags)}`,
+      `   - Published: ${article.publishedLabel ?? "—"} · ${article.readTimeMinutes} min read · Tags: ${escapeText(tags)}`,
       `   - Link: ${article.link}`,
-      `   - Cover image: ${article.imageUrl ?? "_none found in the post_"}`,
-      `   - Excerpt: ${escapeText(article.excerpt)}`,
+      `   - Cover image: ${article.imageLink ?? "**none — the site will not render this card**"}`,
+      `   - Excerpt: ${escapeText(article.description)}`,
     ].join("\n");
   });
 

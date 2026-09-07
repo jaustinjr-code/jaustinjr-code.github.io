@@ -87,7 +87,10 @@ async function fetchFeedWithRetry(authorUsername) {
 }
 
 /**
- * Reduces a parsed feed item to the fields the website renders.
+ * Reduces a parsed feed item to the fields the website renders. The names here
+ * are the ones client/src/hooks/useArticles.jsx reads (`readTimeMinutes`,
+ * `description`, `imageLink`), so the generated file drops straight into
+ * ArticleFeed's `source` with no adapter in between.
  * @param {Object} item A parsed feed item.
  * @param {number} position 1-based position in the candidate list.
  * @returns {Object} The normalized article record.
@@ -113,9 +116,9 @@ function normalizeArticle(item, position) {
     publishedAt,
     publishedLabel: toPublishedLabel(publishedAt),
     categories: normalizeCategories(item.categories),
-    readingTimeMinutes: toReadingTime(plainText),
-    excerpt: toExcerpt(plainText),
-    imageUrl: pickCoverImage(item.images),
+    readTimeMinutes: toReadingTime(plainText),
+    description: toExcerpt(plainText),
+    imageLink: pickCoverImage(item.images),
   };
 }
 
@@ -274,15 +277,18 @@ function collapseWhitespace(value) {
 function renderMarkdown(document) {
   const rows = document.candidates.map((candidate) => {
     const tags = candidate.categories.slice(0, 3).join(", ") || "—";
-    return `| **${candidate.position}** | ${escapeCell(candidate.title)} | ${candidate.publishedLabel ?? "—"} | ${candidate.readingTimeMinutes} min | ${escapeCell(tags)} | [Open](${candidate.link}) |`;
+    const image = candidate.imageLink ? "yes" : "**none**";
+    return `| **${candidate.position}** | ${escapeCell(candidate.title)} | ${candidate.publishedLabel ?? "—"} | ${candidate.readTimeMinutes} min | ${escapeCell(tags)} | ${image} | [Open](${candidate.link}) |`;
   });
 
   return [
     `### Latest posts from ${escapeCell(document.source.feedTitle || document.source.username)}`,
     "",
-    "| # | Title | Published | Read | Tags | Link |",
-    "| :-- | :-- | :-- | :-- | :-- | :-- |",
+    "| # | Title | Published | Read | Tags | Image | Link |",
+    "| :-- | :-- | :-- | :-- | :-- | :-- | :-- |",
     ...rows,
+    "",
+    "A post with no cover image is not rendered by the site — the card needs one.",
     "",
   ].join("\n");
 }

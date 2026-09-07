@@ -32,6 +32,10 @@ on:
         description: "How long to wait for the selection before giving up"
         required: false
         default: "60"
+      deploy_branch:
+        description: "Branch the articles pull request targets (the branch that deploys)"
+        required: false
+        default: "main"
 
 # Read-only by default; the job that opens the selection issue asks for more.
 permissions:
@@ -129,16 +133,23 @@ jobs:
             await awaitSelection({ github, context, core });
 
   build-article-data:
-    name: Build article data
+    name: Build and propose article data
     needs: [fetch-candidates, await-selection]
     if: |
       always()
       && needs.fetch-candidates.result == 'success'
       && (needs.await-selection.result == 'success' || needs.await-selection.result == 'skipped')
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
-      - name: Checkout repository
+      # The generated file has to sit on top of the branch that deploys, so the
+      # pull request this job opens applies cleanly there.
+      - name: Checkout the deploy branch
         uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.deploy_branch }}
 
       - name: Use Node.js 24.x
         uses: actions/setup-node@v4
@@ -179,3 +190,44 @@ jobs:
           name: latest-articles
           path: ${{ env.ARTICLES_JSON }}
           retention-days: 30
+
+      - name: Open a pull request with the new articles
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ARTICLES_JSON: ${{ env.ARTICLES_JSON }}
+          SELECTION_MARKDOWN: ${{ env.SELECTION_MARKDOWN }}
+          BASE_BRANCH: ${{ inputs.deploy_branch }}
+          BRANCH: chore/latest-articles-${{ github.run_id }}
+          MEDIUM_USERNAME: ${{ inputs.medium_username }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+
+          if git diff --quiet -- "$ARTICLES_JSON"; then
+            echo "::notice::The selection already matches $BASE_BRANCH; no pull request needed."
+            exit 0
+          fi
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -c "$BRANCH"
+          git add "$ARTICLES_JSON"
+          git commit \
+            --message 'Update the latest articles feed' \
+            --message "Generated from ${MEDIUM_USERNAME}'s Medium RSS feed by ${RUN_URL}."
+          git push -u origin "$BRANCH"
+
+          {
+            echo "Regenerated \`$ARTICLES_JSON\` from ${MEDIUM_USERNAME}'s Medium RSS feed,"
+            echo "with the posts chosen during [run #${GITHUB_RUN_NUMBER}](${RUN_URL})."
+            echo
+            cat "$SELECTION_MARKDOWN"
+            echo
+            echo "Merging this deploys the feed: pushing to \`$BASE_BRANCH\` triggers the Pages workflow."
+          } > pr-body.md
+
+          gh pr create \
+            --base "$BASE_BRANCH" \
+            --head "$BRANCH" \
+            --title 'Update the latest articles feed' \
+            --body-file pr-body.md
