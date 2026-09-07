@@ -1,0 +1,12 @@
+{
+  "name": "medium-article-workflow-scripts",
+  "private": true,
+  "description": "Scripts used by the Update Latest Articles workflow to read the Medium RSS feed.",
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "medium-rss-feed-parser": "^1.1.2"
+  }
+}

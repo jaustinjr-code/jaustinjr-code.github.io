@@ -1,0 +1,318 @@
+# Reads the Medium RSS feed with the medium-rss-feed-parser package, pauses so
+# a maintainer can pick which posts to feature, then generates the article data
+# the "Latest Articles" section of the site renders.
+#
+# The pause happens in a throwaway GitHub issue: the workflow posts the numbered
+# list of recent posts there and waits for a `/select <numbers>` comment. The
+# generated file is published as a build artifact only — committing and
+# deploying it is deliberately left out for now.
+
+name: Update Latest Articles
+
+on:
+  workflow_dispatch:
+    inputs:
+      medium_username:
+        description: 'Medium handle to read, e.g. "@jaustinjr"'
+        required: true
+        default: "@jaustinjr"
+      candidate_count:
+        description: "How many recent posts to choose from"
+        required: false
+        default: "10"
+      article_count:
+        description: "How many articles the section shows"
+        required: false
+        default: "3"
+      selection:
+        description: 'Skip the pause by choosing now, e.g. "1,3,5". Leave blank to choose while the workflow waits.'
+        required: false
+        default: ""
+      selection_timeout_minutes:
+        description: "How long to wait for the selection before giving up"
+        required: false
+        default: "60"
+
+# Read-only by default; the job that opens the selection issue asks for more.
+permissions:
+  contents: read
+
+# A paused run holds an open selection issue, so never run two at once.
+concurrency:
+  group: update-latest-articles
+  cancel-in-progress: false
+
+env:
+  CANDIDATES_JSON: medium-candidates.json
+  CANDIDATES_MARKDOWN: medium-candidates.md
+  ARTICLES_JSON: client/src/resources/articles.json
+  SELECTION_MARKDOWN: medium-selection.md
+
+jobs:
+  fetch-candidates:
+    name: Fetch Medium feed
+    runs-on: ubuntu-latest
+    outputs:
+      candidate_count: ${{ steps.fetch.outputs.candidate_count }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: "npm"
+          cache-dependency-path: .github/scripts/package-lock.json
+
+      - name: Install script dependencies
+        run: npm ci
+        working-directory: .github/scripts
+
+      - name: Parse the RSS feed
+        id: fetch
+        env:
+          MEDIUM_USERNAME: ${{ inputs.medium_username }}
+          CANDIDATE_LIMIT: ${{ inputs.candidate_count }}
+          OUTPUT_JSON: ${{ env.CANDIDATES_JSON }}
+          OUTPUT_MARKDOWN: ${{ env.CANDIDATES_MARKDOWN }}
+        run: node .github/scripts/fetch-medium-articles.mjs
+
+      - name: Publish the candidate list to the run summary
+        run: cat "$CANDIDATES_MARKDOWN" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload the candidate list
+        uses: actions/upload-artifact@v4
+        with:
+          name: medium-candidates
+          path: |
+            ${{ env.CANDIDATES_JSON }}
+            ${{ env.CANDIDATES_MARKDOWN }}
+          retention-days: 7
+
+  await-selection:
+    name: Wait for article selection
+    needs: fetch-candidates
+    # Skipped when the numbers were supplied at dispatch time.
+    if: inputs.selection == ''
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    # Hard backstop. The script stops a couple of minutes earlier than this so
+    # it still gets to close its own issue.
+    timeout-minutes: ${{ fromJSON(inputs.selection_timeout_minutes) }}
+    outputs:
+      selection: ${{ steps.await.outputs.selection }}
+    steps:
+      - name: Download the candidate list
+        uses: actions/download-artifact@v4
+        with:
+          name: medium-candidates
+
+      - name: Open a selection issue and wait for a reply
+        id: await
+        uses: actions/github-script@v7
+        env:
+          CANDIDATES_MARKDOWN: ${{ env.CANDIDATES_MARKDOWN }}
+          CANDIDATE_COUNT: ${{ needs.fetch-candidates.outputs.candidate_count }}
+          ARTICLE_COUNT: ${{ inputs.article_count }}
+          SELECTION_TIMEOUT_MINUTES: ${{ inputs.selection_timeout_minutes }}
+        with:
+          script: |
+            const { readFileSync } = require('node:fs');
+
+            const POLL_INTERVAL_MS = 15000;
+            // Stop early enough that closing the issue beats the job timeout.
+            const SHUTDOWN_GRACE_MS = 120000;
+            const SELECT_COMMAND = /^\s*\/select\s+([0-9][0-9\s,]*)\s*$/im;
+            const CANCEL_COMMAND = /^\s*\/cancel\s*$/im;
+            const ALLOWED_PERMISSIONS = ['admin', 'write', 'maintain'];
+
+            const { owner, repo } = context.repo;
+            const articleCount = Number(process.env.ARTICLE_COUNT);
+            const candidateCount = Number(process.env.CANDIDATE_COUNT);
+            const timeoutMinutes = Number(process.env.SELECTION_TIMEOUT_MINUTES);
+            const candidateTable = readFileSync(process.env.CANDIDATES_MARKDOWN, 'utf8');
+            const runUrl = `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`;
+
+            const issueBody = [
+              `**[Run #${context.runNumber}](${runUrl}) is paused and waiting for you.**`,
+              '',
+              `Reply below with the ${articleCount} posts you want in the Latest Articles section. The order you list them in is the order the site will show them.`,
+              '',
+              '```',
+              '/select 1 2 3',
+              '```',
+              '',
+              `Numbers must be between 1 and ${candidateCount}, with no repeats. Comment \`/cancel\` to stop the run. The workflow gives up after ${timeoutMinutes} minutes.`,
+              '',
+              candidateTable,
+            ].join('\n');
+
+            const issue = await github.rest.issues.create({
+              owner,
+              repo,
+              title: `Select ${articleCount} Medium articles (run #${context.runNumber})`,
+              body: issueBody,
+            });
+            const issueNumber = issue.data.number;
+
+            core.notice(`Waiting for your selection in ${issue.data.html_url}`);
+            await core.summary
+              .addHeading('Waiting for your selection', 3)
+              .addRaw(`Comment \`/select <numbers>\` on ${issue.data.html_url} to continue this run.`)
+              .addBreak()
+              .addRaw(candidateTable)
+              .write();
+
+            /** Closes the selection issue with a closing comment. */
+            const closeIssue = async (comment) => {
+              await github.rest.issues.createComment({ owner, repo, issue_number: issueNumber, body: comment });
+              await github.rest.issues.update({ owner, repo, issue_number: issueNumber, state: 'closed' });
+            };
+
+            /** True when the commenter may drive this workflow. */
+            const isAuthorized = async (login) => {
+              if (login === context.actor) return true;
+              try {
+                const { data } = await github.rest.repos.getCollaboratorPermissionLevel({ owner, repo, username: login });
+                return ALLOWED_PERMISSIONS.includes(data.permission);
+              } catch {
+                return false;
+              }
+            };
+
+            /** Validates the numbers in a /select comment. */
+            const validate = (raw) => {
+              const tokens = raw.trim().split(/[\s,]+/).filter(Boolean);
+              if (tokens.length !== articleCount) {
+                return { error: `I need exactly ${articleCount} numbers, but got ${tokens.length}.` };
+              }
+              const positions = tokens.map((token) => Number.parseInt(token, 10));
+              const outOfRange = positions.find((position) => position < 1 || position > candidateCount);
+              if (outOfRange !== undefined) {
+                return { error: `\`${outOfRange}\` is outside the range 1-${candidateCount}.` };
+              }
+              if (new Set(positions).size !== positions.length) {
+                return { error: 'Each article can only be picked once.' };
+              }
+              return { positions };
+            };
+
+            const handled = new Set();
+            const deadline =
+              Date.now() +
+              Math.max(POLL_INTERVAL_MS, timeoutMinutes * 60000 - SHUTDOWN_GRACE_MS);
+
+            while (Date.now() < deadline) {
+              await new Promise((resolve) => setTimeout(resolve, POLL_INTERVAL_MS));
+
+              const comments = await github.paginate(github.rest.issues.listComments, {
+                owner,
+                repo,
+                issue_number: issueNumber,
+                per_page: 100,
+              });
+
+              for (const comment of comments) {
+                if (handled.has(comment.id)) continue;
+                handled.add(comment.id);
+
+                const body = comment.body ?? '';
+                const login = comment.user?.login ?? '';
+                if (comment.user?.type === 'Bot') continue;
+                if (!SELECT_COMMAND.test(body) && !CANCEL_COMMAND.test(body)) continue;
+
+                if (!(await isAuthorized(login))) {
+                  await github.rest.issues.createComment({
+                    owner,
+                    repo,
+                    issue_number: issueNumber,
+                    body: `@${login} only maintainers of this repository can choose the featured articles, so this run will keep waiting.`,
+                  });
+                  continue;
+                }
+
+                if (CANCEL_COMMAND.test(body)) {
+                  await closeIssue(`Cancelled by @${login}. [Run #${context.runNumber}](${runUrl}) will stop here.`);
+                  core.setFailed(`Selection cancelled by @${login}.`);
+                  return;
+                }
+
+                const { positions, error } = validate(body.match(SELECT_COMMAND)[1]);
+                if (error) {
+                  await github.rest.issues.createComment({
+                    owner,
+                    repo,
+                    issue_number: issueNumber,
+                    body: `@${login} ${error} Try again with \`/select\` and ${articleCount} numbers between 1 and ${candidateCount}.`,
+                  });
+                  continue;
+                }
+
+                await closeIssue(
+                  `Got it — featuring articles ${positions.join(', ')}, chosen by @${login}. [Run #${context.runNumber}](${runUrl}) is building the article data now.`,
+                );
+                core.setOutput('selection', positions.join(','));
+                core.notice(`Selected articles: ${positions.join(', ')}`);
+                return;
+              }
+            }
+
+            await closeIssue(
+              `No selection arrived within ${timeoutMinutes} minutes, so [run #${context.runNumber}](${runUrl}) stopped. Start the workflow again when you are ready.`,
+            );
+            core.setFailed(`Timed out after ${timeoutMinutes} minutes waiting for a selection.`);
+
+  build-article-data:
+    name: Build article data
+    needs: [fetch-candidates, await-selection]
+    if: |
+      always()
+      && needs.fetch-candidates.result == 'success'
+      && (needs.await-selection.result == 'success' || needs.await-selection.result == 'skipped')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+
+      - name: Download the candidate list
+        uses: actions/download-artifact@v4
+        with:
+          name: medium-candidates
+
+      - name: Generate the article data
+        env:
+          CANDIDATES_JSON: ${{ env.CANDIDATES_JSON }}
+          SELECTION: ${{ needs.await-selection.outputs.selection || inputs.selection }}
+          ARTICLE_COUNT: ${{ inputs.article_count }}
+          OUTPUT_JSON: ${{ env.ARTICLES_JSON }}
+          OUTPUT_MARKDOWN: ${{ env.SELECTION_MARKDOWN }}
+        run: node .github/scripts/build-latest-articles.mjs
+
+      - name: Publish the selection to the run summary
+        run: |
+          cat "$SELECTION_MARKDOWN" >> "$GITHUB_STEP_SUMMARY"
+          {
+            echo ''
+            echo "<details><summary>Generated $ARTICLES_JSON</summary>"
+            echo ''
+            echo '```json'
+            cat "$ARTICLES_JSON"
+            echo '```'
+            echo ''
+            echo '</details>'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload the article data
+        uses: actions/upload-artifact@v4
+        with:
+          name: latest-articles
+          path: ${{ env.ARTICLES_JSON }}
+          retention-days: 30
