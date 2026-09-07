@@ -15,11 +15,7 @@ import {
   HeadlineMdSx,
   LabelCapsSx,
 } from "@resources/styles.js";
-import {
-  LatestArticles,
-  MediumParserStats,
-  SectionIds,
-} from "@resources/data.js";
+import { MediumParserStats, SectionIds } from "@resources/data.js";
 import {
   MediumParserGitHubLink,
   MediumParserNpmLink,
@@ -158,7 +154,7 @@ export default function ProjectsSection() {
       </Box>
 
       {/* Publication feed sits directly beneath the featured projects grid. */}
-      <ArticleFeed source={LatestArticles} />
+      <ArticleFeed />
     </SectionShell>
   );
 }

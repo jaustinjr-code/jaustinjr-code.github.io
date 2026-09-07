@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { FeaturedArticles } from "@resources/data.js";
+import { LatestArticles } from "@resources/data.js";
 
 // http(s) only for absolute URLs — blocks javascript:/data: values from a
 // feed reaching an href or img src. A same-origin relative path (how a
@@ -70,9 +70,10 @@ export function normalizeArticle(rawArticle) {
 
 // Supplies normalized articles to the UI.
 //
-// `source` is either an array of raw articles (the default static list) or a
-// function returning an array or a promise of one — the seam a future
-// medium-rss-feed-parser fetcher plugs into without touching the components.
+// `source` is either an array of raw articles (by default the list the Update
+// Latest Articles workflow generates) or a function returning an array or a
+// promise of one — the seam an on-demand fetcher plugs into without touching
+// the components.
 // `limit` caps how many articles are returned. `refreshKey` triggers a
 // re-fetch of an async source when it changes; the source itself is read
 // through a ref rather than depended on, since an inline function (e.g.
@@ -81,7 +82,7 @@ export function normalizeArticle(rawArticle) {
 //
 // Returns { articles, isLoading, error }.
 export default function useArticles({
-  source = FeaturedArticles,
+  source = LatestArticles,
   limit,
   refreshKey,
 } = {}) {

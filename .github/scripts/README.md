@@ -53,9 +53,9 @@ and builds the data the site's "Latest Articles" section renders.
 
 The field names are the ones `client/src/hooks/useArticles.jsx` reads, so the
 file drops straight into `ArticleFeed`'s `source` with no adapter in between.
-`client/src/resources/data.js` exports `LatestArticles`, which uses this file
-when it holds anything and falls back to the curated `FeaturedArticles` list
-while it is empty, so the section is never blank.
+`client/src/resources/data.js` exports `LatestArticles` from it, and that is
+the feed's only source — there is no curated fallback, so the section renders
+nothing until a run's pull request merges.
 
 Medium's feed ships the post body as HTML in `content:encoded` with no
 `<description>`, so the description and reading time are derived from that body
