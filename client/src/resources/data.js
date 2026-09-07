@@ -18,19 +18,19 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import CodeIcon from "@mui/icons-material/Code";
+import articleCodeReviewImage from "@assets/article-code-review.jpg";
+import articleScalingSystemsImage from "@assets/article-scaling-systems.jpg";
+import articleSecretStorageImage from "@assets/article-secret-storage.jpg";
 import {
   ArticleCodeReviewDescription,
-  ArticleCodeReviewImageLink,
   ArticleCodeReviewLink,
   ArticleCodeReviewTag,
   ArticleCodeReviewTitle,
   ArticleScalingSystemsDescription,
-  ArticleScalingSystemsImageLink,
   ArticleScalingSystemsLink,
   ArticleScalingSystemsTag,
   ArticleScalingSystemsTitle,
   ArticleSecretStorageDescription,
-  ArticleSecretStorageImageLink,
   ArticleSecretStorageLink,
   ArticleSecretStorageTag,
   ArticleSecretStorageTitle,
@@ -153,13 +153,18 @@ export const MediumParserStats = [
 // array for a fetched feed (e.g. medium-rss-feed-parser) is the only change
 // needed to make the feed live — see useArticles for the mapping seam.
 //
+// `imageLink` points at the bundled copies in client/src/assets/ rather than
+// Medium's CDN, so these three cards don't depend on a third party being up
+// (and don't leak the visitor's IP/user-agent to Medium on every page load).
+// A future fetched feed will supply its own remote image URLs instead.
+//
 // `readTimeMinutes` is a manual estimate until a feed provides it.
 export const FeaturedArticles = [
   {
     title: ArticleSecretStorageTitle,
     description: ArticleSecretStorageDescription,
     link: ArticleSecretStorageLink,
-    imageLink: ArticleSecretStorageImageLink,
+    imageLink: articleSecretStorageImage,
     tags: [ArticleSecretStorageTag],
     readTimeMinutes: 7,
   },
@@ -167,7 +172,7 @@ export const FeaturedArticles = [
     title: ArticleCodeReviewTitle,
     description: ArticleCodeReviewDescription,
     link: ArticleCodeReviewLink,
-    imageLink: ArticleCodeReviewImageLink,
+    imageLink: articleCodeReviewImage,
     tags: [ArticleCodeReviewTag],
     readTimeMinutes: 6,
   },
@@ -175,7 +180,7 @@ export const FeaturedArticles = [
     title: ArticleScalingSystemsTitle,
     description: ArticleScalingSystemsDescription,
     link: ArticleScalingSystemsLink,
-    imageLink: ArticleScalingSystemsImageLink,
+    imageLink: articleScalingSystemsImage,
     tags: [ArticleScalingSystemsTag],
     readTimeMinutes: 6,
   },

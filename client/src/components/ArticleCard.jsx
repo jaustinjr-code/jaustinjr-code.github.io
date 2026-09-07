@@ -29,9 +29,10 @@ export default function ArticleCard({ article, ctaText = ArticleReadCta }) {
     article;
 
   const primaryTag = tags?.[0];
-  const readTime = readTimeMinutes
-    ? `${readTimeMinutes} ${ArticleReadTimeUnit}`
-    : undefined;
+  const readTime =
+    readTimeMinutes != null
+      ? `${readTimeMinutes} ${ArticleReadTimeUnit}`
+      : undefined;
   const hasMetadata = Boolean(primaryTag || readTime);
 
   const handleReadClick = () => {
@@ -50,7 +51,7 @@ export default function ArticleCard({ article, ctaText = ArticleReadCta }) {
         height: "100%",
       }}
     >
-      <HoverRevealImage src={imageLink} alt={imageAlt ?? title} />
+      <HoverRevealImage src={imageLink} alt={imageAlt} />
 
       <Box
         sx={{

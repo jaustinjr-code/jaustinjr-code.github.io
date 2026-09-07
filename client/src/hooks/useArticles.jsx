@@ -1,5 +1,20 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { FeaturedArticles } from "@resources/data.js";
+
+// http(s) only for absolute URLs — blocks javascript:/data: values from a
+// feed reaching an href or img src. A same-origin relative path (how a
+// bundler resolves a locally imported image, e.g. "/assets/foo-a1b2.jpg")
+// has no scheme to check and is safe by construction, so it's allowed as-is.
+function isSafeUrl(value) {
+  if (typeof value !== "string" || !value) return false;
+  if (/^(\.\.?\/|\/(?!\/))/.test(value)) return true;
+  try {
+    const { protocol } = new URL(value);
+    return protocol === "http:" || protocol === "https:";
+  } catch {
+    return false;
+  }
+}
 
 // Adapter layer between whatever produces articles and what the UI renders.
 //
@@ -19,25 +34,36 @@ export function normalizeArticle(rawArticle) {
   const imageLink =
     rawArticle.imageLink ?? rawArticle.thumbnail ?? rawArticle.image;
 
-  // The three required fields — drop anything that cannot be displayed.
-  if (!title || !link || !imageLink) {
-    console.debug("[useArticles] skipping article with missing fields", title);
+  // The three required fields — drop anything that cannot be displayed, and
+  // anything whose link/image isn't a safe scheme to hand to href/img src.
+  if (!title || !isSafeUrl(link) || !isSafeUrl(imageLink)) {
+    console.debug(
+      "[useArticles] skipping article with missing or unsafe fields",
+      title,
+    );
     return null;
   }
 
   const tags = rawArticle.tags ?? rawArticle.categories ?? [];
   const publishedAt = rawArticle.publishedAt ?? rawArticle.pubDate;
+  const parsedPublishedAt = publishedAt ? new Date(publishedAt) : undefined;
 
   return {
     id: rawArticle.id ?? rawArticle.guid ?? link,
     title,
     link,
     imageLink,
-    imageAlt: rawArticle.imageAlt ?? title,
+    // Decorative by default — the card title right below already carries
+    // this text, so a screen reader shouldn't announce it twice. Feeds that
+    // supply a real description of the image can still override it.
+    imageAlt: rawArticle.imageAlt ?? "",
     description: rawArticle.description ?? rawArticle.snippet,
     tags: Array.isArray(tags) ? tags : [tags],
     readTimeMinutes: rawArticle.readTimeMinutes ?? rawArticle.readTime,
-    publishedAt: publishedAt ? new Date(publishedAt) : undefined,
+    publishedAt:
+      parsedPublishedAt && !Number.isNaN(parsedPublishedAt.getTime())
+        ? parsedPublishedAt
+        : undefined,
     author: rawArticle.author ?? rawArticle.creator,
   };
 }
@@ -47,14 +73,22 @@ export function normalizeArticle(rawArticle) {
 // `source` is either an array of raw articles (the default static list) or a
 // function returning an array or a promise of one — the seam a future
 // medium-rss-feed-parser fetcher plugs into without touching the components.
-// `limit` caps how many articles are returned.
+// `limit` caps how many articles are returned. `refreshKey` triggers a
+// re-fetch of an async source when it changes; the source itself is read
+// through a ref rather than depended on, since an inline function (e.g.
+// `source={() => fetchMediumFeed()}`) gets a new identity every render and
+// would otherwise re-fire the fetch effect on every render it causes.
 //
 // Returns { articles, isLoading, error }.
 export default function useArticles({
   source = FeaturedArticles,
   limit,
+  refreshKey,
 } = {}) {
   const isAsyncSource = typeof source === "function";
+  const sourceRef = useRef(source);
+  sourceRef.current = source;
+
   const [fetchedArticles, setFetchedArticles] = useState(null);
   const [isLoading, setIsLoading] = useState(isAsyncSource);
   const [error, setError] = useState(null);
@@ -72,7 +106,7 @@ export default function useArticles({
     setError(null);
 
     Promise.resolve()
-      .then(() => source())
+      .then(() => sourceRef.current())
       .then((result) => {
         if (!isCurrent) return;
         setFetchedArticles(result ?? []);
@@ -89,15 +123,17 @@ export default function useArticles({
     return () => {
       isCurrent = false;
     };
-  }, [isAsyncSource, source]);
+  }, [isAsyncSource, refreshKey]);
 
   const articles = useMemo(() => {
-    const rawArticles = isAsyncSource ? (fetchedArticles ?? []) : source;
+    const rawArticles = isAsyncSource
+      ? (fetchedArticles ?? [])
+      : sourceRef.current;
     const normalized = (rawArticles ?? [])
       .map(normalizeArticle)
       .filter(Boolean);
     return typeof limit === "number" ? normalized.slice(0, limit) : normalized;
-  }, [fetchedArticles, isAsyncSource, limit, source]);
+  }, [fetchedArticles, isAsyncSource, limit]);
 
   return { articles, isLoading, error };
 }

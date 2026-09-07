@@ -79,9 +79,14 @@ export const ArticlesSectionEyebrow = "Publication_Feed";
 export const ArticlesHeading = "Latest Articles";
 export const ArticleReadCta = "Read on Medium";
 export const ArticleReadTimeUnit = "MIN READ";
+export const ArticlesUnavailableMessage =
+  "Articles are unavailable right now — check back shortly.";
 
 // Articles — featured entries (metadata mirrors the Medium RSS feed so the
-// same shape can later be produced by medium-rss-feed-parser)
+// same shape can later be produced by medium-rss-feed-parser). Card imagery
+// is bundled locally from client/src/assets/ rather than hotlinked from
+// Medium's CDN — see data.js — so these three don't carry an *ImageLink
+// string; a future fetched feed will supply its own remote image URLs.
 export const ArticleSecretStorageTitle =
   "Solving the GitHub Variable and Secret Storage Problem with Google SRE Principles";
 export const ArticleSecretStorageDescription =
@@ -89,8 +94,6 @@ export const ArticleSecretStorageDescription =
 export const ArticleSecretStorageTag = "Devops";
 export const ArticleSecretStorageLink =
   "https://aws.plainenglish.io/solving-the-github-variable-and-secret-storage-problem-with-google-sre-principles-a8d032298228";
-export const ArticleSecretStorageImageLink =
-  "https://cdn-images-1.medium.com/max/1537/1*yLG4hcJEdSGEDX2BSB-64Q.png";
 
 export const ArticleScalingSystemsTitle =
   "Scaling Systems: Vertical vs. Horizontal Scaling Explained";
@@ -99,8 +102,6 @@ export const ArticleScalingSystemsDescription =
 export const ArticleScalingSystemsTag = "Distributed_Systems";
 export const ArticleScalingSystemsLink =
   "https://medium.com/@jaustinjr/scaling-systems-vertical-vs-horizontal-scaling-explained-03019b48491b";
-export const ArticleScalingSystemsImageLink =
-  "https://cdn-images-1.medium.com/max/1536/1*2B5SVBPgCYPhNthL1QDKGQ.png";
 
 export const ArticleCodeReviewTitle =
   "Setting up Claude Code Review in GitHub Actions";
@@ -109,8 +110,6 @@ export const ArticleCodeReviewDescription =
 export const ArticleCodeReviewTag = "Claude_Code";
 export const ArticleCodeReviewLink =
   "https://medium.com/@jaustinjr/setting-up-claude-code-review-in-github-actions-d7128067646c";
-export const ArticleCodeReviewImageLink =
-  "https://cdn-images-1.medium.com/max/1536/1*lvzQBynYiv6bdsdzNex-fQ.png";
 
 // Skills
 export const SkillsSectionEyebrow = "Capabilities_Matrix";
