@@ -19,6 +19,9 @@ const WORDS_PER_MINUTE = 200;
 const EXCERPT_MAX_CHARS = 220;
 // The feed ends every post with a 1x1 view-tracking pixel — never a cover image.
 const TRACKING_IMAGE_PATTERN = /medium\.com\/_\/stat/i;
+// Medium teases publication-hosted posts and closes the body with a pointer to
+// the full article, e.g. "Continue reading on AWS in Plain English »".
+const FEED_TRAILER_PATTERN = /\s*Continue reading on\s+[^»]{1,120}?\s*(?:»\s*)?\.?$/i;
 // RssError usually wraps a transient network failure, so retry before failing.
 const FETCH_ATTEMPTS = 3;
 const RETRY_BACKOFF_MS = 3000;
@@ -103,9 +106,11 @@ function normalizeArticle(item, position) {
   // Medium's feed carries the post as HTML in content:encoded and ships no
   // <description>, so rss-parser has no contentSnippet to offer — strip the
   // markup here rather than leaning on a field that is usually undefined.
-  const plainText = item.contentSnippet
-    ? collapseWhitespace(item.contentSnippet)
-    : toPlainText(body);
+  const plainText = stripFeedTrailer(
+    item.contentSnippet
+      ? collapseWhitespace(item.contentSnippet)
+      : toPlainText(body),
+  );
 
   return {
     position,
@@ -242,8 +247,20 @@ function toReadingTime(plainText) {
   return Math.max(1, Math.round(words / WORDS_PER_MINUTE));
 }
 
+/**
+ * Removes the pointer Medium appends to a post it only teases in the feed —
+ * "Continue reading on <publication> »" for anything published through a
+ * publication rather than on the author's own profile. It is feed chrome, not
+ * part of the post.
+ * @param {string} plainText The post body as plain text.
+ * @returns {string} The body without the trailer.
+ */
+function stripFeedTrailer(plainText) {
+  return plainText.replace(FEED_TRAILER_PATTERN, "").trim();
+}
+
 function toExcerpt(plainText) {
-  const text = plainText.replace(/\s*Continue reading on Medium\s*»?\.?$/i, "");
+  const text = plainText;
   if (text.length <= EXCERPT_MAX_CHARS) return text;
 
   const clipped = text.slice(0, EXCERPT_MAX_CHARS);

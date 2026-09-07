@@ -20,18 +20,6 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import CodeIcon from "@mui/icons-material/Code";
 import generatedArticles from "./articles.json";
 import {
-  ArticleCodeReviewDescription,
-  ArticleCodeReviewLink,
-  ArticleCodeReviewTag,
-  ArticleCodeReviewTitle,
-  ArticleScalingSystemsDescription,
-  ArticleScalingSystemsLink,
-  ArticleScalingSystemsTag,
-  ArticleScalingSystemsTitle,
-  ArticleSecretStorageDescription,
-  ArticleSecretStorageLink,
-  ArticleSecretStorageTag,
-  ArticleSecretStorageTitle,
   ContactEmailAddress,
   ContactEmailChannelLabel,
   ContactLinkedInChannelLabel,
