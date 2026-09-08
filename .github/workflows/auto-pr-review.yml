@@ -3,14 +3,14 @@ name: Auto PR Review
 on:
   pull_request:
     types: [opened]
-  pull_request_review_comment:
-    types: [created]
+  issue_comment:
+    types: [created]      
 
 jobs:
   claude:
     if: |
       (github.event_name == 'pull_request') ||
-      (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude'))
+      (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude'))
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -28,10 +28,8 @@ jobs:
         id: claude-code-review
         uses: anthropics/claude-code-action@v1
         with:
-          anthropic_federation_rule_id: ${{ vars.ANTHROPIC_FEDERATION_RULE_ID }}
-          anthropic_organization_id: ${{ vars.ANTHROPIC_ORGANIZATION_ID }}
-          anthropic_service_account_id: ${{ vars.ANTHROPIC_SERVICE_ACCOUNT_ID }}
-          anthropic_workspace_id: ${{ vars.ANTHROPIC_WORKSPACE_ID }}
+          show_full_output: true
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           prompt: |
             REPO: ${{ github.repository }}
             PR NUMBER: ${{ github.event.pull_request.number }}
@@ -46,6 +44,9 @@ jobs:
             Be constructive and helpful in your feedback. Always post a
             summary comment on the PR, even if you have no issues to report
             (e.g. "No issues found, this looks good!").
+
+            Add any code snippets or documentation references that would help
+            address the review comments.
 
           # Use the `settings` input (JSON) instead of --allowed-tools in
           # claude_args. claude_args is parsed by splitting on whitespace,

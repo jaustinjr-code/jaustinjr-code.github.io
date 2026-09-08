@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import AccentButton from "@components/AccentButton";
 import HoverRevealImage from "@components/HoverRevealImage";
-import { Accent, Colors } from "@resources/palette.js";
+import { Accent } from "@resources/palette.js";
 import {
   AccentHoverBorderSx,
   BodyMdSx,
@@ -10,13 +10,17 @@ import {
   HoverRevealImageHoverSx,
   LabelMicroSx,
 } from "@resources/styles.js";
-import { ArticleReadCta, ArticleReadTimeUnit } from "@resources/strings.js";
+import { ArticleReadCta } from "@resources/strings.js";
 
 // Presentational card for a single article, agnostic of where the article came
 // from. It renders the normalized shape produced by useArticles:
 //
 //   required — imageLink, title, link
-//   optional — tags, readTimeMinutes, description, imageAlt
+//   optional — tags, description, imageAlt
+//
+// Read time is carried through useArticles but deliberately not rendered: the
+// estimate is derived from Medium's feed body, which is only a teaser for
+// publication-hosted posts, so it reads "1 MIN READ" on full-length articles.
 //
 // Optional metadata is rendered only when supplied, so a feed that omits it
 // still produces a complete card.
@@ -25,15 +29,9 @@ import { ArticleReadCta, ArticleReadTimeUnit } from "@resources/strings.js";
 //   article — the normalized article
 //   ctaText — call-to-action label (defaults to the Medium wording)
 export default function ArticleCard({ article, ctaText = ArticleReadCta }) {
-  const { imageLink, imageAlt, title, link, description, tags, readTimeMinutes } =
-    article;
+  const { imageLink, imageAlt, title, link, description, tags } = article;
 
   const primaryTag = tags?.[0];
-  const readTime =
-    readTimeMinutes != null
-      ? `${readTimeMinutes} ${ArticleReadTimeUnit}`
-      : undefined;
-  const hasMetadata = Boolean(primaryTag || readTime);
 
   const handleReadClick = () => {
     console.debug("ArticleCard: read link clicked", title);
@@ -61,29 +59,13 @@ export default function ArticleCard({ article, ctaText = ArticleReadCta }) {
           flexGrow: 1,
         }}
       >
-        {hasMetadata && (
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              gap: 1,
-              mb: 2,
-            }}
+        {primaryTag && (
+          <Typography
+            component="span"
+            sx={{ ...LabelMicroSx, color: Accent.dynamic, mb: 2 }}
           >
-            <Typography
-              component="span"
-              sx={{ ...LabelMicroSx, color: Accent.dynamic }}
-            >
-              {primaryTag}
-            </Typography>
-            <Typography
-              component="span"
-              sx={{ ...LabelMicroSx, color: Colors.codeComment }}
-            >
-              {readTime}
-            </Typography>
-          </Box>
+            {primaryTag}
+          </Typography>
         )}
 
         <Typography component="h4" sx={{ ...HeadlineMdSx, mb: 1.5 }}>

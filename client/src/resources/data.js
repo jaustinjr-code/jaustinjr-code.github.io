@@ -18,22 +18,8 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import CodeIcon from "@mui/icons-material/Code";
-import articleCodeReviewImage from "@assets/article-code-review.jpg";
-import articleScalingSystemsImage from "@assets/article-scaling-systems.jpg";
-import articleSecretStorageImage from "@assets/article-secret-storage.jpg";
+import generatedArticles from "./articles.json";
 import {
-  ArticleCodeReviewDescription,
-  ArticleCodeReviewLink,
-  ArticleCodeReviewTag,
-  ArticleCodeReviewTitle,
-  ArticleScalingSystemsDescription,
-  ArticleScalingSystemsLink,
-  ArticleScalingSystemsTag,
-  ArticleScalingSystemsTitle,
-  ArticleSecretStorageDescription,
-  ArticleSecretStorageLink,
-  ArticleSecretStorageTag,
-  ArticleSecretStorageTitle,
   ContactEmailAddress,
   ContactEmailChannelLabel,
   ContactLinkedInChannelLabel,
@@ -147,47 +133,15 @@ export const MediumParserStats = [
   { label: ProjectStatLicenseLabel, value: ProjectStatLicenseValue },
 ];
 
-// Featured publications rendered by the article feed. The shape is provider
-// agnostic: `imageLink`, `title`, and `link` are required, everything else is
-// optional metadata that the card renders only when present. Swapping this
-// array for a fetched feed (e.g. medium-rss-feed-parser) is the only change
-// needed to make the feed live — see useArticles for the mapping seam.
-//
-// `imageLink` points at the bundled copies in client/src/assets/ rather than
-// Medium's CDN, so these three cards don't depend on a third party being up
-// (and don't leak the visitor's IP/user-agent to Medium on every page load).
-// A future fetched feed will supply its own remote image URLs instead.
-//
-// `readTimeMinutes` is a manual estimate until a feed provides it.
-export const FeaturedArticles = [
-  {
-    title: ArticleSecretStorageTitle,
-    description: ArticleSecretStorageDescription,
-    link: ArticleSecretStorageLink,
-    imageLink: articleSecretStorageImage,
-    tags: [ArticleSecretStorageTag],
-    readTimeMinutes: 7,
-  },
-  {
-    title: ArticleCodeReviewTitle,
-    description: ArticleCodeReviewDescription,
-    link: ArticleCodeReviewLink,
-    imageLink: articleCodeReviewImage,
-    tags: [ArticleCodeReviewTag],
-    readTimeMinutes: 6,
-  },
-  {
-    title: ArticleScalingSystemsTitle,
-    description: ArticleScalingSystemsDescription,
-    link: ArticleScalingSystemsLink,
-    imageLink: articleScalingSystemsImage,
-    tags: [ArticleScalingSystemsTag],
-    readTimeMinutes: 6,
-  },
-];
-
 // How many articles the feed shows at once (one row of cards on desktop).
 export const FeaturedArticleLimit = 3;
+
+// What the feed renders, straight from the file the Update Latest Articles
+// workflow regenerates and proposes in a pull request. The field names are
+// already the ones useArticles reads, so nothing maps them in between. Until
+// that first pull request merges the list is empty and the feed renders
+// nothing at all.
+export const LatestArticles = generatedArticles.articles;
 
 // Language proficiencies (0-100 drives the bar width).
 export const LanguageSkills = [

@@ -1,4 +1,5 @@
 import { Box, Container, Link, Typography } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { FooterLinks } from "@resources/data.js";
 import { Accent, Colors } from "@resources/palette.js";
 import { CopyrightText } from "@resources/strings.js";
@@ -13,6 +14,10 @@ import {
 // Page footer: copyright line and the social link row. Sits at the natural end
 // of the continuous page.
 export default function Footer() {
+  const isMobileOrTablet = useMediaQuery((theme) =>
+    theme.breakpoints.down("sm"),
+  );
+
   const handleLinkClick = (label) => {
     console.debug("[Footer] social link clicked", label);
   };
@@ -38,7 +43,10 @@ export default function Footer() {
           gap: 2,
         }}
       >
-        <Typography component="span" sx={{ ...LabelCapsSx, color: Colors.codeComment }}>
+        <Typography
+          component="span"
+          sx={{ ...LabelCapsSx, color: Colors.codeComment }}
+        >
           {CopyrightText}
         </Typography>
         <Box sx={{ display: "flex", alignItems: "center", gap: 4 }}>
@@ -63,9 +71,11 @@ export default function Footer() {
                 }}
               >
                 <Icon sx={{ fontSize: 18 }} />
-                <Typography component="span" sx={CodeTextSx}>
-                  {link.label}
-                </Typography>
+                {!isMobileOrTablet && (
+                  <Typography component="span" sx={CodeTextSx}>
+                    {link.label}
+                  </Typography>
+                )}
               </Link>
             );
           })}

@@ -1,0 +1,233 @@
+# Reads the Medium RSS feed with the medium-rss-feed-parser package, pauses so
+# a maintainer can pick which posts to feature, then generates the article data
+# the "Latest Articles" section of the site renders.
+#
+# The pause happens in a throwaway GitHub issue: the workflow posts the numbered
+# list of recent posts there and waits for a `/select <numbers>` comment. The
+# generated file is published as a build artifact only — committing and
+# deploying it is deliberately left out for now.
+
+name: Update Latest Articles
+
+on:
+  workflow_dispatch:
+    inputs:
+      medium_username:
+        description: 'Medium handle to read, e.g. "@jaustinjr"'
+        required: true
+        default: "@jaustinjr"
+      candidate_count:
+        description: "How many recent posts to choose from"
+        required: false
+        default: "10"
+      article_count:
+        description: "How many articles the section shows"
+        required: false
+        default: "3"
+      selection:
+        description: 'Skip the pause by choosing now, e.g. "1,3,5". Leave blank to choose while the workflow waits.'
+        required: false
+        default: ""
+      selection_timeout_minutes:
+        description: "How long to wait for the selection before giving up"
+        required: false
+        default: "60"
+      deploy_branch:
+        description: "Branch the articles pull request targets (the branch that deploys)"
+        required: false
+        default: "main"
+
+# Read-only by default; the job that opens the selection issue asks for more.
+permissions:
+  contents: read
+
+# A paused run holds an open selection issue, so never run two at once.
+concurrency:
+  group: update-latest-articles
+  cancel-in-progress: false
+
+env:
+  CANDIDATES_JSON: medium-candidates.json
+  CANDIDATES_MARKDOWN: medium-candidates.md
+  ARTICLES_JSON: client/src/resources/articles.json
+  SELECTION_MARKDOWN: medium-selection.md
+
+jobs:
+  fetch-candidates:
+    name: Fetch Medium feed
+    runs-on: ubuntu-latest
+    outputs:
+      candidate_count: ${{ steps.fetch.outputs.candidate_count }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 24.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.x
+          cache: "npm"
+          cache-dependency-path: .github/scripts/package-lock.json
+
+      - name: Install script dependencies
+        run: npm ci
+        working-directory: .github/scripts
+
+      - name: Parse the RSS feed
+        id: fetch
+        env:
+          MEDIUM_USERNAME: ${{ inputs.medium_username }}
+          CANDIDATE_LIMIT: ${{ inputs.candidate_count }}
+          OUTPUT_JSON: ${{ env.CANDIDATES_JSON }}
+          OUTPUT_MARKDOWN: ${{ env.CANDIDATES_MARKDOWN }}
+        run: node .github/scripts/fetch-medium-articles.mjs
+
+      - name: Publish the candidate list to the run summary
+        run: cat "$CANDIDATES_MARKDOWN" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload the candidate list
+        uses: actions/upload-artifact@v4
+        with:
+          name: medium-candidates
+          path: |
+            ${{ env.CANDIDATES_JSON }}
+            ${{ env.CANDIDATES_MARKDOWN }}
+          retention-days: 7
+
+  await-selection:
+    name: Wait for article selection
+    needs: fetch-candidates
+    # Skipped when the numbers were supplied at dispatch time.
+    if: inputs.selection == ''
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    # Hard backstop. The script stops a couple of minutes earlier than this so
+    # it still gets to close its own issue.
+    timeout-minutes: ${{ fromJSON(inputs.selection_timeout_minutes) }}
+    outputs:
+      selection: ${{ steps.await.outputs.selection }}
+    steps:
+      # Checked out for the selection script; must precede the artifact
+      # download, since checkout cleans the workspace.
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download the candidate list
+        uses: actions/download-artifact@v4
+        with:
+          name: medium-candidates
+
+      - name: Open a selection issue and wait for a reply
+        id: await
+        uses: actions/github-script@v7
+        env:
+          CANDIDATES_MARKDOWN: ${{ env.CANDIDATES_MARKDOWN }}
+          CANDIDATE_COUNT: ${{ needs.fetch-candidates.outputs.candidate_count }}
+          ARTICLE_COUNT: ${{ inputs.article_count }}
+          SELECTION_TIMEOUT_MINUTES: ${{ inputs.selection_timeout_minutes }}
+        with:
+          script: |
+            const awaitSelection = require('${{ github.workspace }}/.github/scripts/await-selection.cjs');
+            await awaitSelection({ github, context, core });
+
+  build-article-data:
+    name: Build and propose article data
+    needs: [fetch-candidates, await-selection]
+    if: |
+      always()
+      && needs.fetch-candidates.result == 'success'
+      && (needs.await-selection.result == 'success' || needs.await-selection.result == 'skipped')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      # The generated file has to sit on top of the branch that deploys, so the
+      # pull request this job opens applies cleanly there.
+      - name: Checkout the deploy branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.deploy_branch }}
+
+      - name: Use Node.js 24.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.x
+
+      - name: Download the candidate list
+        uses: actions/download-artifact@v4
+        with:
+          name: medium-candidates
+
+      - name: Generate the article data
+        env:
+          CANDIDATES_JSON: ${{ env.CANDIDATES_JSON }}
+          SELECTION: ${{ needs.await-selection.outputs.selection || inputs.selection }}
+          ARTICLE_COUNT: ${{ inputs.article_count }}
+          OUTPUT_JSON: ${{ env.ARTICLES_JSON }}
+          OUTPUT_MARKDOWN: ${{ env.SELECTION_MARKDOWN }}
+        run: node .github/scripts/build-latest-articles.mjs
+
+      - name: Publish the selection to the run summary
+        run: |
+          cat "$SELECTION_MARKDOWN" >> "$GITHUB_STEP_SUMMARY"
+          {
+            echo ''
+            echo "<details><summary>Generated $ARTICLES_JSON</summary>"
+            echo ''
+            echo '```json'
+            cat "$ARTICLES_JSON"
+            echo '```'
+            echo ''
+            echo '</details>'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload the article data
+        uses: actions/upload-artifact@v4
+        with:
+          name: latest-articles
+          path: ${{ env.ARTICLES_JSON }}
+          retention-days: 30
+
+      - name: Open a pull request with the new articles
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ARTICLES_JSON: ${{ env.ARTICLES_JSON }}
+          SELECTION_MARKDOWN: ${{ env.SELECTION_MARKDOWN }}
+          BASE_BRANCH: ${{ inputs.deploy_branch }}
+          BRANCH: chore/latest-articles-${{ github.run_id }}
+          MEDIUM_USERNAME: ${{ inputs.medium_username }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+
+          if git diff --quiet -- "$ARTICLES_JSON"; then
+            echo "::notice::The selection already matches $BASE_BRANCH; no pull request needed."
+            exit 0
+          fi
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -c "$BRANCH"
+          git add "$ARTICLES_JSON"
+          git commit \
+            --message 'Update the latest articles feed' \
+            --message "Generated from ${MEDIUM_USERNAME}'s Medium RSS feed by ${RUN_URL}."
+          git push -u origin "$BRANCH"
+
+          {
+            echo "Regenerated \`$ARTICLES_JSON\` from ${MEDIUM_USERNAME}'s Medium RSS feed,"
+            echo "with the posts chosen during [run #${GITHUB_RUN_NUMBER}](${RUN_URL})."
+            echo
+            cat "$SELECTION_MARKDOWN"
+            echo
+            echo "Merging this deploys the feed: pushing to \`$BASE_BRANCH\` triggers the Pages workflow."
+          } > pr-body.md
+
+          gh pr create \
+            --base "$BASE_BRANCH" \
+            --head "$BRANCH" \
+            --title 'Update the latest articles feed' \
+            --body-file pr-body.md
