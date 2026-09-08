@@ -78,7 +78,6 @@ export const ProjectStatLicenseValue = "MIT";
 export const ArticlesSectionEyebrow = "Publication_Feed";
 export const ArticlesHeading = "Latest Articles";
 export const ArticleReadCta = "Read on Medium";
-export const ArticleReadTimeUnit = "MIN READ";
 export const ArticlesUnavailableMessage =
   "Articles are unavailable right now — check back shortly.";
 
