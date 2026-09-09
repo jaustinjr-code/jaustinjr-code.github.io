@@ -1,0 +1,70 @@
+{
+  "generatedAt": "2026-09-07T20:01:13.860Z",
+  "source": {
+    "username": "@jaustinjr",
+    "feedUrl": "https://medium.com/feed/@jaustinjr",
+    "feedTitle": "Stories by James Austin Jr on Medium",
+    "feedLink": "https://medium.com/@jaustinjr"
+  },
+  "selection": [
+    1,
+    3,
+    4
+  ],
+  "articles": [
+    {
+      "id": "9d4efd5f700e",
+      "title": "$200/mo is a Waste: Try These 3 Claude Code Techniques Instead",
+      "link": "https://ai.plainenglish.io/200-mo-is-a-waste-try-these-3-claude-code-techniques-instead-9d4efd5f700e",
+      "author": "James Austin Jr",
+      "publishedAt": "2026-09-05T13:44:18.000Z",
+      "publishedLabel": "Sep 5, 2026",
+      "categories": [
+        "claude-code",
+        "software-architecture",
+        "programming",
+        "technology",
+        "artificial-intelligence"
+      ],
+      "readTimeMinutes": 1,
+      "description": "Unlocking the full potential of Claude Code with agent teams, skill chaining workflows, and zero-token architecture",
+      "imageLink": "https://cdn-images-1.medium.com/max/1536/1*5atyz0lJlx9V5_VhkVd3BA.png"
+    },
+    {
+      "id": "38495c71a503",
+      "title": "Everything You Need to Know About Claude Cloud Environments",
+      "link": "https://medium.com/@jaustinjr/everything-you-need-to-know-about-claude-cloud-environments-38495c71a503",
+      "author": "James Austin Jr",
+      "publishedAt": "2026-08-28T02:30:14.000Z",
+      "publishedLabel": "Aug 28, 2026",
+      "categories": [
+        "technology",
+        "artificial-intelligence",
+        "cloud",
+        "claude",
+        "programming"
+      ],
+      "readTimeMinutes": 1,
+      "description": "My technical insights on AI agents running on cloud environments and what to look out for.",
+      "imageLink": "https://cdn-images-1.medium.com/max/1536/1*lL1q6mrh87hj1URERNwM8A.png"
+    },
+    {
+      "id": "a8d032298228",
+      "title": "Solving the GitHub Variable and Secret Storage Problem with Google SRE Principles",
+      "link": "https://aws.plainenglish.io/solving-the-github-variable-and-secret-storage-problem-with-google-sre-principles-a8d032298228",
+      "author": "James Austin Jr",
+      "publishedAt": "2026-07-14T07:29:25.000Z",
+      "publishedLabel": "Jul 14, 2026",
+      "categories": [
+        "github",
+        "ci-cd-pipeline",
+        "github-actions",
+        "programming",
+        "devops"
+      ],
+      "readTimeMinutes": 1,
+      "description": "A guide to apply release engineering and configuration-as-code principles in GitHub repositories",
+      "imageLink": "https://cdn-images-1.medium.com/max/1537/1*yLG4hcJEdSGEDX2BSB-64Q.png"
+    }
+  ]
+}

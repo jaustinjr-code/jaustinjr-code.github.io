@@ -18,6 +18,7 @@ import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import CodeIcon from "@mui/icons-material/Code";
+import generatedArticles from "./articles.json";
 import {
   ContactEmailAddress,
   ContactEmailChannelLabel,
@@ -131,6 +132,16 @@ export const MediumParserStats = [
   { label: ProjectStatCoverageLabel, value: ProjectStatCoverageValue },
   { label: ProjectStatLicenseLabel, value: ProjectStatLicenseValue },
 ];
+
+// How many articles the feed shows at once (one row of cards on desktop).
+export const FeaturedArticleLimit = 3;
+
+// What the feed renders, straight from the file the Update Latest Articles
+// workflow regenerates and proposes in a pull request. The field names are
+// already the ones useArticles reads, so nothing maps them in between. Until
+// that first pull request merges the list is empty and the feed renders
+// nothing at all.
+export const LatestArticles = generatedArticles.articles;
 
 // Language proficiencies (0-100 drives the bar width).
 export const LanguageSkills = [

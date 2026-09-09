@@ -74,6 +74,13 @@ export const ProjectStatCoverageValue = "98%";
 export const ProjectStatLicenseLabel = "License";
 export const ProjectStatLicenseValue = "MIT";
 
+// Articles — publication feed sub-section under Featured Projects
+export const ArticlesSectionEyebrow = "Publication_Feed";
+export const ArticlesHeading = "Latest Articles";
+export const ArticleReadCta = "Read on Medium";
+export const ArticlesUnavailableMessage =
+  "Articles are unavailable right now — check back shortly.";
+
 // Skills
 export const SkillsSectionEyebrow = "Capabilities_Matrix";
 export const SkillsHeading = "Technical Expertise";
