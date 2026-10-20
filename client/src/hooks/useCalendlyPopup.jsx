@@ -9,7 +9,9 @@ let widgetScriptPromise;
 // with the `Calendly` global. Shared by every caller so remounts (React
 // StrictMode, route changes) never add duplicate tags.
 const loadCalendlyWidget = () => {
-  if (!document.querySelector(`link[href="${WidgetStyleHref}"]`)) {
+  // Prefix match so a copy of the stylesheet that carries a query string
+  // (cache-busting or version params) still counts as already loaded.
+  if (!document.querySelector(`link[href^="${WidgetStyleHref}"]`)) {
     const stylesheet = document.createElement("link");
     stylesheet.rel = "stylesheet";
     stylesheet.href = WidgetStyleHref;
