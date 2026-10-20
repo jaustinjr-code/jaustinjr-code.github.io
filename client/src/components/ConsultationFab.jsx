@@ -1,9 +1,16 @@
 import { Box, Fab } from "@mui/material";
+import useMediaQuery from "@mui/material/useMediaQuery";
 import { keyframes } from "@mui/material/styles";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import useCalendlyPopup from "@hooks/useCalendlyPopup.jsx";
+import useScrollDirection from "@hooks/useScrollDirection.jsx";
 import { Accent, Colors } from "@resources/palette.js";
-import { AccentTransitionSx, FabPulse, Fonts } from "@resources/styles.js";
+import {
+  AccentTransitionSx,
+  FabPulse,
+  FabScrollHide,
+  Fonts,
+} from "@resources/styles.js";
 
 // Material Design 3 floating action button specs.
 const FabSizePx = 56; // container height; the icon-only FAB is a 56px square
@@ -36,8 +43,16 @@ const PulseCycleCount = Math.max(
 // The container uses the live accent, so it follows the ACCENT_SHIFT slider
 // and the light/dark scheme like AccentButton's solid variant. The label stays
 // available to screen readers through aria-label when it is visually hidden.
+// On phones it slides out of view while scrolling down so it never covers the
+// footer or other content, and slides back in on scroll up.
 export default function ConsultationFab({ url, label }) {
   const openScheduler = useCalendlyPopup(url);
+  const isCompactScreen = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const isScrollingDown = useScrollDirection({
+    revealTopPx: FabScrollHide.revealTopPx,
+    movementThresholdPx: FabScrollHide.movementThresholdPx,
+  });
+  const isHidden = isCompactScreen && isScrollingDown;
 
   return (
     <Fab
@@ -46,6 +61,11 @@ export default function ConsultationFab({ url, label }) {
       onClick={openScheduler}
       sx={{
         ...AccentTransitionSx,
+        // Slide off the bottom edge when hidden. `visibility` flips only after
+        // the slide finishes so a hidden FAB cannot take keyboard focus.
+        transition: `${AccentTransitionSx.transition}, transform ${FabScrollHide.transitionMs}ms ease, visibility 0s linear ${isHidden ? FabScrollHide.transitionMs : 0}ms`,
+        transform: isHidden ? "translateY(calc(100% + 24px))" : "none",
+        visibility: isHidden ? "hidden" : "visible",
         position: "fixed",
         right: { xs: 16, md: 24 },
         bottom: { xs: 16, md: 24 },

@@ -30,6 +30,14 @@ export const FabPulse = {
   spreadPx: 14, // how far the ring grows beyond the button edge
 };
 
+// Scroll-hide behavior of the consultation FAB on phones: it slides away while
+// the visitor scrolls down and returns on scroll up (or near the page top).
+export const FabScrollHide = {
+  revealTopPx: 80, // always visible within this distance of the page top
+  movementThresholdPx: 8, // ignore scroll movements smaller than this
+  transitionMs: 250, // slide duration for hiding and revealing
+};
+
 // Font stacks, referenced by purpose rather than literal family names.
 export const Fonts = {
   display: "'Hanken Grotesk', sans-serif",
