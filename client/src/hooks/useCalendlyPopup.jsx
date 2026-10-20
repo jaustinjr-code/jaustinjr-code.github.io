@@ -1,9 +1,7 @@
-import { useEffect } from "react";
-import { AccentBaseHex } from "@resources/palette.js";
+import { useCallback, useEffect } from "react";
 
 const WidgetStyleHref = "https://assets.calendly.com/assets/external/widget.css";
 const WidgetScriptSrc = "https://assets.calendly.com/assets/external/widget.js";
-const BadgeElementSelector = ".calendly-badge-widget";
 
 let widgetScriptPromise;
 
@@ -35,35 +33,24 @@ const loadCalendlyWidget = () => {
   return widgetScriptPromise;
 };
 
-// Mounts Calendly's floating badge widget for the lifetime of the calling
-// component and removes it on unmount. Calendly bakes its colors into inline
-// styles at init, so the values passed here are only the initial paint — the
-// live accent is applied by CalendlyBadge's stylesheet overrides.
-export default function useCalendlyBadge({ url, text, textColor }) {
+// Preloads Calendly's widget and returns a handler that opens the booking
+// popup for `url`. If the widget never loaded (blocked script, offline), the
+// handler falls back to opening the booking page in a new tab so the button
+// always does something.
+export default function useCalendlyPopup(url) {
   useEffect(() => {
-    let isCancelled = false;
+    loadCalendlyWidget().catch((error) => {
+      console.debug("[useCalendlyPopup] widget unavailable", error);
+    });
+  }, []);
 
-    loadCalendlyWidget()
-      .then((Calendly) => {
-        if (isCancelled) return;
-        console.debug("[useCalendlyBadge] initializing badge", url);
-        Calendly.initBadgeWidget({
-          url,
-          text,
-          color: AccentBaseHex,
-          textColor,
-          branding: true,
-        });
-      })
-      .catch((error) => {
-        console.debug("[useCalendlyBadge] widget unavailable", error);
-      });
-
-    return () => {
-      isCancelled = true;
-      document
-        .querySelectorAll(BadgeElementSelector)
-        .forEach((badge) => badge.remove());
-    };
-  }, [url, text, textColor]);
+  return useCallback(() => {
+    if (window.Calendly) {
+      console.debug("[useCalendlyPopup] opening popup", url);
+      window.Calendly.initPopupWidget({ url });
+      return;
+    }
+    console.debug("[useCalendlyPopup] widget missing, opening link", url);
+    window.open(url, "_blank", "noopener,noreferrer");
+  }, [url]);
 }

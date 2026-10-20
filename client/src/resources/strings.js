@@ -125,8 +125,8 @@ export const ContactFormMessagePlaceholder = "How can we collaborate?";
 export const ContactFormSubmitCta = "Send Email";
 export const ContactMailSubjectPrefix = "Portfolio inquiry from";
 
-// Consultation scheduling (Calendly badge widget)
-export const ConsultationBadgeText = "Schedule time with me";
+// Consultation scheduling (Calendly popup widget)
+export const ConsultationFabLabel = "Book a call";
 export const ConsultationBookingLink =
   "https://calendly.com/jaustinjr-connect/software-consultation";
 
