@@ -1,8 +1,9 @@
 import { Box, Fab } from "@mui/material";
+import { keyframes } from "@mui/material/styles";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import useCalendlyPopup from "@hooks/useCalendlyPopup.jsx";
 import { Accent, Colors } from "@resources/palette.js";
-import { AccentTransitionSx, Fonts } from "@resources/styles.js";
+import { AccentTransitionSx, FabPulse, Fonts } from "@resources/styles.js";
 
 // Material Design 3 floating action button specs.
 const FabSizePx = 56; // container height; the icon-only FAB is a 56px square
@@ -14,6 +15,19 @@ const FabElevation = {
   raised: "0 2px 3px 0 rgba(0, 0, 0, 0.3), 0 6px 10px 4px rgba(0, 0, 0, 0.15)",
 };
 const FabStateLayerOpacity = { hover: 0.08, focus: 0.1, pressed: 0.1 };
+
+// One pulse cycle: an accent outline ring starts flush with the button edge,
+// then expands and fades out. Timing comes from FabPulse in styles.js.
+const pulseRing = keyframes`
+  0% { box-shadow: 0 0 0 0 ${Accent.dim(70)}; }
+  100% { box-shadow: 0 0 0 ${FabPulse.spreadPx}px ${Accent.dim(0)}; }
+`;
+// Whole cycles that fit the configured total duration (at least one), so the
+// pulse always ends on a finished cycle instead of cutting off mid-ring.
+const PulseCycleCount = Math.max(
+  1,
+  Math.round(FabPulse.durationMs / FabPulse.cycleMs),
+);
 
 // Reusable "schedule a call" action: a Material 3 floating action button
 // pinned to the viewport corner (16px inset on phones, 24px on larger
@@ -51,17 +65,27 @@ export default function ConsultationFab({ url, label }) {
         fontWeight: 500,
         lineHeight: "1.25rem",
         letterSpacing: "0.00625rem",
-        overflow: "hidden",
         "& .MuiSvgIcon-root": { fontSize: FabIconSizePx },
         // M3 state layer: a currentColor wash over the container.
         "&::before": {
           content: '""',
           position: "absolute",
           inset: 0,
+          borderRadius: "inherit",
           backgroundColor: "currentColor",
           opacity: 0,
           pointerEvents: "none",
           transition: "opacity 0.2s ease",
+        },
+        // Load-time attention pulse: an outline ring that expands past the
+        // button edge, repeating for FabPulse.durationMs and then stopping.
+        "&::after": {
+          content: '""',
+          position: "absolute",
+          inset: 0,
+          borderRadius: "inherit",
+          pointerEvents: "none",
+          animation: `${pulseRing} ${FabPulse.cycleMs}ms ease-out ${FabPulse.delayMs}ms ${PulseCycleCount} backwards`,
         },
         "&:hover": {
           backgroundColor: Accent.dynamic,

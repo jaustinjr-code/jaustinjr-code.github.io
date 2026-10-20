@@ -18,6 +18,18 @@ export const CONTENT_MAX_WIDTH = 1200; // px — design's fluid-grid container c
 export const SECTION_PADDING_Y = { xs: 8, md: 12 }; // vertical rhythm (8px base)
 export const SECTION_PADDING_X = { xs: 2, md: 6 }; // 16px mobile / 48px desktop
 
+// Attention pulse on the consultation FAB right after the page loads. All
+// timings are in milliseconds; tune them here. The pulse repeats whole cycles
+// until `durationMs` is used up (rounded to the nearest full cycle, minimum
+// one), then stops on its own. Reduced-motion visitors never see it (the
+// global reduced-motion rule disables animations).
+export const FabPulse = {
+  delayMs: 1000, // wait after mount so the page settles before pulsing
+  cycleMs: 1600, // length of one ring expanding and fading out
+  durationMs: 6400, // total time the pulse keeps repeating
+  spreadPx: 14, // how far the ring grows beyond the button edge
+};
+
 // Font stacks, referenced by purpose rather than literal family names.
 export const Fonts = {
   display: "'Hanken Grotesk', sans-serif",
