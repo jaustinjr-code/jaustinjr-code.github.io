@@ -1,12 +1,17 @@
 import { Box } from "@mui/material";
 import NavBar from "@layouts/NavBar.jsx";
 import Footer from "@layouts/Footer.jsx";
+import CalendlyBadge from "@components/CalendlyBadge.jsx";
 import HeroSection from "@sections/HeroSection.jsx";
 import ExperienceSection from "@sections/ExperienceSection.jsx";
 import ProjectsSection from "@sections/ProjectsSection.jsx";
 import SkillsSection from "@sections/SkillsSection.jsx";
 import ContactSection from "@sections/ContactSection.jsx";
 import { Colors } from "@resources/palette.js";
+import {
+  ConsultationBadgeText,
+  ConsultationBookingLink,
+} from "@resources/strings.js";
 
 // The one continuous page: a fixed glass nav over a vertical stack of
 // self-contained sections, ending in the footer. Every section owns its own
@@ -32,6 +37,10 @@ export default function PortfolioPage() {
       <SkillsSection />
       <ContactSection />
       <Footer />
+      <CalendlyBadge
+        url={ConsultationBookingLink}
+        text={ConsultationBadgeText}
+      />
     </Box>
   );
 }

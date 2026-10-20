@@ -125,6 +125,11 @@ export const ContactFormMessagePlaceholder = "How can we collaborate?";
 export const ContactFormSubmitCta = "Send Email";
 export const ContactMailSubjectPrefix = "Portfolio inquiry from";
 
+// Consultation scheduling (Calendly badge widget)
+export const ConsultationBadgeText = "Schedule time with me";
+export const ConsultationBookingLink =
+  "https://calendly.com/jaustinjr-connect/software-consultation";
+
 // Social / external links
 export const GitHubLabel = "GitHub";
 export const GitHubLink = "https://github.com/jaustinjr-code";
